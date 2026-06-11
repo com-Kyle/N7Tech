@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 	"gorm.io/gorm/logger"
 )
 
@@ -50,7 +51,8 @@ func Seed(g *gorm.DB) error {
 	}
 	for k, v := range defaults {
 		s := models.Setting{Key: k, Value: v}
-		if err := g.Where(models.Setting{Key: k}).FirstOrCreate(&s).Error; err != nil {
+		// DoNothing on the primary key — never clobber an admin-edited value.
+		if err := g.Clauses(clause.OnConflict{DoNothing: true}).Create(&s).Error; err != nil {
 			return fmt.Errorf("seed setting %q: %w", k, err)
 		}
 	}
@@ -61,7 +63,8 @@ func Seed(g *gorm.DB) error {
 	}
 	for _, p := range demo {
 		p.ID = uuid.New()
-		if err := g.Where(models.Product{Slug: p.Slug}).FirstOrCreate(&p).Error; err != nil {
+		// DoNothing on the unique slug — idempotent, safe to re-run every boot.
+		if err := g.Clauses(clause.OnConflict{Columns: []clause.Column{{Name: "slug"}}, DoNothing: true}).Create(&p).Error; err != nil {
 			return fmt.Errorf("seed product %q: %w", p.Slug, err)
 		}
 	}

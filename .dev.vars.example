@@ -1,0 +1,4 @@
+# Local Worker vars for `npm run preview` (Cloudflare dev runtime).
+# Copy to .dev.vars (gitignored). For plain `npm run dev` (Node) these aren't
+# used — set NEXT_PUBLIC_API_BASE_URL in your shell instead.
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8090

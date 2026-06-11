@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "n7technologies",
+  "compatibility_date": "2026-06-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Server-side reads (lib/api.ts) pick this up at runtime. Set it to the
+  // deployed Go API URL once the backend is hosted (Render/Neon — see DEPLOY.md).
+  // Until then the public pages render with empty-state placeholders.
+  "vars": {
+    "NEXT_PUBLIC_API_BASE_URL": "http://localhost:8090"
+  }
+}

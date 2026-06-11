@@ -5,6 +5,12 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 
+# Cloudflare / OpenNext
+.open-next/
+.wrangler/
+.dev.vars
+cloudflare-env.d.ts
+
 # Go
 /backend/server
 /backend/*.exe
