@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
-/* n7technologies brand tokens — light SaaS / N7-red accent. Light-only. */
+/* n7technologies brand tokens — soft-dark charcoal-slate / N7-red accent.
+   Dark-only (NOT pure black). */
 @theme {
-  --color-bg: #f5f6f8; /* light grey page background */
-  --color-surface: #ffffff; /* white cards */
-  --color-elevated: #ffffff; /* elevated panels — lean on shadow, not fill */
-  --color-border: #e4e7ec; /* hairline slate-200 */
-  --color-fg: #0f172a; /* slate-900 primary text */
-  --color-muted: #64748b; /* slate-500 secondary text */
+  --color-bg: #1b2130; /* soft charcoal page — NOT black */
+  --color-surface: #232b3b; /* elevated slate card */
+  --color-elevated: #2a3346; /* higher elevation panels */
+  --color-border: #343d4f; /* subtle border, lighter than surface */
+  --color-fg: #e8eaf0; /* near-white primary text */
+  --color-muted: #94a3b8; /* slate-400 muted text */
 
   --color-brand: #e11d27; /* N7 red */
-  --color-brand-strong: #c5141d; /* deeper red for hover on light */
+  --color-brand-strong: #ff2b35; /* brighter red for hover on dark */
   --color-brand-deep: #9e1119;
   --color-brand-fg: #ffffff; /* text on red buttons */
 
@@ -40,9 +41,15 @@ a {
   font-family: var(--font-display);
 }
 
-/* The "N7" wordmark — a solid, confident dark slate mark on light surfaces. */
+/* Metallic chrome text — the "N7" wordmark, bright/silver on the dark bg. */
 .text-chrome {
-  background: linear-gradient(177deg, #0f172a 0%, #334155 100%);
+  background: linear-gradient(
+    177deg,
+    #ffffff 0%,
+    #e6e8ec 38%,
+    #c8cbd1 60%,
+    #ffffff 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

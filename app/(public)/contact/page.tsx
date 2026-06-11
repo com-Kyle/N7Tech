@@ -35,7 +35,7 @@ export default function ContactPage() {
         </div>
 
         {/* Right — what to expect when you reach out */}
-        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm lg:mt-2">
+        <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5 lg:mt-2">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             What to expect
           </p>

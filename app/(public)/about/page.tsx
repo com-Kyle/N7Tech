@@ -45,11 +45,11 @@ export default function AboutPage() {
       <section className="relative overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.9), transparent)" }}
+          className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
+          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
         <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 pb-20 pt-20 text-center">
-          <div className="rounded-2xl bg-[#0b0b0f] p-3 shadow-lg ring-1 ring-black/5 sm:p-4">
+          <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
               src="/brand/n7-technologies.jpg"
               alt="N7 Technologies"
@@ -122,10 +122,10 @@ export default function AboutPage() {
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {/* N7 */}
-          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm">
+          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5">
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.08] blur-3xl"
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.12] blur-3xl"
               style={{ background: "var(--color-brand)" }}
             />
             <div className="relative">
@@ -160,10 +160,10 @@ export default function AboutPage() {
           </div>
 
           {/* DeployPod */}
-          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm">
+          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5">
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.08] blur-3xl"
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.12] blur-3xl"
               style={{ background: ENGINE.accent }}
             />
             <div className="relative">
@@ -214,7 +214,7 @@ export default function AboutPage() {
           {PRINCIPLES.map((p) => (
             <div
               key={p.title}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-7 shadow-sm"
+              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-7 shadow-sm ring-1 ring-white/5"
             >
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-elevated)] text-[var(--color-brand)]">
                 {p.icon}
@@ -249,11 +249,11 @@ export default function AboutPage() {
 
       {/* --- CTA --- */}
       <section className="mx-auto max-w-3xl px-6 pb-28 pt-8">
-        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm">
+        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm ring-1 ring-white/5">
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(480px,80%)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[90px]"
-            style={{ background: "rgba(225,29,39,0.9)" }}
+            className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(480px,80%)] -translate-x-1/2 rounded-full opacity-[0.16] blur-[90px]"
+            style={{ background: "rgba(225,29,39,0.85)" }}
           />
           <div className="relative">
             <h2 className="font-display text-2xl font-bold tracking-tight">
