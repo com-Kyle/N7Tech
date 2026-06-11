@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { getProducts } from "@/lib/api";
+import { ProductCard } from "@/components/product-card";
+import { ContactButton } from "@/components/contact-buttons";
+import { PODS } from "@/lib/products";
 
-export default async function HomePage() {
-  const products = await getProducts();
-
+export default function HomePage() {
   return (
     <>
       {/* Hero */}
@@ -27,11 +27,12 @@ export default async function HomePage() {
           />
 
           <h1 className="font-display mt-8 max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl">
-            Building the next generation of software.
+            Small, sharp AI pods for everyday people.
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-[var(--color-muted)]">
-            A studio engineering focused products — each one managed from a
-            single command center.
+            A studio shipping focused AI products — one job, one audience, one
+            polished interface. ContractorPod is live today; MealPod and
+            BudgetPod are next.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -39,42 +40,31 @@ export default async function HomePage() {
               href="/products"
               className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] transition-shadow hover:shadow-[0_0_22px_-2px_rgba(225,29,39,0.75)]"
             >
-              See our products <ArrowRight size={16} />
+              See our products <ArrowRight size={16} aria-hidden />
             </Link>
-            <Link
-              href="/contact"
-              className="rounded-md border border-[var(--color-border)] px-5 py-3 font-medium text-[var(--color-fg)] transition-colors hover:border-[var(--color-brand)]"
-            >
-              Get in touch
-            </Link>
+            <ContactButton label="Get in touch" />
           </div>
         </div>
       </section>
 
       {/* Product strip */}
       <section className="mx-auto max-w-6xl px-6 pb-28">
-        <h2 className="font-display mb-8 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-          Products
-        </h2>
-        {products.length === 0 ? (
-          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center text-[var(--color-muted)]">
-            Products launching soon.
-          </div>
-        ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((p) => (
-              <div
-                key={p.id}
-                className="group rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6 transition-colors hover:border-[var(--color-brand)]"
-              >
-                <div className="font-display text-chrome text-sm font-bold tracking-wide">
-                  {p.name}
-                </div>
-                <p className="mt-2 text-sm text-[var(--color-muted)]">{p.tagline}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="mb-8 flex items-baseline justify-between">
+          <h2 className="font-display text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+            Products
+          </h2>
+          <Link
+            href="/products"
+            className="text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
+          >
+            View all →
+          </Link>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {PODS.map((pod) => (
+            <ProductCard key={pod.slug} pod={pod} />
+          ))}
+        </div>
       </section>
     </>
   );

@@ -1,52 +1,69 @@
-import Link from "next/link";
-import { getProducts } from "@/lib/api";
+import { ProductCard } from "@/components/product-card";
+import { ContactButton } from "@/components/contact-buttons";
+import { PODS, ENGINE } from "@/lib/products";
 
-export const metadata = { title: "Products" };
+export const metadata = {
+  title: "Products — N7 Technologies",
+  description:
+    "The N7 Technologies product family. ContractorPod is available now; MealPod and BudgetPod are coming soon. Every pod runs on the DeployPod AI engine.",
+};
 
-export default async function ProductsPage() {
-  const products = await getProducts();
-
+export default function ProductsPage() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-24">
       <h1 className="font-display text-4xl font-bold tracking-tight">Products</h1>
-      <p className="mt-4 max-w-xl text-lg text-[var(--color-muted)]">
-        Everything we’re building, all managed from one dashboard.
+      <p className="mt-4 max-w-2xl text-lg text-[var(--color-muted)]">
+        Small, sharp AI pods — each one solving a single job for a single
+        audience. ContractorPod is live today. MealPod and BudgetPod are on the
+        way.
       </p>
+      <div className="brand-rule mt-8 w-full max-w-md" />
 
-      <h2 className="font-display mt-12 mb-8 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-        Catalog
+      <h2 className="font-display mb-8 mt-14 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+        The pod family
       </h2>
-      <div className="brand-rule mb-8 w-full max-w-md" />
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {PODS.map((pod) => (
+          <ProductCard key={pod.slug} pod={pod} />
+        ))}
+      </div>
 
-      {products.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-[var(--color-border)] p-10 text-center text-[var(--color-muted)]">
-          Products launching soon —{" "}
-          <Link href="/contact" className="text-[var(--color-brand)] hover:opacity-90">
-            get in touch
-          </Link>{" "}
-          to learn more.
+      {/* The engine — DeployPod is infrastructure, not a consumer pod. */}
+      <h2 className="font-display mb-8 mt-20 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+        The engine underneath
+      </h2>
+      <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-20 blur-3xl"
+          style={{ background: ENGINE.accent }}
+        />
+        <div className="relative max-w-2xl">
+          <h3 className="font-display text-xl font-bold tracking-tight text-[var(--color-fg)]">
+            {ENGINE.name}
+          </h3>
+          <p className="mt-2 text-sm font-medium text-[var(--color-fg)]">
+            {ENGINE.tagline}
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
+            {ENGINE.description}
+          </p>
         </div>
-      ) : (
-        <div className="grid gap-6 sm:grid-cols-2">
-          {products.map((p) => (
-            <div
-              key={p.id}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
-            >
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-chrome text-xl font-bold tracking-wide">{p.name}</h2>
-                <span className="rounded-full border border-[var(--color-border)] px-2 py-0.5 text-xs uppercase tracking-wide text-[var(--color-muted)]">
-                  {p.status}
-                </span>
-              </div>
-              <p className="mt-3 text-sm font-medium text-[var(--color-fg)]">{p.tagline}</p>
-              {p.description && (
-                <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{p.description}</p>
-              )}
-            </div>
-          ))}
+      </div>
+
+      {/* CTA */}
+      <div className="mt-20 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center">
+        <h2 className="font-display text-2xl font-bold tracking-tight">
+          Want early access to a pod?
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-[var(--color-muted)]">
+          ContractorPod is taking contractors now. Want first access to MealPod
+          or BudgetPod when they ship? Send us a line.
+        </p>
+        <div className="mt-8 flex justify-center">
+          <ContactButton label="Get in touch" subject="Early access — N7 products" />
         </div>
-      )}
+      </div>
     </section>
   );
 }
