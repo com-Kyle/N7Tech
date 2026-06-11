@@ -14,7 +14,7 @@ export function SiteNav() {
           <span className="text-chrome font-display text-xl font-bold tracking-wide">
             N7
           </span>
-          <span className="font-display text-[0.62rem] font-medium tracking-[0.3em] text-[var(--color-muted)] transition-colors group-hover:text-[var(--color-fg)]">
+          <span className="font-display text-[0.7rem] font-medium tracking-[0.28em] text-[var(--color-fg)]/70 transition-colors group-hover:text-[var(--color-fg)]">
             TECHNOLOGIES
           </span>
         </Link>
@@ -30,7 +30,7 @@ export function SiteNav() {
           ))}
           <Link
             href="/dashboard"
-            className="rounded-md bg-[var(--color-brand)] px-3.5 py-1.5 font-medium text-[var(--color-brand-fg)] shadow-[0_0_0_0_rgba(225,29,39,0)] transition-shadow hover:shadow-[0_0_18px_-2px_rgba(225,29,39,0.7)]"
+            className="rounded-md border border-[var(--color-border)] px-3.5 py-1.5 font-medium text-[var(--color-fg)] transition-colors hover:border-[var(--color-brand)]"
           >
             Admin
           </Link>

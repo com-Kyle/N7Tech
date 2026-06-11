@@ -58,13 +58,31 @@ func Seed(g *gorm.DB) error {
 	}
 
 	demo := []models.Product{
-		{Slug: "n7-core", Name: "N7 Core", Tagline: "The platform everything else runs on.", Status: "live", Published: true},
-		{Slug: "n7-admin", Name: "N7 Admin", Tagline: "One dashboard for every product.", Status: "live", Published: true},
+		{
+			Slug:        "n7-core",
+			Name:        "N7 Core",
+			Tagline:     "The platform everything else runs on.",
+			Description: "The shared foundation behind every N7 product — authentication, billing, data, and operations built once and run everywhere. New products start on a system that already works instead of from scratch.",
+			Status:      "live",
+			Published:   true,
+		},
+		{
+			Slug:        "n7-admin",
+			Name:        "N7 Admin",
+			Tagline:     "One dashboard for every product.",
+			Description: "A single control surface for the whole portfolio: manage products, users, and platform settings from one place, with the same operational view across every product N7 ships.",
+			Status:      "live",
+			Published:   true,
+		},
 	}
 	for _, p := range demo {
 		p.ID = uuid.New()
-		// DoNothing on the unique slug — idempotent, safe to re-run every boot.
-		if err := g.Clauses(clause.OnConflict{Columns: []clause.Column{{Name: "slug"}}, DoNothing: true}).Create(&p).Error; err != nil {
+		// Upsert the descriptive columns on the unique slug so refreshed copy
+		// propagates on the next boot, but never touch admin-managed status flags.
+		if err := g.Clauses(clause.OnConflict{
+			Columns:   []clause.Column{{Name: "slug"}},
+			DoUpdates: clause.AssignmentColumns([]string{"name", "tagline", "description"}),
+		}).Create(&p).Error; err != nil {
 			return fmt.Errorf("seed product %q: %w", p.Slug, err)
 		}
 	}
