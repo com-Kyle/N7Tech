@@ -195,6 +195,13 @@ export default function AboutPage() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href={ENGINE.page}
+                className="mt-5 inline-flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-80"
+                style={{ color: ENGINE.accent }}
+              >
+                Learn more about DeployPod <ArrowRight size={15} aria-hidden />
+              </Link>
             </div>
           </div>
         </div>

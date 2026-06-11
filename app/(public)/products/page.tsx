@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
 import { ContactButton } from "@/components/contact-buttons";
 import { PODS, ENGINE } from "@/lib/products";
@@ -56,6 +58,12 @@ export default function ProductsPage() {
           <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
             {ENGINE.description}
           </p>
+          <Link
+            href={ENGINE.page}
+            className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--color-brand)] transition-colors hover:underline"
+          >
+            Learn more about DeployPod <ArrowRight size={15} aria-hidden />
+          </Link>
         </div>
       </div>
 

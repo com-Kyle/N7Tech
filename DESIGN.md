@@ -14,10 +14,10 @@ metallic wordmark, and a single accent.
 
 | Token | Value | Use |
 |---|---|---|
-| `--color-bg` | `#1b2130` | Page background — soft charcoal (NOT black) |
-| `--color-surface` | `#232b3b` | Elevated slate card |
-| `--color-elevated` | `#2a3346` | Higher-elevation panels |
-| `--color-border` | `#343d4f` | Subtle border, lighter than surface |
+| `--color-bg` | `#222a3a` | Page background — soft charcoal (NOT black) |
+| `--color-surface` | `#2b3447` | Elevated slate card |
+| `--color-elevated` | `#333d52` | Higher-elevation panels |
+| `--color-border` | `#3b4559` | Subtle border, lighter than surface |
 | `--color-fg` | `#e8eaf0` | Near-white primary text |
 | `--color-muted` | `#94a3b8` | Muted secondary text (slate-400) |
 | `--color-brand` | `#e11d27` | N7 red — CTAs, accents, status |
@@ -28,7 +28,7 @@ metallic wordmark, and a single accent.
 Red is an accent, not a flood — keep one red focal element per view (a CTA, a
 status dot, the brand rule, the hero bloom).
 
-Contrast: `#e8eaf0` on `#1b2130` is strong for primary text; reserve `#94a3b8`
+Contrast: `#e8eaf0` on `#222a3a` is strong for primary text; reserve `#94a3b8`
 (muted) for secondary copy only.
 
 ## Card language
@@ -96,6 +96,29 @@ favicon / horizontal nav lockup.
 The about page deliberately **alternates** centered and left-aligned sections
 (hero + mission + product-family + CTA centered; "Two companies" and "Operating
 principles" left-aligned) to avoid the all-centered "generic AI SaaS" tell.
+
+## Service pages (shared template)
+
+Agency-style service pages (Website / App) render through one component —
+`components/service-page.tsx`, fed a `Service` from `lib/services.ts` (the
+source of truth, mirroring `lib/products.ts`). Shape: red-bloom hero (eyebrow →
+H1 service name → tagline → "Starting at <price>" → "Get a quote" `ContactButton`
+with the service's `contactSubject`) → a 3-pillar grid (**Build / Improve /
+Test**, flat content cards) → a closing CTA. Add a new service by adding a
+`Service` object + a thin `page.tsx` wrapper — no new layout.
+
+The `/deploypod` cross-marketing page is bespoke (not the template) and uses
+DeployPod **blue** (`#3B82F6`, from `ENGINE.accent`) as its hero/CTA accent while
+keeping the shared chrome — the one place a non-red accent is sanctioned, because
+the about page already established DeployPod = blue.
+
+## Nav — Services dropdown
+
+`components/chrome/site-nav.tsx` has a pure-CSS hover dropdown (no client JS):
+`group relative` trigger + a `group-hover:visible group-hover:opacity-100`
+panel (charcoal `bg-[var(--color-surface)]` + border + `ring-1 ring-white/5` +
+shadow). A `pt-3` on the panel keeps a hover bridge so it doesn't flicker shut in
+the gap. Hidden below `sm` like the other text links (no mobile menu yet).
 
 ## Rules
 

@@ -11,9 +11,18 @@ export function SiteFooter() {
           <span className="text-[0.6rem] tracking-[0.28em]">TECHNOLOGIES</span>
         </span>
 
-        <nav className="flex items-center gap-6">
+        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           <Link href="/products" className="transition-colors hover:text-[var(--color-brand)]">
             Products
+          </Link>
+          <Link href="/website-services" className="transition-colors hover:text-[var(--color-brand)]">
+            Website Services
+          </Link>
+          <Link href="/app-services" className="transition-colors hover:text-[var(--color-brand)]">
+            App Services
+          </Link>
+          <Link href="/deploypod" className="transition-colors hover:text-[var(--color-brand)]">
+            DeployPod
           </Link>
           <Link href="/about" className="transition-colors hover:text-[var(--color-brand)]">
             About

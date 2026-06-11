@@ -3,10 +3,10 @@
 /* n7technologies brand tokens — soft-dark charcoal-slate / N7-red accent.
    Dark-only (NOT pure black). */
 @theme {
-  --color-bg: #1b2130; /* soft charcoal page — NOT black */
-  --color-surface: #232b3b; /* elevated slate card */
-  --color-elevated: #2a3346; /* higher elevation panels */
-  --color-border: #343d4f; /* subtle border, lighter than surface */
+  --color-bg: #222a3a; /* soft charcoal page (a touch lighter) — NOT black */
+  --color-surface: #2b3447; /* elevated slate card — lifted so cards separate */
+  --color-elevated: #333d52; /* higher elevation panels */
+  --color-border: #3b4559; /* subtle border, lighter than surface */
   --color-fg: #e8eaf0; /* near-white primary text */
   --color-muted: #94a3b8; /* slate-400 muted text */
 
