@@ -30,7 +30,10 @@ export default async function ProductsPage() {
                   {p.status}
                 </span>
               </div>
-              <p className="mt-3 text-sm text-[var(--color-muted)]">{p.tagline}</p>
+              <p className="mt-3 text-sm font-medium text-[var(--color-fg)]">{p.tagline}</p>
+              {p.description && (
+                <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{p.description}</p>
+              )}
             </div>
           ))}
         </div>
