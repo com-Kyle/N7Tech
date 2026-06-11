@@ -12,9 +12,9 @@ function ContactRow({ contact, subject }: { contact: Contact; subject?: string }
     <a
       href={mailtoHref(contact.email, subject)}
       className={[
-        "group flex items-center justify-between gap-4 rounded-lg border px-5 py-4 transition-colors",
+        "group flex items-center justify-between gap-4 rounded-lg border px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md",
         contact.primary
-          ? "border-[var(--color-brand)]/60 bg-[var(--color-brand)]/[0.06] hover:border-[var(--color-brand)]"
+          ? "border-[var(--color-brand)]/50 bg-[var(--color-brand)]/[0.05] hover:border-[var(--color-brand)]"
           : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-brand)]",
       ].join(" ")}
     >
@@ -73,7 +73,7 @@ export function ContactButton({
     <a
       href={mailtoHref(PRIMARY_CONTACT.email, subject)}
       className={[
-        "inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] transition-shadow hover:shadow-[0_0_22px_-2px_rgba(225,29,39,0.75)]",
+        "inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]",
         className,
       ].join(" ")}
     >

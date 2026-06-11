@@ -20,7 +20,7 @@ export type Pod = {
   description: string;
   status: ProductStatus;
   /** Per-pod accent (used for the status dot / glow), kept subtle against the
-   * black + N7-red site palette. */
+   * light grey + white-card, N7-red-accent site palette. */
   accent: string;
   /** External site, present only for live pods. */
   href?: string;

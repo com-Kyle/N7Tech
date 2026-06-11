@@ -1,25 +1,25 @@
 @import "tailwindcss";
 
-/* n7technologies brand tokens — black / N7-red / chrome. Dark-only. */
+/* n7technologies brand tokens — light SaaS / N7-red accent. Light-only. */
 @theme {
-  --color-bg: #000000;
-  --color-surface: #0c0c10;
-  --color-elevated: #15151b;
-  --color-border: #26262f;
-  --color-fg: #ededf1;
-  --color-muted: #8c8c99;
+  --color-bg: #f5f6f8; /* light grey page background */
+  --color-surface: #ffffff; /* white cards */
+  --color-elevated: #ffffff; /* elevated panels — lean on shadow, not fill */
+  --color-border: #e4e7ec; /* hairline slate-200 */
+  --color-fg: #0f172a; /* slate-900 primary text */
+  --color-muted: #64748b; /* slate-500 secondary text */
 
   --color-brand: #e11d27; /* N7 red */
-  --color-brand-strong: #ff2b35;
+  --color-brand-strong: #c5141d; /* deeper red for hover on light */
   --color-brand-deep: #9e1119;
-  --color-brand-fg: #ffffff;
+  --color-brand-fg: #ffffff; /* text on red buttons */
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-display: var(--font-chakra), var(--font-inter), sans-serif;
 }
 
-html.dark body {
+body {
   background-color: var(--color-bg);
   color: var(--color-fg);
   font-family: var(--font-sans);
@@ -40,16 +40,9 @@ a {
   font-family: var(--font-display);
 }
 
-/* Metallic chrome text — the "N7" lettering. */
+/* The "N7" wordmark — a solid, confident dark slate mark on light surfaces. */
 .text-chrome {
-  background: linear-gradient(
-    177deg,
-    #ffffff 0%,
-    #e6e8ec 38%,
-    #9a9ea7 52%,
-    #c8cbd1 60%,
-    #ffffff 100%
-  );
+  background: linear-gradient(177deg, #0f172a 0%, #334155 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -77,5 +70,5 @@ a {
   border-radius: 9999px;
   background: var(--color-brand);
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 8px 1px rgba(225, 29, 39, 0.8);
+  box-shadow: 0 0 0 2px rgba(225, 29, 39, 0.14);
 }
