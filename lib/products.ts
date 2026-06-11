@@ -80,6 +80,10 @@ export const LEAD_POD = PODS[0];
 export const ENGINE = {
   name: "DeployPod",
   accent: "#3B82F6",
+  /** External marketing site for our AI partner. */
+  href: "https://deploypod.ai",
+  /** Internal cross-marketing page on this site. */
+  page: "/deploypod",
   tagline: "The AI infrastructure that powers every pod.",
   description:
     "DeployPod is an independent company that runs the AI plumbing — model orchestration, retrieval, tool-use, and the hosted-agent runtime the pods call into. When you chat with Mason inside ContractorPod, you're talking to a DeployPod-hosted agent. N7 ships the products; DeployPod ships the engine they run on.",
