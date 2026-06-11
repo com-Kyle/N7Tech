@@ -6,9 +6,9 @@ export default async function DashboardPage() {
   const products = await getProducts();
 
   const stats = [
-    { label: "Products", value: products.length },
-    { label: "Live", value: products.filter((p) => p.status === "live").length },
-    { label: "Published", value: products.filter((p) => p.published).length },
+    { label: "Products", value: products.length, accent: true },
+    { label: "Live", value: products.filter((p) => p.status === "live").length, accent: false },
+    { label: "Published", value: products.filter((p) => p.published).length, accent: false },
   ];
 
   return (
@@ -26,7 +26,13 @@ export default async function DashboardPage() {
             key={s.label}
             className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
           >
-            <div className="font-display text-3xl font-bold text-[var(--color-brand)]">{s.value}</div>
+            <div
+              className={`font-display text-3xl font-bold ${
+                s.accent ? "text-[var(--color-brand)]" : "text-[var(--color-fg)]"
+              }`}
+            >
+              {s.value}
+            </div>
             <div className="mt-1 text-sm text-[var(--color-muted)]">{s.label}</div>
           </div>
         ))}

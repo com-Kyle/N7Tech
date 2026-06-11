@@ -13,7 +13,7 @@ export default async function HomePage() {
         {/* Red glow behind the mark */}
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[620px] -translate-x-1/2 rounded-full opacity-40 blur-[120px]"
+          className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-30 blur-[120px]"
           style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.55), transparent)" }}
         />
         <div className="relative mx-auto flex max-w-6xl flex-col items-center px-6 pb-24 pt-20 text-center">
@@ -48,8 +48,6 @@ export default async function HomePage() {
               Get in touch
             </Link>
           </div>
-
-          <div className="brand-rule mt-16 w-full max-w-md" />
         </div>
       </section>
 
@@ -59,8 +57,8 @@ export default async function HomePage() {
           Products
         </h2>
         {products.length === 0 ? (
-          <div className="rounded-lg border border-dashed border-[var(--color-border)] p-10 text-center text-[var(--color-muted)]">
-            No products yet — they’ll appear here.
+          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center text-[var(--color-muted)]">
+            Products launching soon.
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
