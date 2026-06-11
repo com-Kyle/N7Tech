@@ -15,10 +15,10 @@
     { "pattern": "www.n7technologies.org", "custom_domain": true },
     { "pattern": "n7technologies.org", "custom_domain": true }
   ],
-  // Server-side reads (lib/api.ts) pick this up at runtime. Set it to the
-  // deployed Go API URL once the backend is hosted (Render/Neon — see DEPLOY.md).
-  // Until then the public pages render with empty-state placeholders.
+  // The Go API on Render (backed by Neon Postgres). Next inlines NEXT_PUBLIC_*
+  // at build time, so this must also be set in the build env (npm run deploy
+  // passes it) — this entry keeps runtime + docs in sync.
   "vars": {
-    "NEXT_PUBLIC_API_BASE_URL": "http://localhost:8090"
+    "NEXT_PUBLIC_API_BASE_URL": "https://n7technologies-api.onrender.com"
   }
 }
