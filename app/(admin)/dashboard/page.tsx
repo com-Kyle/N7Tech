@@ -44,7 +44,7 @@ export default async function DashboardPage() {
         </div>
         {products.length === 0 ? (
           <div className="px-6 py-10 text-center text-sm text-[var(--color-muted)]">
-            No products. Start the Go backend to seed demo data.
+            No products have been added yet.
           </div>
         ) : (
           <ul className="divide-y divide-[var(--color-border)]">
