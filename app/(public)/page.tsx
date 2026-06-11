@@ -46,35 +46,39 @@ export default function HomePage() {
           className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
           style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-16 pt-16 text-center sm:px-8">
-          <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-6 pb-16 pt-16 sm:px-8 md:flex-row md:gap-14 lg:gap-20">
+          {/* Logo chip — left of the headline */}
+          <div className="shrink-0 rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
               src="/brand/n7-technologies.jpg"
               alt="N7 Technologies"
               width={1320}
               height={1245}
               priority
-              className="h-auto w-[220px] sm:w-[300px]"
+              className="h-auto w-[200px] sm:w-[260px]"
             />
           </div>
 
-          <h1 className="font-display mt-8 max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl">
-            Small, sharp AI products — and the studio that builds them.
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-[var(--color-muted)]">
-            N7 Technologies ships its own focused AI products — and builds,
-            improves, and tests websites and apps for everyone else. One studio,
-            two ways to work with us.
-          </p>
+          {/* Headline + subhead + CTAs — right, centered on mobile, left on desktop */}
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
+            <h1 className="font-display max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+              Small, sharp AI products — and the studio that builds them.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg text-[var(--color-muted)]">
+              N7 Technologies ships its own focused AI products — and builds,
+              improves, and tests websites and apps for everyone else. One studio,
+              two ways to work with us.
+            </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
-            >
-              See our products <ArrowRight size={16} aria-hidden />
-            </Link>
-            <ContactButton label="Get in touch" />
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:justify-start">
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
+              >
+                See our products <ArrowRight size={16} aria-hidden />
+              </Link>
+              <ContactButton label="Get in touch" />
+            </div>
           </div>
         </div>
       </section>
