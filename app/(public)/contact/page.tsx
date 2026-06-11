@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-24">
+    <section className="mx-auto max-w-6xl px-6 py-24 sm:px-8">
       <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
         {/* Left — the ask + the addresses */}
         <div>

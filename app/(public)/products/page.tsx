@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function ProductsPage() {
   return (
-    <section className="relative mx-auto max-w-6xl overflow-hidden px-6 py-24">
+    <section className="relative mx-auto max-w-7xl overflow-hidden px-6 py-24 sm:px-8">
       {/* Red bloom wash — matches the home + about hero device on charcoal. */}
       <div
         aria-hidden

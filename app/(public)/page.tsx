@@ -46,7 +46,7 @@ export default function HomePage() {
           className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
           style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center px-6 pb-20 pt-20 text-center">
+        <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-16 pt-16 text-center sm:px-8">
           <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
               src="/brand/n7-technologies.jpg"
@@ -80,7 +80,7 @@ export default function HomePage() {
       </section>
 
       {/* --- WHAT WE DO (services) --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             What we do
@@ -124,7 +124,7 @@ export default function HomePage() {
       </section>
 
       {/* --- PRODUCT SHOWCASE --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             Our products
@@ -135,7 +135,7 @@ export default function HomePage() {
         </div>
 
         {/* ContractorPod — WEB, browser frame, text left / frame right */}
-        <div className="mt-14 grid items-center gap-10 lg:grid-cols-2">
+        <div className="mt-12 grid items-center gap-12 lg:grid-cols-2">
           <div>
             <ProductBadge label="Web service" accent="var(--color-brand)" />
             <h3 className="font-display mt-4 text-2xl font-bold tracking-tight">
@@ -169,7 +169,7 @@ export default function HomePage() {
         </div>
 
         {/* BudgetPod — APP, phone frame, frame left / text right */}
-        <div className="mt-20 grid items-center gap-10 lg:grid-cols-2">
+        <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
           <div className="lg:order-2">
             <ProductBadge label="App" accent={String(BUDGETPOD.accent)} />
             <h3 className="font-display mt-4 text-2xl font-bold tracking-tight">
@@ -186,29 +186,29 @@ export default function HomePage() {
             </div>
           </div>
           <div className="lg:order-1">
-            {/* Layered two-phone preview: chat in front, coach peeking behind. */}
-            <div className="relative mx-auto w-full max-w-[260px]">
-              {/* Back phone — coach (voice picker), scaled + rotated, hidden on mobile */}
-              <PhoneFrame
-                src="/screenshots/budgetpod-coach.png"
-                alt="BudgetPod — meet your money coach"
-                className="absolute -top-6 left-[38%] z-0 hidden w-full max-w-[260px] origin-bottom-left rotate-[4deg] scale-[0.85] opacity-80 sm:block"
-              />
-              {/* Front phone — Virgil chat (the hero) */}
+            {/* Two-phone fan — both fully visible, chat the slightly-larger hero. */}
+            <div className="flex items-center justify-center gap-3 sm:gap-2">
+              {/* Front / hero — Virgil chat */}
               <PhoneFrame
                 src="/screenshots/budgetpod-chat.png"
                 alt="BudgetPod — Virgil chat"
-                className="relative z-10 w-full max-w-[260px]"
+                className="z-10 w-full max-w-[240px] -rotate-3"
+              />
+              {/* Companion — money coach (voice picker); stacks below on mobile */}
+              <PhoneFrame
+                src="/screenshots/budgetpod-coach.png"
+                alt="BudgetPod — meet your money coach"
+                className="hidden w-full max-w-[210px] rotate-3 opacity-95 sm:block"
               />
             </div>
-            <p className="relative z-10 mt-3 text-center text-xs text-[var(--color-muted)]">
+            <p className="mt-4 text-center text-xs text-[var(--color-muted)]">
               Preview
             </p>
           </div>
         </div>
 
         {/* All products / MealPod mention */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-2 text-sm text-[var(--color-muted)]">
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-2 text-sm text-[var(--color-muted)]">
           <span>Three pods in the family — including MealPod.</span>
           <Link
             href="/products"
@@ -220,7 +220,7 @@ export default function HomePage() {
       </section>
 
       {/* --- CLOSING CTA --- */}
-      <section className="mx-auto max-w-3xl px-6 pb-28 pt-8">
+      <section className="mx-auto max-w-3xl px-6 pb-20 pt-4">
         <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm ring-1 ring-white/5">
           <h2 className="font-display text-2xl font-bold tracking-tight">
             Use our products, or build your own with us.
