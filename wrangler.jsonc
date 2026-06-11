@@ -8,6 +8,13 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  // Serve straight from the custom domain (zone already on this Cloudflare
+  // account). Cloudflare provisions DNS + TLS automatically. This also avoids
+  // needing a workers.dev subdomain.
+  "routes": [
+    { "pattern": "www.n7technologies.org", "custom_domain": true },
+    { "pattern": "n7technologies.org", "custom_domain": true }
+  ],
   // Server-side reads (lib/api.ts) pick this up at runtime. Set it to the
   // deployed Go API URL once the backend is hosted (Render/Neon — see DEPLOY.md).
   // Until then the public pages render with empty-state placeholders.
