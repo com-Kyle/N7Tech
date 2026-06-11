@@ -4,13 +4,14 @@ export default function AboutPage() {
   return (
     <section className="mx-auto max-w-3xl px-6 py-24">
       <h1 className="font-display text-4xl font-bold tracking-tight">About N7 Technologies</h1>
-      <p className="mt-6 text-lg text-[var(--color-muted)]">
+      <p className="mt-4 max-w-xl text-lg text-[var(--color-muted)]">
         N7 Technologies is a software studio building a portfolio of focused
         products — each one purpose-built for a specific job, and every one of
         them run from a single platform.
       </p>
+      <div className="brand-rule mt-8 w-full max-w-md" />
 
-      <h2 className="mt-16 font-display text-2xl font-bold tracking-tight">What we build</h2>
+      <h2 className="mt-12 font-display text-2xl font-bold tracking-tight">What we build</h2>
       <p className="mt-4 text-[var(--color-muted)]">
         Most software gets wider every year and worse for it. We go the other
         way: we build products that do one thing exceptionally, then put them on
