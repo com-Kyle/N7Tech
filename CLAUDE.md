@@ -5,8 +5,8 @@ The n7technologies website + admin platform. Domain: **www.n7technologies.org**
 
 ## Stack
 
-- **Frontend** — Next.js 16, App Router, React 19, Tailwind 4, light-only
-  (light professional-SaaS).
+- **Frontend** — Next.js 16, App Router, React 19, Tailwind 4, dark-only
+  (soft-dark charcoal-slate, not black).
   Route groups: `app/(public)` (apex marketing) + `app/(admin)` (dashboard).
   Path alias `@/*` → repo root. Fonts: Inter + JetBrains Mono.
 - **Backend** — Go 1.25, Gin, GORM, Postgres. Boot order in

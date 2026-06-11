@@ -11,11 +11,11 @@ export const metadata = {
 export default function ProductsPage() {
   return (
     <section className="relative mx-auto max-w-6xl overflow-hidden px-6 py-24">
-      {/* Very subtle red tint wash — matches the home + about hero device. */}
+      {/* Red bloom wash — matches the home + about hero device on charcoal. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[120px]"
-        style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.9), transparent)" }}
+        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
+        style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
       />
       <h1 className="font-display relative text-4xl font-bold tracking-tight sm:text-5xl">
         Products
@@ -40,10 +40,10 @@ export default function ProductsPage() {
       <h2 className="font-sans mb-8 mt-20 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
         The engine underneath
       </h2>
-      <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm">
+      <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-[0.08] blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-[0.12] blur-3xl"
           style={{ background: ENGINE.accent }}
         />
         <div className="relative max-w-2xl">
@@ -60,7 +60,7 @@ export default function ProductsPage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-20 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm">
+      <div className="mt-20 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm ring-1 ring-white/5">
         <h2 className="font-display text-2xl font-bold tracking-tight">
           Want early access to a pod?
         </h2>

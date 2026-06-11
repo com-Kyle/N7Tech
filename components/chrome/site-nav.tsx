@@ -8,7 +8,7 @@ const LINKS = [
 
 export function SiteNav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-[#1b2130]/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="group flex items-baseline gap-2">
           <span className="text-chrome font-display text-xl font-bold tracking-wide">

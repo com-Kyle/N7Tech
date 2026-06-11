@@ -10,14 +10,14 @@ export default function HomePage() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden">
-        {/* Very subtle red tint wash behind the mark — clean, not muddy. */}
+        {/* Subtle red bloom behind the mark — reads well on charcoal, not neon. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.9), transparent)" }}
+          className="pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
+          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
         <div className="relative mx-auto flex max-w-6xl flex-col items-center px-6 pb-24 pt-20 text-center">
-          <div className="rounded-2xl bg-[#0b0b0f] p-3 shadow-lg ring-1 ring-black/5 sm:p-4">
+          <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
               src="/brand/n7-technologies.jpg"
               alt="N7 Technologies"

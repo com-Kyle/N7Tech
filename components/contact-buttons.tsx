@@ -12,7 +12,7 @@ function ContactRow({ contact, subject }: { contact: Contact; subject?: string }
     <a
       href={mailtoHref(contact.email, subject)}
       className={[
-        "group flex items-center justify-between gap-4 rounded-lg border px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md",
+        "group flex items-center justify-between gap-4 rounded-lg border px-5 py-4 shadow-sm ring-1 ring-white/5 transition-all hover:-translate-y-0.5 hover:shadow-md",
         contact.primary
           ? "border-[var(--color-brand)]/50 bg-[var(--color-brand)]/[0.05] hover:border-[var(--color-brand)]"
           : "border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-brand)]",
