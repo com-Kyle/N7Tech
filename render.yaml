@@ -1,0 +1,29 @@
+# Render Blueprint for the n7technologies Go API.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# Render reads this file, builds backend/Dockerfile, and creates the service.
+#
+# DATABASE_URL is intentionally NOT synced here — paste your Neon connection
+# string into the service's Environment tab after the first deploy
+# (sync: false keeps it dashboard-managed / secret).
+services:
+  - type: web
+    name: n7technologies-api
+    runtime: docker
+    repo: https://gitlab.com/dpagan117/n7technologies
+    branch: main
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: FRONTEND_ORIGIN
+        value: https://www.n7technologies.org
+      - key: TRUSTED_PROXIES
+        value: 0.0.0.0/0
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
