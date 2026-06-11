@@ -27,10 +27,19 @@ deploy automatically.
 
 ## 2. Backend — Render (free Go web service)
 
-The repo already has `backend/Dockerfile`. Render builds it directly.
+The repo has `backend/Dockerfile` **and** a `render.yaml` Blueprint, so Render
+can set the whole service up in one click.
 
-1. Sign up at https://render.com and connect this Git repo (push it to GitHub
-   first — see §4).
+**Fast path (Blueprint):**
+1. Sign up at https://render.com (you can use your GitLab account).
+2. **New → Blueprint** → connect `gitlab.com/dpagan117/n7technologies` → Render
+   reads `render.yaml` and creates `n7technologies-api` (Docker, free, health
+   check `/healthz`, `SESSION_SECRET` auto-generated).
+3. It will prompt for the one secret marked `sync: false` — paste the Neon
+   `DATABASE_URL` from §1. Deploy.
+
+**Manual path (if you prefer):**
+1. Sign up at https://render.com and connect this repo.
 2. **New → Web Service** → pick the repo.
    - **Root Directory:** `backend`
    - **Runtime:** Docker
