@@ -37,7 +37,7 @@ export function ServicePage({ service }: { service: Service }) {
           className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
           style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
-        <div className="relative mx-auto max-w-4xl px-6 pb-16 pt-24 text-center">
+        <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-24 text-center sm:px-8">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             What we do
           </p>
@@ -58,7 +58,7 @@ export function ServicePage({ service }: { service: Service }) {
       </section>
 
       {/* --- PILLARS: Build / Improve / Test --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="grid gap-6 md:grid-cols-3">
           {service.pillars.map((pillar) => (
             <div
@@ -78,7 +78,7 @@ export function ServicePage({ service }: { service: Service }) {
       </section>
 
       {/* --- HOW IT WORKS: Talk / Build / Launch --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             How it works

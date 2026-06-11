@@ -5,7 +5,7 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
   return (
     <footer className="mt-auto border-t border-[var(--color-border)]">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-8 text-sm text-[var(--color-muted)] sm:flex-row sm:justify-between">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-6 py-8 text-sm text-[var(--color-muted)] sm:flex-row sm:justify-between sm:px-8">
         <span className="font-display flex items-baseline gap-1.5">
           <span className="text-chrome text-base font-bold tracking-wide">N7</span>
           <span className="text-[0.6rem] tracking-[0.28em]">TECHNOLOGIES</span>

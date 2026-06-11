@@ -48,7 +48,7 @@ export default function AboutPage() {
           className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
           style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
-        <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 pb-20 pt-20 text-center">
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-20 text-center sm:px-8">
           <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
               src="/brand/n7-technologies.jpg"
@@ -104,7 +104,7 @@ export default function AboutPage() {
       </section>
 
       {/* --- TWO COMPANIES (left-aligned, breaks the centered rhythm) --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             How we&rsquo;re structured
@@ -208,7 +208,7 @@ export default function AboutPage() {
       </section>
 
       {/* --- PRINCIPLES (left-aligned, alternates with the centered sections) --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             Operating principles
@@ -238,7 +238,7 @@ export default function AboutPage() {
       </section>
 
       {/* --- PRODUCT FAMILY --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="text-center">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             The pod family

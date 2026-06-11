@@ -52,7 +52,7 @@ export default function DeployPodPage() {
           className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.16] blur-[120px]"
           style={{ background: `radial-gradient(closest-side, ${BLUE}, transparent)` }}
         />
-        <div className="relative mx-auto max-w-4xl px-6 pb-16 pt-24 text-center">
+        <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-24 text-center sm:px-8">
           <p
             className="font-sans text-xs font-semibold uppercase tracking-[0.25em]"
             style={{ color: BLUE }}
@@ -74,7 +74,7 @@ export default function DeployPodPage() {
       </section>
 
       {/* --- WHAT DEPLOYPOD DOES --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             What DeployPod does
@@ -106,7 +106,7 @@ export default function DeployPodPage() {
       </section>
 
       {/* --- HOW WE WORK TOGETHER --- */}
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             How we work together
