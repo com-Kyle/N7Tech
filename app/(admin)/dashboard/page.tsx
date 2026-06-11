@@ -14,9 +14,9 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="mt-1 text-sm text-[var(--color-muted)]">
-          Overview of every product across n7technologies.
+          Overview of every product across N7 Technologies.
         </p>
       </div>
 
@@ -26,7 +26,7 @@ export default async function DashboardPage() {
             key={s.label}
             className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
           >
-            <div className="text-3xl font-bold">{s.value}</div>
+            <div className="font-display text-3xl font-bold text-[var(--color-brand)]">{s.value}</div>
             <div className="mt-1 text-sm text-[var(--color-muted)]">{s.label}</div>
           </div>
         ))}

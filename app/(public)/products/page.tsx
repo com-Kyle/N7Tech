@@ -7,7 +7,7 @@ export default async function ProductsPage() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-24">
-      <h1 className="text-4xl font-extrabold tracking-tight">Products</h1>
+      <h1 className="font-display text-4xl font-bold tracking-tight">Products</h1>
       <p className="mt-4 max-w-xl text-[var(--color-muted)]">
         Everything we’re building, all managed from one dashboard.
       </p>
@@ -25,8 +25,8 @@ export default async function ProductsPage() {
               className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-6"
             >
               <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">{p.name}</h2>
-                <span className="rounded-full border border-[var(--color-border)] px-2 py-0.5 text-xs uppercase tracking-wide text-[var(--color-muted)]">
+                <h2 className="font-display text-chrome text-xl font-bold tracking-wide">{p.name}</h2>
+                <span className="rounded-full border border-[var(--color-border)] px-2 py-0.5 text-xs uppercase tracking-wide text-[var(--color-brand)]">
                   {p.status}
                 </span>
               </div>
