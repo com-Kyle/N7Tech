@@ -10,8 +10,16 @@ export const metadata = {
 
 export default function ProductsPage() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-24">
-      <h1 className="font-display text-4xl font-bold tracking-tight">Products</h1>
+    <section className="relative mx-auto max-w-6xl overflow-hidden px-6 py-24">
+      {/* Very subtle red tint wash — matches the home + about hero device. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[120px]"
+        style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.9), transparent)" }}
+      />
+      <h1 className="font-display relative text-4xl font-bold tracking-tight sm:text-5xl">
+        Products
+      </h1>
       <p className="mt-4 max-w-2xl text-lg text-[var(--color-muted)]">
         Small, sharp AI pods — each one solving a single job for a single
         audience. ContractorPod is live today. MealPod and BudgetPod are on the
@@ -19,7 +27,7 @@ export default function ProductsPage() {
       </p>
       <div className="brand-rule mt-8 w-full max-w-md" />
 
-      <h2 className="font-display mb-8 mt-14 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+      <h2 className="font-sans mb-8 mt-14 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
         The pod family
       </h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -29,13 +37,13 @@ export default function ProductsPage() {
       </div>
 
       {/* The engine — DeployPod is infrastructure, not a consumer pod. */}
-      <h2 className="font-display mb-8 mt-20 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+      <h2 className="font-sans mb-8 mt-20 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
         The engine underneath
       </h2>
-      <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
+      <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-20 blur-3xl"
+          className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full opacity-[0.08] blur-3xl"
           style={{ background: ENGINE.accent }}
         />
         <div className="relative max-w-2xl">
@@ -52,7 +60,7 @@ export default function ProductsPage() {
       </div>
 
       {/* CTA */}
-      <div className="mt-20 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center">
+      <div className="mt-20 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm">
         <h2 className="font-display text-2xl font-bold tracking-tight">
           Want early access to a pod?
         </h2>

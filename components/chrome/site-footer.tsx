@@ -12,15 +12,15 @@ export function SiteFooter() {
         </span>
 
         <nav className="flex items-center gap-6">
-          <Link href="/products" className="transition-colors hover:text-[var(--color-fg)]">
+          <Link href="/products" className="transition-colors hover:text-[var(--color-brand)]">
             Products
           </Link>
-          <Link href="/about" className="transition-colors hover:text-[var(--color-fg)]">
+          <Link href="/about" className="transition-colors hover:text-[var(--color-brand)]">
             About
           </Link>
           <a
             href={mailtoHref(PRIMARY_CONTACT.email)}
-            className="transition-colors hover:text-[var(--color-fg)]"
+            className="transition-colors hover:text-[var(--color-brand)]"
           >
             Contact
           </a>

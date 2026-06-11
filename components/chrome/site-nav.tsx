@@ -8,7 +8,7 @@ const LINKS = [
 
 export function SiteNav() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-black/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-[var(--color-border)] bg-white/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" className="group flex items-baseline gap-2">
           <span className="text-chrome font-display text-xl font-bold tracking-wide">
@@ -23,14 +23,14 @@ export function SiteNav() {
             <Link
               key={l.href}
               href={l.href}
-              className="hidden transition-colors hover:text-[var(--color-fg)] sm:block"
+              className="hidden transition-colors hover:text-[var(--color-brand)] sm:block"
             >
               {l.label}
             </Link>
           ))}
           <Link
             href="/dashboard"
-            className="rounded-md border border-[var(--color-border)] px-3.5 py-1.5 font-medium text-[var(--color-fg)] transition-colors hover:border-[var(--color-brand)]"
+            className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 font-medium text-[var(--color-fg)] shadow-sm transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
           >
             Admin
           </Link>

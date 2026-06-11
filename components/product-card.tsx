@@ -31,10 +31,10 @@ export function ProductCard({ pod }: { pod: Pod }) {
 
   const inner = (
     <>
-      {/* Per-pod accent glow, kept subtle against the black plate. */}
+      {/* Per-pod accent glow, kept whisper-subtle against the white card. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-20 blur-2xl transition-opacity group-hover:opacity-40"
+        className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-[0.07] blur-2xl transition-opacity group-hover:opacity-[0.14]"
         style={{ background: pod.accent }}
       />
       <div className="relative">
@@ -58,7 +58,7 @@ export function ProductCard({ pod }: { pod: Pod }) {
   );
 
   const base =
-    "group relative overflow-hidden rounded-lg border bg-[var(--color-surface)] p-6";
+    "group relative overflow-hidden rounded-lg border bg-[var(--color-surface)] p-6 shadow-sm transition-all";
 
   if (available && pod.href) {
     return (
@@ -66,7 +66,7 @@ export function ProductCard({ pod }: { pod: Pod }) {
         href={pod.href}
         target="_blank"
         rel="noreferrer"
-        className={`${base} border-[var(--color-brand)]/40 transition-colors hover:border-[var(--color-brand)]`}
+        className={`${base} border-[var(--color-brand)]/40 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:shadow-md`}
       >
         {inner}
       </a>

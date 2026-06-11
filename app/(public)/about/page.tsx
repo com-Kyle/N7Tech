@@ -45,19 +45,21 @@ export default function AboutPage() {
       <section className="relative overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-25 blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.55), transparent)" }}
+          className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[120px]"
+          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.9), transparent)" }}
         />
         <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 pb-20 pt-20 text-center">
-          <Image
-            src="/brand/n7-technologies.jpg"
-            alt="N7 Technologies"
-            width={1320}
-            height={1245}
-            priority
-            className="h-auto w-[200px] sm:w-[260px]"
-          />
-          <p className="mt-5 font-display text-[0.7rem] font-medium uppercase tracking-[0.28em] text-[var(--color-muted)]">
+          <div className="rounded-2xl bg-[#0b0b0f] p-3 shadow-lg ring-1 ring-black/5 sm:p-4">
+            <Image
+              src="/brand/n7-technologies.jpg"
+              alt="N7 Technologies"
+              width={1320}
+              height={1245}
+              priority
+              className="h-auto w-[200px] sm:w-[260px]"
+            />
+          </div>
+          <p className="mt-5 font-sans text-[0.7rem] font-medium uppercase tracking-[0.28em] text-[var(--color-muted)]">
             The studio behind ContractorPod
           </p>
           <h1 className="font-display mt-8 max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl">
@@ -73,7 +75,7 @@ export default function AboutPage() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] transition-shadow hover:shadow-[0_0_22px_-2px_rgba(225,29,39,0.75)]"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
             >
               See our products <ArrowRight size={16} aria-hidden />
             </Link>
@@ -84,10 +86,10 @@ export default function AboutPage() {
 
       {/* --- MISSION --- */}
       <section className="mx-auto max-w-3xl px-6 py-20 text-center">
-        <p className="font-display text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+        <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
           Why N7 Technologies exists
         </p>
-        <h2 className="font-display mt-4 text-3xl font-bold tracking-tight">
+        <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
           The best models are locked behind chatbots. We unlock them through
           interfaces.
         </h2>
@@ -101,16 +103,16 @@ export default function AboutPage() {
         <div className="brand-rule mx-auto mt-10 w-full max-w-md" />
       </section>
 
-      {/* --- TWO COMPANIES --- */}
+      {/* --- TWO COMPANIES (left-aligned, breaks the centered rhythm) --- */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center">
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+        <div className="max-w-2xl">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             How we&rsquo;re structured
           </p>
-          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight">
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
             Two companies, working together
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-[var(--color-muted)]">
+          <p className="mt-6 text-[var(--color-muted)]">
             N7 Technologies and DeployPod are independent companies bound by a
             master services agreement. N7 ships the consumer pods; DeployPod
             ships the AI infrastructure they run on. Close, aligned, but legally
@@ -120,10 +122,10 @@ export default function AboutPage() {
 
         <div className="mt-12 grid gap-6 md:grid-cols-2">
           {/* N7 */}
-          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
+          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm">
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-25 blur-3xl"
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.08] blur-3xl"
               style={{ background: "var(--color-brand)" }}
             />
             <div className="relative">
@@ -158,10 +160,10 @@ export default function AboutPage() {
           </div>
 
           {/* DeployPod */}
-          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8">
+          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm">
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-25 blur-3xl"
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.08] blur-3xl"
               style={{ background: ENGINE.accent }}
             />
             <div className="relative">
@@ -198,13 +200,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* --- PRINCIPLES --- */}
+      {/* --- PRINCIPLES (left-aligned, alternates with the centered sections) --- */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="text-center">
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+        <div className="max-w-2xl">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             Operating principles
           </p>
-          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight">
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
             Four rules that show up in every pod
           </h2>
         </div>
@@ -212,7 +214,7 @@ export default function AboutPage() {
           {PRINCIPLES.map((p) => (
             <div
               key={p.title}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-7 transition-colors hover:border-[var(--color-brand)]"
+              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-7 shadow-sm"
             >
               <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-elevated)] text-[var(--color-brand)]">
                 {p.icon}
@@ -231,10 +233,10 @@ export default function AboutPage() {
       {/* --- PRODUCT FAMILY --- */}
       <section className="mx-auto max-w-6xl px-6 py-16">
         <div className="text-center">
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             The pod family
           </p>
-          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight">
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
             One pod live, two on the way
           </h2>
         </div>
@@ -247,11 +249,11 @@ export default function AboutPage() {
 
       {/* --- CTA --- */}
       <section className="mx-auto max-w-3xl px-6 pb-28 pt-8">
-        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center">
+        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-10 text-center shadow-sm">
           <div
             aria-hidden
-            className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(480px,80%)] -translate-x-1/2 rounded-full opacity-25 blur-[90px]"
-            style={{ background: "rgba(225,29,39,0.6)" }}
+            className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(480px,80%)] -translate-x-1/2 rounded-full opacity-[0.06] blur-[90px]"
+            style={{ background: "rgba(225,29,39,0.9)" }}
           />
           <div className="relative">
             <h2 className="font-display text-2xl font-bold tracking-tight">
