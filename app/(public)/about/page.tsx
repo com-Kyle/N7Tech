@@ -1,9 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Boxes, Sparkles, ShieldCheck, Wrench, ArrowRight } from "lucide-react";
+import { Boxes, Sparkles, ShieldCheck, Wrench, ArrowRight, Mail } from "lucide-react";
 import { ProductCard } from "@/components/product-card";
 import { ContactButton } from "@/components/contact-buttons";
 import { PODS, ENGINE } from "@/lib/products";
+import { PRIMARY_CONTACT, SECONDARY_CONTACT } from "@/lib/contact";
+
+/**
+ * The two founders. Names + the single contact email come from
+ * `lib/contact.ts` (the source of truth); the longer background blurb lives
+ * here because it's about-page narrative, not contact metadata.
+ */
+const FOUNDERS: ReadonlyArray<{
+  name: string;
+  email: string;
+  field: string;
+  school: string;
+  body: string;
+}> = [
+  {
+    name: PRIMARY_CONTACT.name,
+    email: PRIMARY_CONTACT.email,
+    field: "Project & supply-chain management",
+    school: "Bachelor's, Penn State University",
+    body: "Comes from operations and supply chain — the discipline of making moving parts arrive on time and on budget. Runs product, the customer relationship, and the day-to-day of every pod.",
+  },
+  {
+    name: SECONDARY_CONTACT.name,
+    email: SECONDARY_CONTACT.email,
+    field: "Audio engineering & music production",
+    school: "Bachelor's, Full Sail University",
+    body: "Comes from audio engineering and production — a craft of obsessing over how a finished thing actually feels to use. Shapes the build and the polish that makes each pod feel right.",
+  },
+];
 
 export const metadata = {
   title: "About — N7 Technologies",
@@ -204,6 +233,65 @@ export default function AboutPage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* --- FOUNDERS (left-aligned content cards — the trust signal) --- */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
+        <div className="max-w-2xl">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+            Who&rsquo;s behind it
+          </p>
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            Two founders who build and run what they sell
+          </h2>
+          <p className="mt-6 text-[var(--color-muted)]">
+            N7 Technologies is two people, not a faceless studio. Neither of us
+            came up through a computer-science track — we came from operations
+            and from production. We taught ourselves to ship AI software, and
+            ContractorPod is live proof: built, run, and supported by the same
+            two people whose names are on this page. When you reach out, you
+            reach a founder.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
+          {FOUNDERS.map((f) => (
+            <div
+              key={f.email}
+              className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5"
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.12] blur-3xl"
+                style={{ background: "var(--color-brand)" }}
+              />
+              <div className="relative">
+                <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+                  Co-founder
+                </span>
+                <h3 className="font-display mt-4 text-2xl font-bold tracking-tight text-[var(--color-fg)]">
+                  {f.name}
+                </h3>
+                <p className="mt-2 text-sm font-semibold text-[var(--color-brand)]">
+                  {f.field}
+                </p>
+                <p className="mt-1 text-sm text-[var(--color-muted)]">
+                  {f.school}
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
+                  {f.body}
+                </p>
+                <a
+                  href={`mailto:${f.email}`}
+                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-fg)] transition-colors hover:text-[var(--color-brand)]"
+                >
+                  <Mail size={15} aria-hidden />
+                  {f.email}
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

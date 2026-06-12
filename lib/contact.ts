@@ -5,6 +5,8 @@
  */
 
 export type Contact = {
+  /** Founder name — who the buyer is actually reaching. */
+  name: string;
   /** Short label shown above the address (e.g. "Primary contact"). */
   label: string;
   email: string;
@@ -14,6 +16,7 @@ export type Contact = {
 
 /** Primary contact — reached first. */
 export const PRIMARY_CONTACT: Contact = {
+  name: "Dante Pagan",
   label: "Primary contact",
   email: "n7dpagan@gmail.com",
   primary: true,
@@ -21,6 +24,7 @@ export const PRIMARY_CONTACT: Contact = {
 
 /** Secondary contact — sits underneath the primary. */
 export const SECONDARY_CONTACT: Contact = {
+  name: "Kyle Pierce",
   label: "Secondary contact",
   email: "n7kpierce@gmail.com",
 };

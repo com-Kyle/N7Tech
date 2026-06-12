@@ -36,6 +36,9 @@ function ContactRow({ contact, subject }: { contact: Contact; subject?: string }
             {contact.label}
           </span>
           <span className="font-display text-base font-semibold tracking-tight text-[var(--color-fg)]">
+            {contact.name}
+          </span>
+          <span className="mt-0.5 text-sm text-[var(--color-muted)]">
             {contact.email}
           </span>
         </span>
@@ -63,16 +66,30 @@ export function ContactStack({ subject }: { subject?: string }) {
   );
 }
 
-const buttonClass =
-  "inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]";
+const buttonBase =
+  "inline-flex items-center gap-2 rounded-md px-5 py-3 font-medium shadow-sm transition-colors";
 
 /**
- * A single brand "Contact us" button.
+ * `primary` — solid N7 red (the page's one red focal CTA). `secondary` — a quiet
+ * slate button (elevated surface + border) that brightens its ring toward red on
+ * hover, used where a red flood would break the one-red-focal rule (e.g. the
+ * non-featured pricing tiers next to the red "Most popular" tier).
+ */
+const VARIANT_CLASS: Record<"primary" | "secondary", string> = {
+  primary:
+    "bg-[var(--color-brand)] text-[var(--color-brand-fg)] hover:bg-[var(--color-brand-strong)]",
+  secondary:
+    "bg-[var(--color-elevated)] text-[var(--color-fg)] ring-1 ring-inset ring-[var(--color-border)] hover:ring-[var(--color-brand)]",
+};
+
+/**
+ * A single "Contact us" CTA button.
  *
  * Default: routes to the lead form at `/contact#form` so the conversion is
  * captured. The `subject` is forwarded as `?subject=` so the form context is
- * preserved when we want it later; it's harmless on the anchor.
+ * preserved (the captured lead carries which tier/service it came from).
  *
+ * `variant`: `primary` (solid red, default) or `secondary` (quiet slate).
  * `mailtoFallback`: render the legacy `mailto:` behaviour instead — used where
  * a raw-email CTA is explicitly wanted as a fallback.
  */
@@ -80,16 +97,20 @@ export function ContactButton({
   label = "Contact us",
   subject,
   className = "",
+  variant = "primary",
   mailtoFallback = false,
 }: {
   label?: string;
   subject?: string;
   className?: string;
+  variant?: "primary" | "secondary";
   mailtoFallback?: boolean;
 }) {
+  const cls = [buttonBase, VARIANT_CLASS[variant], className].join(" ");
+
   if (mailtoFallback) {
     return (
-      <a href={mailtoHref(PRIMARY_CONTACT.email, subject)} className={[buttonClass, className].join(" ")}>
+      <a href={mailtoHref(PRIMARY_CONTACT.email, subject)} className={cls}>
         <Mail size={16} aria-hidden />
         {label}
       </a>
@@ -98,7 +119,7 @@ export function ContactButton({
 
   const href = subject ? `/contact?subject=${encodeURIComponent(subject)}#form` : "/contact#form";
   return (
-    <Link href={href} className={[buttonClass, className].join(" ")}>
+    <Link href={href} className={cls}>
       <Mail size={16} aria-hidden />
       {label}
     </Link>

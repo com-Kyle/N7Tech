@@ -57,6 +57,58 @@ export function ServicePage({ service }: { service: Service }) {
         </div>
       </section>
 
+      {/* --- PRICING TIERS: good / better / best --- */}
+      <section className="mx-auto max-w-7xl px-6 pt-8 sm:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+            Pricing
+          </p>
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            Pick a starting point
+          </h2>
+          <p className="mt-4 text-[var(--color-muted)]">
+            Three ways in — every project is quoted to fit. Not sure which? Start
+            anywhere and we&rsquo;ll right-size it together.
+          </p>
+        </div>
+        <div className="mt-12 grid items-start gap-6 md:grid-cols-3">
+          {service.tiers.map((tier) => (
+            <div
+              key={tier.name}
+              className={[
+                "relative flex h-full flex-col rounded-lg bg-[var(--color-surface)] p-7 shadow-sm",
+                tier.featured
+                  ? "border border-[var(--color-brand)] ring-1 ring-[var(--color-brand)]/40 md:-translate-y-1"
+                  : "border border-[var(--color-border)] ring-1 ring-white/5",
+              ].join(" ")}
+            >
+              {tier.featured && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[var(--color-brand)] px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-[var(--color-brand-fg)] shadow-sm">
+                  Most popular
+                </span>
+              )}
+              <h3 className="font-display text-xl font-bold tracking-tight">
+                {tier.name}
+              </h3>
+              <p className="font-display mt-3 text-3xl font-bold tracking-tight text-[var(--color-fg)]">
+                {tier.price}
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
+                {tier.blurb}
+              </p>
+              <div className="mt-7 flex grow flex-col justify-end">
+                <ContactButton
+                  label={tier.cta}
+                  subject={tier.contactSubject}
+                  variant={tier.featured ? "primary" : "secondary"}
+                  className="w-full justify-center"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* --- PILLARS: Build / Improve / Test --- */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="grid gap-6 md:grid-cols-3">
