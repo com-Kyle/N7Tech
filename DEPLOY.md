@@ -52,6 +52,7 @@ can set the whole service up in one click.
    | `SESSION_SECRET` | a long random string (required in production) |
    | `FRONTEND_ORIGIN` | `https://www.n7technologies.org` |
    | `TRUSTED_PROXIES` | `0.0.0.0/0` (Render terminates TLS upstream) |
+   | `RESEND_API_KEY` | optional — Resend key for lead-notification emails; leads still persist if unset |
    - `PORT` is provided by Render automatically; our `config.Load` reads it.
 4. Deploy. Render gives you a URL like `https://n7technologies-api.onrender.com`.
    Verify: open `<that-url>/healthz` → `{"ok":true}`.
@@ -71,7 +72,20 @@ Already configured: `wrangler.jsonc`, `open-next.config.ts`, and the
 2. **Set the API URL** the frontend should call. Edit `wrangler.jsonc` →
    `vars.NEXT_PUBLIC_API_BASE_URL` to the Render URL from §2, e.g.
    `https://n7technologies-api.onrender.com`.
-3. **Deploy:**
+3. **Set the frontend env vars.** Add these to `wrangler.jsonc` → `vars`
+   (public) or as Wrangler secrets (sensitive):
+
+   | Key | Value |
+   |---|---|
+   | `NEXT_PUBLIC_API_BASE_URL` | the Render URL from §2 |
+   | `ADMIN_BASIC_AUTH` | `user:pass` for the `/dashboard` Basic-auth gate; **required in production** (the middleware returns 401 for everyone if unset in prod) |
+   | `NEXT_PUBLIC_BOOKING_URL` | Cal.com / Calendly link; gates the "Book a call" button (hidden if unset) |
+   | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | e.g. `n7technologies.org`; enables Plausible analytics (no-op if unset) |
+
+   > **`ADMIN_BASIC_AUTH` MUST be set** as a Wrangler secret
+   > (`npx wrangler secret put ADMIN_BASIC_AUTH`) or the `/dashboard` is locked
+   > out — the middleware fails closed and 401s everyone in production.
+4. **Deploy:**
    ```sh
    npm run deploy
    ```

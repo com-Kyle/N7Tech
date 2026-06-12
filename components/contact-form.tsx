@@ -227,12 +227,6 @@ export function ContactForm({ source }: { source: string }) {
           )}
         </button>
       </div>
-
-      {submitting && waking && (
-        <p className="text-sm text-[var(--color-muted)]">
-          Still sending — our server is waking up, hang tight ⏳
-        </p>
-      )}
     </form>
   );
 }
