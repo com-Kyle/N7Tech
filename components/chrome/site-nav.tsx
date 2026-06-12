@@ -66,19 +66,13 @@ export function SiteNav() {
             </div>
           </div>
 
-          {/* About + Contact */}
+          {/* About + Contact — the admin door is intentionally not in the
+              public nav; reach the dashboard directly at /dashboard. */}
           {LINKS.filter((l) => l.href !== "/products").map((l) => (
             <Link key={l.href} href={l.href} className={`hidden ${linkClass} sm:block`}>
               {l.label}
             </Link>
           ))}
-
-          <Link
-            href="/dashboard"
-            className="rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 font-medium text-[var(--color-fg)] shadow-sm transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
-          >
-            Admin
-          </Link>
         </nav>
       </div>
     </header>

@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { LayoutDashboard, Package, Settings, Users } from "lucide-react";
 
-const NAV = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/dashboard/products", label: "Products", icon: Package },
-  { href: "/dashboard/users", label: "Users", icon: Users },
-  { href: "/dashboard/settings", label: "Settings", icon: Settings },
+/** Live links — routes that actually exist today. */
+const NAV = [{ href: "/dashboard", label: "Dashboard", icon: LayoutDashboard }];
+
+/** Not built yet — shown disabled with a "Soon" tag instead of 404'ing. */
+const SOON = [
+  { label: "Products", icon: Package },
+  { label: "Users", icon: Users },
+  { label: "Settings", icon: Settings },
 ];
 
 export function AdminSidebar() {
@@ -29,6 +32,19 @@ export function AdminSidebar() {
             <Icon size={16} />
             {label}
           </Link>
+        ))}
+        {SOON.map(({ label, icon: Icon }) => (
+          <span
+            key={label}
+            title="Coming soon"
+            className="pointer-events-none flex items-center gap-3 rounded-md px-3 py-2 text-sm text-[var(--color-muted)] opacity-50"
+          >
+            <Icon size={16} />
+            {label}
+            <span className="ml-auto rounded-full border border-[var(--color-border)] px-1.5 py-0.5 text-[0.6rem] font-medium uppercase tracking-wide">
+              Soon
+            </span>
+          </span>
         ))}
       </nav>
     </aside>
