@@ -84,23 +84,43 @@ export default function HomePage() {
           {/* Headline + subhead + CTAs — on a surface panel so text never sits
               directly on the carbon weave. Balances the logo chip beside it. */}
           <div className="flex flex-col items-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center shadow-sm ring-1 ring-white/5 sm:p-10 md:items-start md:text-left">
-            <h1 className="font-display max-w-3xl text-balance text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
-              Small, sharp AI products — and the studio that builds them.
+            {/* Proof chip — ContractorPod is live, the studio's strongest
+                credibility signal. Lime dot is ContractorPod's own accent. */}
+            <Link
+              href="/products"
+              className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 text-sm font-semibold text-[var(--color-fg)] ring-1 ring-white/5 transition-colors hover:border-[#84CC16]/60"
+            >
+              <span className="relative flex h-2 w-2" aria-hidden>
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#84CC16] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#84CC16]" />
+              </span>
+              ContractorPod — live in production
+            </Link>
+
+            <h1 className="font-display mt-6 max-w-4xl text-balance text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl">
+              We build AI-native websites and apps — and ship our own to prove
+              it.
             </h1>
             <p className="mt-6 max-w-2xl text-xl text-[var(--color-muted)]">
-              N7 Technologies ships its own focused AI products — and builds,
-              improves, and tests websites and apps for everyone else. One studio,
-              two ways to work with us.
+              N7 is an AI software studio. We build, improve, and test websites
+              and apps on a modern AI-native stack — and ship our own AI products
+              like ContractorPod, live today. Websites from $499, apps from
+              $2,500.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:justify-start">
               <Link
-                href="/products"
-                className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-medium text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
+                href="/contact"
+                className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-semibold text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
               >
-                See our products <ArrowRight size={16} aria-hidden />
+                Start your build <ArrowRight size={16} aria-hidden />
               </Link>
-              <ContactButton label="Get in touch" />
+              <Link
+                href="/products"
+                className="inline-flex items-center gap-2 rounded-md border border-[var(--color-border)] px-5 py-3 font-semibold text-[var(--color-fg)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
+              >
+                See what we&rsquo;ve shipped <ArrowUpRight size={16} aria-hidden />
+              </Link>
             </div>
           </div>
         </div>
