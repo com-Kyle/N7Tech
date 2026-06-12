@@ -1,0 +1,16 @@
+# Standalone keep-warm Worker — self-contained, deployed separately from the
+# OpenNext frontend Worker. Pings the Render backend's /healthz every 10 min so
+# the free-tier service never sleeps (avoids the ~30s cold start).
+#
+# One-time deploy:  cd keepwarm && npx wrangler deploy
+# (does NOT touch the root wrangler.jsonc / open-next.config.ts / app build)
+
+name = "n7technologies-keepwarm"
+main = "src/index.ts"
+compatibility_date = "2026-06-01"
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[vars]
+HEALTHZ_URL = "https://n7technologies-api.onrender.com/healthz"

@@ -52,6 +52,7 @@ can set the whole service up in one click.
    | `SESSION_SECRET` | a long random string (required in production) |
    | `FRONTEND_ORIGIN` | `https://www.n7technologies.org` |
    | `TRUSTED_PROXIES` | `0.0.0.0/0` (Render terminates TLS upstream) |
+   | `RESEND_API_KEY` | optional — Resend key for lead-notification emails; leads still persist if unset |
    - `PORT` is provided by Render automatically; our `config.Load` reads it.
 4. Deploy. Render gives you a URL like `https://n7technologies-api.onrender.com`.
    Verify: open `<that-url>/healthz` → `{"ok":true}`.
@@ -71,7 +72,20 @@ Already configured: `wrangler.jsonc`, `open-next.config.ts`, and the
 2. **Set the API URL** the frontend should call. Edit `wrangler.jsonc` →
    `vars.NEXT_PUBLIC_API_BASE_URL` to the Render URL from §2, e.g.
    `https://n7technologies-api.onrender.com`.
-3. **Deploy:**
+3. **Set the frontend env vars.** Add these to `wrangler.jsonc` → `vars`
+   (public) or as Wrangler secrets (sensitive):
+
+   | Key | Value |
+   |---|---|
+   | `NEXT_PUBLIC_API_BASE_URL` | the Render URL from §2 |
+   | `ADMIN_BASIC_AUTH` | `user:pass` for the `/dashboard` Basic-auth gate; **required in production** (the middleware returns 401 for everyone if unset in prod) |
+   | `NEXT_PUBLIC_BOOKING_URL` | Cal.com / Calendly link; gates the "Book a call" button (hidden if unset) |
+   | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | e.g. `n7technologies.org`; enables Plausible analytics (no-op if unset) |
+
+   > **`ADMIN_BASIC_AUTH` MUST be set** as a Wrangler secret
+   > (`npx wrangler secret put ADMIN_BASIC_AUTH`) or the `/dashboard` is locked
+   > out — the middleware fails closed and 401s everyone in production.
+4. **Deploy:**
    ```sh
    npm run deploy
    ```
@@ -84,6 +98,27 @@ Preview locally on the real Workers runtime before deploying:
 cp .dev.vars.example .dev.vars   # then edit if needed
 npm run preview
 ```
+
+## 3a. Keep-warm cron Worker (optional, recommended)
+
+The Render free tier sleeps the backend after ~15 min idle (~30s cold start on
+the next request). A tiny **standalone** Cloudflare cron Worker in `keepwarm/`
+pings `/healthz` every 10 minutes so the service never idles. It is fully
+separate from the frontend Worker — it has its own `wrangler.toml` and does
+**not** touch `wrangler.jsonc`, `open-next.config.ts`, or the Next.js build.
+
+One-time deploy:
+```sh
+cd keepwarm
+npx wrangler deploy
+```
+
+That registers the cron trigger (`*/10 * * * *`) and the `n7technologies-keepwarm`
+Worker. No further action needed — Cloudflare runs it automatically and for free.
+
+- The healthz URL is set in `keepwarm/wrangler.toml` → `[vars] HEALTHZ_URL`.
+  Update it there if the Render URL changes, then re-run `npx wrangler deploy`.
+- Tail logs to confirm it's firing: `npx wrangler tail` (from `keepwarm/`).
 
 ## 4. Custom domain — www.n7technologies.org
 

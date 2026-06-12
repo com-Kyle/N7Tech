@@ -2,3 +2,16 @@
 # Copy to .dev.vars (gitignored). For plain `npm run dev` (Node) these aren't
 # used — set NEXT_PUBLIC_API_BASE_URL in your shell instead.
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8090
+
+# user:pass for the /dashboard Basic-auth gate. REQUIRED in production — the
+# middleware fails closed and returns 401 for everyone if this is unset in prod.
+# Passthrough (no gate) in dev when empty.
+ADMIN_BASIC_AUTH=
+
+# Cal.com / Calendly link. Gates the "Book a call" button — the button is
+# hidden if this is unset.
+NEXT_PUBLIC_BOOKING_URL=
+
+# Plausible analytics domain, e.g. n7technologies.org. Enables the Plausible
+# script. No-op (analytics off) if unset.
+NEXT_PUBLIC_PLAUSIBLE_DOMAIN=

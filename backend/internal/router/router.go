@@ -46,5 +46,8 @@ func New(db *gorm.DB, cfg *config.Config) *gin.Engine {
 	settings := handlers.NewSettingHandler(db)
 	api.GET("/settings", settings.Public)
 
+	leads := handlers.NewLeadHandler(db, cfg.ResendAPIKey)
+	api.POST("/leads", leads.Create)
+
 	return r
 }
