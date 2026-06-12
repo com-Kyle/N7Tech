@@ -79,3 +79,68 @@ a {
   transform: translate(-50%, -50%);
   box-shadow: 0 0 0 2px rgba(225, 29, 39, 0.14);
 }
+
+/* Carbon-fiber weave — a premium woven texture over the charcoal base.
+   Pure CSS twill: two sets of repeating diagonals at +45deg / -45deg, with a
+   faint light edge + a faint dark groove so the weave reads as fabric, not a
+   loud stripe. Barely-there light/dark variations of the charcoal (white/black
+   at low alpha) — never pure black/white — so all text stays fully readable.
+   The base stays on `--color-bg`; the gradients only add texture above it. */
+.bg-carbon {
+  background-color: var(--color-bg);
+  background-image:
+    /* +45deg twill: highlight edge then dark groove */
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.018) 0px,
+      rgba(255, 255, 255, 0.018) 1px,
+      rgba(0, 0, 0, 0.05) 1px,
+      rgba(0, 0, 0, 0.05) 3px,
+      transparent 3px,
+      transparent 6px
+    ),
+    /* -45deg twill: the interlocking weft */
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.018) 0px,
+      rgba(255, 255, 255, 0.018) 1px,
+      rgba(0, 0, 0, 0.05) 1px,
+      rgba(0, 0, 0, 0.05) 3px,
+      transparent 3px,
+      transparent 6px
+    );
+  background-size: 6px 6px;
+}
+
+/* Slow, organic "breathing" pulse for the hero's red bloom — a calm
+   inhale/exhale, not a flash. Gentle opacity + a hair of scale so it feels
+   alive without distracting. Applied to the decorative red radial via
+   `.hero-breathe` on top of its base Tailwind opacity. */
+@keyframes breathe {
+  0% {
+    opacity: 0.1;
+    transform: translateX(-50%) scale(0.97);
+  }
+  50% {
+    opacity: 0.18;
+    transform: translateX(-50%) scale(1.04);
+  }
+  100% {
+    opacity: 0.1;
+    transform: translateX(-50%) scale(0.97);
+  }
+}
+
+.hero-breathe {
+  animation: breathe 5.5s ease-in-out infinite;
+}
+
+/* Reduced-motion users get a static red glow at the mid-breath opacity — no
+   animation, no scale jitter. Standard guard for any infinite animation. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-breathe {
+    animation: none;
+    opacity: 0.14;
+    transform: translateX(-50%);
+  }
+}
