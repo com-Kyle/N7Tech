@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Globe, Smartphone, Bot } from "lucide-react";
 import { ContactButton } from "@/components/contact-buttons";
 import { BrowserFrame, PhoneFrame } from "@/components/device-frames";
 import { PODS, ENGINE } from "@/lib/products";
@@ -31,6 +31,7 @@ const SERVICE_CARDS = [
     blurb: WEBSITE_SERVICE.tagline,
     meta: `Starting at ${WEBSITE_SERVICE.startingAt}`,
     accent: "var(--color-brand)",
+    icon: Globe,
   },
   {
     href: `/${APP_SERVICE.slug}`,
@@ -38,6 +39,7 @@ const SERVICE_CARDS = [
     blurb: APP_SERVICE.tagline,
     meta: `Starting at ${APP_SERVICE.startingAt}`,
     accent: "var(--color-brand)",
+    icon: Smartphone,
   },
   {
     href: ENGINE.page,
@@ -45,6 +47,7 @@ const SERVICE_CARDS = [
     blurb: "The AI agents behind our pods — via DeployPod, our infra partner.",
     meta: "Powered by DeployPod",
     accent: BLUE,
+    icon: Bot,
   },
 ];
 
@@ -110,27 +113,41 @@ export default function HomePage() {
             <Link
               key={s.href}
               href={s.href}
-              className="group rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-7 shadow-sm ring-1 ring-white/5 transition-all hover:-translate-y-0.5 hover:border-[var(--color-fg)]/20"
+              className="group relative overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-7 shadow-sm ring-1 ring-white/5 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-fg)]/20"
             >
+              {/* Decorative accent glow — sits behind content, brightens on hover
+                  (DESIGN.md per-accent glow: ~0.12 resting, ~0.22 hover). */}
               <span
                 aria-hidden
-                className="block h-1.5 w-8 rounded-full"
+                className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-[0.12] blur-[60px] transition-opacity duration-300 group-hover:opacity-[0.22]"
                 style={{ backgroundColor: s.accent }}
               />
-              <h3 className="font-display mt-4 text-lg font-bold tracking-tight">
+              {/* Accent icon chip — tinted square, replaces the bare accent bar. */}
+              <span
+                aria-hidden
+                className="relative inline-flex h-12 w-12 items-center justify-center rounded-xl ring-1 ring-inset"
+                style={{
+                  backgroundColor: `color-mix(in srgb, ${s.accent} 12%, transparent)`,
+                  color: s.accent,
+                  ["--tw-ring-color" as string]: `color-mix(in srgb, ${s.accent} 30%, transparent)`,
+                }}
+              >
+                <s.icon size={22} strokeWidth={2} aria-hidden />
+              </span>
+              <h3 className="font-display mt-5 text-lg font-bold tracking-tight">
                 {s.name}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">
                 {s.blurb}
               </p>
-              <div className="mt-5 flex items-center justify-between">
+              <div className="mt-6 flex items-center justify-between border-t border-[var(--color-border)]/60 pt-4">
                 <span className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)]">
                   {s.meta}
                 </span>
                 <ArrowRight
                   size={16}
                   aria-hidden
-                  className="text-[var(--color-muted)] transition-transform group-hover:translate-x-0.5"
+                  className="transition-transform group-hover:translate-x-1"
                   style={{ color: s.accent }}
                 />
               </div>
