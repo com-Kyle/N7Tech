@@ -108,12 +108,19 @@ export default function HomePage() {
               $2,500.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-4 md:justify-start">
+            {/* Positioning wedge — slots N7 between DIY builders and legacy
+                agencies, with transparent pricing as the differentiator. */}
+            <p className="mt-5 max-w-2xl text-base font-semibold text-[var(--color-fg)]">
+              More polished than a DIY builder, faster and cheaper than a
+              traditional agency — with pricing you can actually see.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:justify-start">
               <Link
                 href="/contact"
                 className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-semibold text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
               >
-                Start your build <ArrowRight size={16} aria-hidden />
+                Get a free quote now <ArrowRight size={16} aria-hidden />
               </Link>
               <Link
                 href="/products"
@@ -122,6 +129,9 @@ export default function HomePage() {
                 See what we&rsquo;ve shipped <ArrowUpRight size={16} aria-hidden />
               </Link>
             </div>
+            <p className="mt-4 text-sm text-[var(--color-muted)]">
+              No commitment — see what it&rsquo;ll cost up front.
+            </p>
           </div>
         </div>
       </section>
@@ -193,6 +203,11 @@ export default function HomePage() {
           <h2 className="font-display mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
             See the pods in action
           </h2>
+          <p className="mt-4 text-lg text-[var(--color-muted)]">
+            Every pod runs on custom AI agents built with DeployPod — Mason
+            &amp; Foreman power ContractorPod, Abbey &amp; Andre power MealPod,
+            and Virgil &amp; Val power BudgetPod.
+          </p>
         </div>
 
         {/* ContractorPod — WEB, browser frame, text left / frame right */}
