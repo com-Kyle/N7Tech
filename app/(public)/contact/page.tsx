@@ -47,13 +47,14 @@ export default function ContactPage() {
           {/* Fallback — the raw addresses, beneath the form. */}
           <div className="mt-12">
             <p className="mb-4 font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-              Or email us directly
+              Or email a founder directly
             </p>
             <ContactStack subject="Hello from n7technologies.org" />
             <p className="mt-6 text-sm text-[var(--color-muted)]">
-              Try the primary contact first; the second founder is there as
-              backup. Product partnerships, early access, press — anything on
-              your mind.
+              You&rsquo;re reaching the two people who actually build and run
+              the pods. Dante handles most first replies; Kyle&rsquo;s line is
+              open too. Product, partnerships, early access, press — either of
+              us will read it.
             </p>
           </div>
         </div>

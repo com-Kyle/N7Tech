@@ -36,6 +36,9 @@ function ContactRow({ contact, subject }: { contact: Contact; subject?: string }
             {contact.label}
           </span>
           <span className="font-display text-base font-semibold tracking-tight text-[var(--color-fg)]">
+            {contact.name}
+          </span>
+          <span className="mt-0.5 text-sm text-[var(--color-muted)]">
             {contact.email}
           </span>
         </span>
