@@ -99,6 +99,27 @@ cp .dev.vars.example .dev.vars   # then edit if needed
 npm run preview
 ```
 
+## 3a. Keep-warm cron Worker (optional, recommended)
+
+The Render free tier sleeps the backend after ~15 min idle (~30s cold start on
+the next request). A tiny **standalone** Cloudflare cron Worker in `keepwarm/`
+pings `/healthz` every 10 minutes so the service never idles. It is fully
+separate from the frontend Worker — it has its own `wrangler.toml` and does
+**not** touch `wrangler.jsonc`, `open-next.config.ts`, or the Next.js build.
+
+One-time deploy:
+```sh
+cd keepwarm
+npx wrangler deploy
+```
+
+That registers the cron trigger (`*/10 * * * *`) and the `n7technologies-keepwarm`
+Worker. No further action needed — Cloudflare runs it automatically and for free.
+
+- The healthz URL is set in `keepwarm/wrangler.toml` → `[vars] HEALTHZ_URL`.
+  Update it there if the Render URL changes, then re-run `npx wrangler deploy`.
+- Tail logs to confirm it's firing: `npx wrangler tail` (from `keepwarm/`).
+
 ## 4. Custom domain — www.n7technologies.org
 
 The domain is already on Cloudflare, which makes this easy.
