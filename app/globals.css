@@ -88,7 +88,7 @@ a {
    flat crosshatch. A broad, viewport-fixed diagonal sheen sits on top so light
    appears to catch the weave — the strongest "carbon fiber" cue. All deltas are
    tiny vs the `#222a3a` base (white/black at low alpha, never pure) so muted
-   body copy (#94a3b8) stays fully readable. */
+   body copy (#a4afc2) stays fully readable. */
 .bg-carbon {
   background-color: var(--color-bg);
   background-image:
