@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter, JetBrains_Mono, Chakra_Petch } from "next/font/google";
 import "./globals.css";
 
@@ -37,14 +38,27 @@ export const metadata: Metadata = {
     url: "https://www.n7technologies.org",
     siteName: "N7 Technologies",
     type: "website",
+    // ASSET-TODO: replace with a real 1200×630 og-default.png export. Using the
+    // valid (if near-square) logo for now — cropped previews are acceptable, a
+    // malformed image file is not.
     images: ["/brand/n7-technologies.jpg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "N7 Technologies",
     description: "Building the next generation of software.",
+    // ASSET-TODO: replace with a real 1200×630 og-default.png export.
     images: ["/brand/n7-technologies.jpg"],
   },
+};
+
+// JSON-LD Organization block for richer brand SERP / knowledge panel.
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "N7 Technologies",
+  url: "https://www.n7technologies.org",
+  logo: "https://www.n7technologies.org/brand/n7-technologies.jpg",
 };
 
 export default function RootLayout({
@@ -55,7 +69,25 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} ${chakra.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        {/* Plausible analytics — only loads when the domain env var is set. */}
+        {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
+          <Script
+            strategy="afterInteractive"
+            data-domain={process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN}
+            src="https://plausible.io/js/script.tagged-events.js"
+          />
+        )}
+        <Script
+          id="organization-jsonld"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+      </body>
     </html>
   );
 }

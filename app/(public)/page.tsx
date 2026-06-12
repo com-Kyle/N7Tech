@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
@@ -5,6 +6,17 @@ import { ContactButton } from "@/components/contact-buttons";
 import { BrowserFrame, PhoneFrame } from "@/components/device-frames";
 import { PODS, ENGINE } from "@/lib/products";
 import { WEBSITE_SERVICE, APP_SERVICE } from "@/lib/services";
+
+export const metadata: Metadata = {
+  // `absolute` opts out of the layout's "%s · N7 Technologies" template so the
+  // homepage <title> reads cleanly (it already names the brand).
+  title: {
+    absolute:
+      "N7 Technologies — AI products + a studio that builds web & app software",
+  },
+  description:
+    "N7 Technologies ships its own focused AI products and builds, improves, and tests websites and mobile apps for everyone else. One studio, two ways to work with us.",
+};
 
 /** ContractorPod is the lead (web) product; BudgetPod is the showcased app. */
 const CONTRACTORPOD = PODS.find((p) => p.slug === "contractorpod")!;
