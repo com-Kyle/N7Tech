@@ -75,10 +75,10 @@ read on slate without becoming neon.
 
 ## Logo
 
-`public/brand/n7-technologies.jpg` (1320×1245) is a lockup on a near-black plate.
-On the charcoal page it would otherwise blend in, so it's wrapped in an
-intentional framed chip that's a hair lighter than the JPG plate, with a gentle
-top-light edge so it reads as a deliberate framed mark:
+`public/brand/n7-technologies.png` (1254×1254, square) is a lockup on a
+near-black plate. On the charcoal page it would otherwise blend in, so it's
+wrapped in an intentional framed chip that's a hair lighter than the PNG plate,
+with a gentle top-light edge so it reads as a deliberate framed mark:
 
 ```
 rounded-2xl bg-[#11151f] p-3 sm:p-4 shadow-lg ring-1 ring-white/10
