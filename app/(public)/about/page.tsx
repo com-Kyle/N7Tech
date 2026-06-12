@@ -22,14 +22,14 @@ const FOUNDERS: ReadonlyArray<{
     name: PRIMARY_CONTACT.name,
     email: PRIMARY_CONTACT.email,
     field: "Project & supply-chain management",
-    school: "B.S., Penn State University",
+    school: "Bachelor's, Penn State University",
     body: "Comes from operations and supply chain — the discipline of making moving parts arrive on time and on budget. Runs product, the customer relationship, and the day-to-day of every pod.",
   },
   {
     name: SECONDARY_CONTACT.name,
     email: SECONDARY_CONTACT.email,
     field: "Audio engineering & music production",
-    school: "B.S., Full Sail University",
+    school: "Bachelor's, Full Sail University",
     body: "Comes from audio engineering and production — a craft of obsessing over how a finished thing actually feels to use. Shapes the build and the polish that makes each pod feel right.",
   },
 ];
