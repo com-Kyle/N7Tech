@@ -83,14 +83,16 @@ export default function HomePage() {
             </span>
 
             <h1 className="font-display mt-6 max-w-2xl text-balance text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
-              Honest estimates and instant booking for small contractors.
+              Win more jobs with honest, instant quotes.
             </h1>
 
             <p className="mt-6 max-w-xl text-lg text-[var(--color-muted)]">
-              ContractorPod is our live AI product. Homeowners chat with Mason —
-              an AI estimator that returns an honest price range, not a
-              fake-binding number — and book a site visit in the same flow. We
-              build it, run it, and ship it ourselves.
+              ContractorPod gives your business its own AI storefront.
+              Homeowners chat with Mason — your AI estimator — get an honest
+              price range instead of a fake-binding number, and book a site
+              visit on the spot. You get a quote-to-contract pipeline and a
+              booked calendar, no spreadsheets. We build it, run it, and ship
+              it ourselves.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
