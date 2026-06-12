@@ -1,10 +1,8 @@
 /**
- * Proxy — HTTP Basic auth gate on the (admin) dashboard.
+ * Edge middleware — HTTP Basic auth gate on the (admin) dashboard.
  *
- * Next 16 renamed the `middleware` file convention to `proxy`; the named
- * export is `proxy` (was `middleware`) and the `config.matcher` is unchanged.
- * The proxy runtime is `nodejs` (edge is not supported), but `atob` is a
- * standard global there too, so the auth logic below is unchanged.
+ * Runs on Cloudflare Workers via OpenNext, so it must stay Edge-compatible:
+ * no Node APIs, use `atob` for base64 decoding.
  *
  * Credentials come from the `ADMIN_BASIC_AUTH` env var (format `user:pass`).
  * - Unset in dev (NODE_ENV !== "production"): allow through so local dev isn't
@@ -25,7 +23,7 @@ function unauthorized(): NextResponse {
   });
 }
 
-export function proxy(req: NextRequest) {
+export function middleware(req: NextRequest) {
   const expected = process.env.ADMIN_BASIC_AUTH;
   const isProd = process.env.NODE_ENV === "production";
 
