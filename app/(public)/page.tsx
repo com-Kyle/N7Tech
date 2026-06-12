@@ -68,7 +68,7 @@ export default function HomePage() {
           className="hero-breathe pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] rounded-full blur-[120px]"
           style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
         />
-        <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-10 px-6 pb-16 pt-16 sm:px-8 md:flex-row md:gap-14 lg:gap-20">
+        <div className="relative mx-auto flex max-w-[90rem] flex-col items-center gap-10 px-4 pb-16 pt-16 sm:px-6 md:flex-row md:gap-14 lg:gap-20">
           {/* Logo chip — left of the headline */}
           <div className="shrink-0 rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
@@ -77,7 +77,7 @@ export default function HomePage() {
               width={1254}
               height={1254}
               priority
-              className="h-auto w-[240px] sm:w-[320px]"
+              className="h-auto w-[480px] sm:w-[640px]"
             />
           </div>
 
