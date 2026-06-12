@@ -14,6 +14,24 @@ export type ServicePillar = {
   body: string;
 };
 
+export type ServiceTier = {
+  /** Tier name, e.g. "Launch" | "Growth" | "Custom". */
+  name: string;
+  /** Display price, e.g. "$499", "~$1,500", "Let's talk". */
+  price: string;
+  /** One-line scope summary. */
+  blurb: string;
+  /** CTA label for this tier's button (e.g. "Start a Launch site"). */
+  cta: string;
+  /**
+   * The `?subject=` forwarded to the contact form, so the captured lead carries
+   * which tier was picked (e.g. "Website Services — Launch ($499)").
+   */
+  contactSubject: string;
+  /** The middle, recommended/anchor tier — visually emphasized. */
+  featured?: boolean;
+};
+
 export type Service = {
   slug: string;
   name: string;
@@ -25,6 +43,8 @@ export type Service = {
   contactSubject: string;
   /** Exactly three: Build, Improve, Test. */
   pillars: ReadonlyArray<ServicePillar>;
+  /** Exactly three good-better-best tiers; the middle one is `featured`. */
+  tiers: ReadonlyArray<ServiceTier>;
 };
 
 export const WEBSITE_SERVICE: Service = {
@@ -47,6 +67,30 @@ export const WEBSITE_SERVICE: Service = {
       body: "We audit, QA, and harden your site — performance, accessibility, SEO, and the edge cases that break in the wild.",
     },
   ],
+  tiers: [
+    {
+      name: "Launch",
+      price: "$499",
+      blurb: "A landing or simple site, designed and launched fast.",
+      cta: "Start a Launch site",
+      contactSubject: "Website Services — Launch ($499)",
+    },
+    {
+      name: "Growth",
+      price: "~$1,500",
+      blurb: "A multi-page site with a CMS, so you can edit it yourself.",
+      cta: "Start a Growth site",
+      contactSubject: "Website Services — Growth (~$1,500)",
+      featured: true,
+    },
+    {
+      name: "Custom",
+      price: "Let's talk",
+      blurb: "Anything bigger or bespoke — scoped to exactly what you need.",
+      cta: "Talk about Custom",
+      contactSubject: "Website Services — Custom (let's talk)",
+    },
+  ],
 };
 
 export const APP_SERVICE: Service = {
@@ -67,6 +111,30 @@ export const APP_SERVICE: Service = {
     {
       title: "Test",
       body: "We audit, QA, and harden your app — correctness, performance, and the regressions that bite after launch.",
+    },
+  ],
+  tiers: [
+    {
+      name: "MVP",
+      price: "$2,500",
+      blurb: "Validate the idea with a real, working build people can use.",
+      cta: "Start an MVP",
+      contactSubject: "App Services — MVP ($2,500)",
+    },
+    {
+      name: "Product",
+      price: "$10k+",
+      blurb: "The full product build — polished, scalable, and ready to grow.",
+      cta: "Start a Product build",
+      contactSubject: "App Services — Product ($10k+)",
+      featured: true,
+    },
+    {
+      name: "Custom",
+      price: "Let's talk",
+      blurb: "Bespoke scope — we scope and price it to fit exactly what you need.",
+      cta: "Talk about Custom",
+      contactSubject: "App Services — Custom (let's talk)",
     },
   ],
 };
