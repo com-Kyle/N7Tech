@@ -29,6 +29,9 @@ type Config struct {
 	// TrustedProxies is the CIDR allow-list for X-Forwarded-For. Defaults to
 	// loopback only. Set TRUSTED_PROXIES=cidr1,cidr2 to widen for prod LBs.
 	TrustedProxies []string
+	// ResendAPIKey enables lead-notification email via Resend. Optional — when
+	// empty the lead handler persists the row and skips the email silently.
+	ResendAPIKey string
 }
 
 const devSessionSecret = "dev-insecure-session-secret-change-me"
@@ -44,6 +47,7 @@ func Load() (*Config, error) {
 		SessionSecret:  os.Getenv("SESSION_SECRET"),
 		AppEnv:         envOr("APP_ENV", "development"),
 		TrustedProxies: splitCSV(envOr("TRUSTED_PROXIES", "127.0.0.1/32,::1/128")),
+		ResendAPIKey:   os.Getenv("RESEND_API_KEY"),
 	}
 
 	var missing []string

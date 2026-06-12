@@ -37,6 +37,7 @@ func AutoMigrate(g *gorm.DB) error {
 	return g.AutoMigrate(
 		&models.Product{},
 		&models.Setting{},
+		&models.Lead{},
 	)
 }
 
