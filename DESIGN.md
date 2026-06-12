@@ -19,7 +19,7 @@ metallic wordmark, and a single accent.
 | `--color-elevated` | `#333d52` | Higher-elevation panels |
 | `--color-border` | `#3b4559` | Subtle border, lighter than surface |
 | `--color-fg` | `#e8eaf0` | Near-white primary text |
-| `--color-muted` | `#94a3b8` | Muted secondary text (slate-400) |
+| `--color-muted` | `#a4afc2` | Muted secondary text (lifted slate — readable over the carbon weave) |
 | `--color-brand` | `#e11d27` | N7 red — CTAs, accents, status |
 | `--color-brand-strong` | `#ff2b35` | **Brighter** red for hover on dark |
 | `--color-brand-deep` | `#9e1119` | Gradient shadow end |
@@ -75,10 +75,10 @@ read on slate without becoming neon.
 
 ## Logo
 
-`public/brand/n7-technologies.jpg` (1320×1245) is a lockup on a near-black plate.
-On the charcoal page it would otherwise blend in, so it's wrapped in an
-intentional framed chip that's a hair lighter than the JPG plate, with a gentle
-top-light edge so it reads as a deliberate framed mark:
+`public/brand/n7-technologies.png` (1254×1254, square) is a lockup on a
+near-black plate. On the charcoal page it would otherwise blend in, so it's
+wrapped in an intentional framed chip that's a hair lighter than the PNG plate,
+with a gentle top-light edge so it reads as a deliberate framed mark:
 
 ```
 rounded-2xl bg-[#11151f] p-3 sm:p-4 shadow-lg ring-1 ring-white/10

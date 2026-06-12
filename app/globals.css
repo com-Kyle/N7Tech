@@ -8,7 +8,7 @@
   --color-elevated: #333d52; /* higher elevation panels */
   --color-border: #3b4559; /* subtle border, lighter than surface */
   --color-fg: #e8eaf0; /* near-white primary text */
-  --color-muted: #94a3b8; /* slate-400 muted text */
+  --color-muted: #a4afc2; /* lifted slate — readable over the carbon weave, still clearly secondary vs --color-fg */
 
   --color-brand: #e11d27; /* N7 red */
   --color-brand-strong: #ff2b35; /* brighter red for hover on dark */
@@ -81,35 +81,54 @@ a {
 }
 
 /* Carbon-fiber weave — a premium woven texture over the charcoal base.
-   Pure CSS twill: two sets of repeating diagonals at +45deg / -45deg, with a
-   faint light edge + a faint dark groove so the weave reads as fabric, not a
-   loud stripe. Barely-there light/dark variations of the charcoal (white/black
-   at low alpha) — never pure black/white — so all text stays fully readable.
-   The base stays on `--color-bg`; the gradients only add texture above it. */
+   Pure CSS twill: two sets of repeating diagonals at +45deg / -45deg on a fine
+   8px tile, with a bright highlight edge + a dark groove so the weave reads as
+   woven fabric. The -45deg weft is phase-offset by half a tile (background-
+   position) so the two diagonals INTERLACE into a twill diamond instead of a
+   flat crosshatch. A broad, viewport-fixed diagonal sheen sits on top so light
+   appears to catch the weave — the strongest "carbon fiber" cue. All deltas are
+   tiny vs the `#222a3a` base (white/black at low alpha, never pure) so muted
+   body copy (#a4afc2) stays fully readable. */
 .bg-carbon {
   background-color: var(--color-bg);
   background-image:
-    /* +45deg twill: highlight edge then dark groove (coarser, ~2.5x weave) */
+    /* sheen: a slow, broad diagonal highlight band, fixed to the viewport */
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.035) 100%
+    ),
+    /* +45deg twill: highlight edge then dark groove */
     repeating-linear-gradient(
       45deg,
-      rgba(255, 255, 255, 0.025) 0px,
-      rgba(255, 255, 255, 0.025) 2px,
-      rgba(0, 0, 0, 0.06) 2px,
-      rgba(0, 0, 0, 0.06) 7px,
-      transparent 7px,
-      transparent 15px
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      rgba(0, 0, 0, 0.09) 1px,
+      rgba(0, 0, 0, 0.09) 4px,
+      transparent 4px,
+      transparent 8px
     ),
-    /* -45deg twill: the interlocking weft */
+    /* -45deg weft: phase-offset (see background-position) so it interlaces */
     repeating-linear-gradient(
       -45deg,
-      rgba(255, 255, 255, 0.025) 0px,
-      rgba(255, 255, 255, 0.025) 2px,
-      rgba(0, 0, 0, 0.06) 2px,
-      rgba(0, 0, 0, 0.06) 7px,
-      transparent 7px,
-      transparent 15px
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      rgba(0, 0, 0, 0.09) 1px,
+      rgba(0, 0, 0, 0.09) 4px,
+      transparent 4px,
+      transparent 8px
     );
-  background-size: 15px 15px;
+  background-size:
+    100% 100%,
+    8px 8px,
+    8px 8px;
+  background-position:
+    0 0,
+    0 0,
+    4px 0;
+  background-attachment: fixed, scroll, scroll;
 }
 
 /* Slow, organic "breathing" pulse for the hero's red bloom — a calm

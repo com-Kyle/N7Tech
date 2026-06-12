@@ -83,7 +83,7 @@ export function PhoneFrame({
             src={src}
             alt={alt}
             fill
-            sizes="260px"
+            sizes="300px"
             className="object-cover object-top"
           />
         </div>
