@@ -15,7 +15,7 @@ const linkClass =
 export function SiteNav() {
   return (
     <header className="sticky top-0 z-40 border-b border-[#9e0006] bg-[#e00008]">
-      <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-6 sm:px-8 md:h-32">
+      <div className="mx-auto flex h-32 max-w-7xl items-center justify-between px-6 sm:px-8 md:h-40">
         {/* Brand lockup — the Neural Zenith (N7) chrome wordmark image, top-left.
             Sized to fill most of the bar height; w-auto preserves its ~2.25:1
             ratio so it reads big and wide. Bar height bumped to fit it. */}
@@ -30,7 +30,7 @@ export function SiteNav() {
             width={1881}
             height={836}
             priority
-            className="h-20 w-auto sm:h-24 md:h-28"
+            className="h-24 w-auto sm:h-28 md:h-36"
           />
         </Link>
         <nav className="flex items-center gap-7 text-xl font-extrabold text-black/85">
