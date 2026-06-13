@@ -80,6 +80,132 @@ a {
   box-shadow: 0 0 0 2px rgba(225, 29, 39, 0.14);
 }
 
+/* ============================================================================
+   Neural Zenith Technologies LLC — CSS wordmark lockup (replaces the PNG).
+   3-line chrome + red techno lockup (Chakra Petch) inside a notched red
+   "tech-frame" over a dark hex panel — echoes the brand banner art. Shared
+   verbatim with the n7-home-shell Worker (MENU_STYLES) so dev == prod.
+   --------------------------------------------------------------------------- */
+.nz-lockup {
+  --nz-notch: 9px;
+  zoom: 1.75; /* overall lockup scale — single knob for readability */
+  display: inline-flex;
+  padding: 2px; /* this is the red frame thickness */
+  background: linear-gradient(180deg, #ff343c 0%, #d20712 52%, #7e0c12 100%);
+  clip-path: polygon(
+    var(--nz-notch) 0,
+    calc(100% - var(--nz-notch)) 0,
+    100% var(--nz-notch),
+    100% calc(100% - var(--nz-notch)),
+    calc(100% - var(--nz-notch)) 100%,
+    var(--nz-notch) 100%,
+    0 calc(100% - var(--nz-notch)),
+    0 var(--nz-notch)
+  );
+  filter: drop-shadow(0 0 5px rgba(225, 29, 39, 0.5));
+}
+
+.nz-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  padding: 0.42rem 1.15rem 0.36rem;
+  background-color: #070709;
+  background-image: url("data:image/svg+xml,%3Csvg%20width='28'%20height='49'%20viewBox='0%200%2028%2049'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cg%20fill='none'%20fill-rule='evenodd'%3E%3Cg%20fill='%23e11d27'%20fill-opacity='0.07'%3E%3Cpath%20d='M13.99%209.25l13%207.5v15l-13%207.5L1%2024.75v-15l12.99-7.5zM3%2021.45v8.6l10.99%206.34%2011-6.35v-8.6l-11-6.34L3%2021.45zM0%2015l12.98-7.5V0h-2v6.35L0%2012.69v2.3zm0%2018.5L12.98%2041v8h-2v-6.85L0%2035.81v-2.3zM15%200v7.5L27.99%2015H28v-2.31h-.01L17%206.35V0h-2zm0%2049v-8l12.99-7.5H28v2.31h-.01L17%2042.95V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size: 28px 49px;
+  clip-path: polygon(
+    var(--nz-notch) 0,
+    calc(100% - var(--nz-notch)) 0,
+    100% var(--nz-notch),
+    100% calc(100% - var(--nz-notch)),
+    calc(100% - var(--nz-notch)) 100%,
+    var(--nz-notch) 100%,
+    0 calc(100% - var(--nz-notch)),
+    0 var(--nz-notch)
+  );
+}
+
+.nz-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+  font-family: var(--font-chakra), "Chakra Petch", "Rajdhani", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.nz-neural {
+  background: linear-gradient(180deg, #ffffff 0%, #e7e9ee 42%, #bcc0c8 70%, #fbfbfd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nz-zenith {
+  background: linear-gradient(180deg, #ff6168 0%, #e11d27 52%, #9e1119 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Red divider rule (formerly under LLC) — now sits between the ZENITH title
+   and the TECHNOLOGIES subline: red lines fading in toward a center dot. */
+.nz-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  align-self: stretch;
+  margin: 0.2rem 0 0.16rem;
+}
+
+.nz-rule {
+  flex: 1 1 auto;
+  height: 1px;
+}
+.nz-rule:first-child {
+  background: linear-gradient(90deg, transparent, #e11d27 90%);
+}
+.nz-rule:last-child {
+  background: linear-gradient(90deg, #e11d27 10%, transparent);
+}
+
+.nz-sub {
+  font-family: var(--font-chakra), "Chakra Petch", "Rajdhani", sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.46rem, 1vw, 0.6rem);
+  letter-spacing: 0.46em;
+  text-indent: 0.46em; /* balance the trailing letter-spacing so it stays centered */
+  background: linear-gradient(180deg, #f4f5f7, #c2c6cd);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.nz-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 9999px;
+  background: #e11d27;
+  box-shadow: 0 0 4px rgba(225, 29, 39, 0.85);
+}
+
+@media (max-width: 639px) {
+  .nz-lockup {
+    zoom: 1.3; /* gentler scale on phones so it clears the hamburger */
+  }
+  .nz-panel {
+    padding: 0.34rem 0.85rem 0.3rem;
+  }
+  .nz-title {
+    font-size: 1.05rem;
+  }
+}
+
 /* Carbon-fiber weave — a premium woven texture over the charcoal base.
    Pure CSS twill: two sets of repeating diagonals at +45deg / -45deg on a fine
    8px tile, with a bright highlight edge + a dark groove so the weave reads as
