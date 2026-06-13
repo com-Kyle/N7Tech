@@ -31,6 +31,9 @@ The shell also:
   OAuth identities for approved administrator addresses.
 - Reapplies the homepage cover after Next.js client navigation, browser
   Back/Forward, and cached page restoration.
+- Moves the Neural Zenith Technologies banner into the navigation header in
+  place of the former text-only `N7 Technologies` home link and removes the
+  separate banner strip above the header.
 - Pins the current red-and-black N7 Technologies profile/logo image at
   `/brand/n7-technologies.png` so upstream application deployments cannot
   replace the approved graphic.

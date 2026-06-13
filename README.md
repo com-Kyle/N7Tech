@@ -13,6 +13,23 @@ This repo holds two layers that ship together:
    that fronts both custom domains, adds branding/auth/admin, routes contact
    email, and proxies ContractorPod.
 
+## Current features
+
+- Responsive N7 homepage with persistent red network artwork and pinned
+  red-and-black branding assets.
+- Approved N7 banner logo positioned directly in the navigation header.
+- Desktop navigation and a mobile three-line menu for Products, Services,
+  About, and Contact.
+- ContractorPod available through
+  `https://www.n7technologies.org/contractorpod`.
+- Email/password accounts backed by Cloudflare D1.
+- Google and GitHub OAuth integration points.
+- One-hour, single-use password reset links with session revocation.
+- User profiles for homeowners and contractors.
+- Administrator dashboard with account status controls and activity records.
+- Email-verified administrator access for the approved founder Gmail accounts.
+- Contact aliases for `founder@`, `contact@`, and `help@` on the N7 domain.
+
 ## Repository layout
 
 ```text
