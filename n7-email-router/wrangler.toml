@@ -1,0 +1,5 @@
+name = "n7-founder-email-router"
+account_id = "796f4604308b2d8ad73e00330dff2782"
+main = "src/index.js"
+compatibility_date = "2026-06-12"
+workers_dev = false

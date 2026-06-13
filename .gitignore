@@ -1,0 +1,24 @@
+# This is a mixed local workspace. The N7Tech repository intentionally tracks
+# only the N7 production projects and deployment documentation.
+/*
+!/.gitignore
+!/N7_DEPLOYMENT.md
+!/.github/
+!/.github/**
+!/scripts/
+!/scripts/**
+!/n7-home-shell/
+!/n7-home-shell/**
+!/n7-email-router/
+!/n7-email-router/**
+!/n7technologies-recovered/
+!/n7technologies-recovered/**
+
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+.dev.vars
+.admin-invites.txt
+.wrangler/

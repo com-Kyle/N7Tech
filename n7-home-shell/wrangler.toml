@@ -1,0 +1,30 @@
+name = "n7technologies-shell"
+account_id = "796f4604308b2d8ad73e00330dff2782"
+main = "src/index.js"
+compatibility_date = "2026-06-12"
+workers_dev = true
+routes = [
+  { pattern = "n7technologies.org", custom_domain = true },
+  { pattern = "www.n7technologies.org", custom_domain = true }
+]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+
+[[services]]
+binding = "ORIGIN"
+service = "n7technologies"
+environment = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "n7-accounts"
+database_id = "50ed01d2-8b02-4955-87bf-c9a5a6fc6ce1"
+migrations_dir = "migrations"
+
+[[send_email]]
+name = "EMAIL"
+remote = true
+allowed_sender_addresses = ["accounts@n7technologies.org"]
