@@ -11,6 +11,7 @@ ContractorPod path proxy.
 
 - Responsive N7 homepage with persistent red network artwork and pinned
   red-and-black branding assets.
+- Approved N7 banner logo positioned directly in the navigation header.
 - Desktop navigation and a mobile three-line menu for Products, Services,
   About, and Contact.
 - ContractorPod available through

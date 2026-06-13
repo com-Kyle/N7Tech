@@ -2,6 +2,7 @@ import { authRoutes } from "./auth.js";
 
 const COVER_PATH = "/brand/n7-network-cover.webp";
 const PROFILE_IMAGE_PATH = "/brand/n7-technologies.png";
+const HEADER_LOGO_PATH = "/brand/neural-zenith-banner.png";
 const CONTRACTORPOD_PREFIX = "/contractorpod";
 const CONTRACTORPOD_ORIGIN = "https://contractorpod.deploypod.ai";
 const CONTRACTORPOD_CANONICAL_ORIGIN = "https://contractorpod.com";
@@ -220,6 +221,29 @@ const CONTRACTORPOD_CLIENT_BRIDGE = `
 `;
 
 const MENU_STYLES = `
+  .n7-header-logo {
+    display: flex;
+    width: clamp(10.5rem, 18vw, 14rem);
+    height: 4.25rem;
+    flex: 0 0 auto;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 0.4rem;
+    background: #050505;
+  }
+
+  .n7-header-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .n7-header-logo:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
   .n7-mobile-nav {
     display: none;
   }
@@ -305,6 +329,11 @@ const MENU_STYLES = `
   }
 
   @media (max-width: 639px) {
+    .n7-header-logo {
+      width: 9rem;
+      height: 3.5rem;
+    }
+
     .n7-mobile-nav {
       position: relative;
       display: block;
@@ -589,6 +618,23 @@ class SocialImageElement {
   }
 }
 
+class TopBrandBannerElement {
+  element(element) {
+    element.remove();
+  }
+}
+
+class HeaderBrandElement {
+  element(element) {
+    element.setAttribute("class", "n7-header-logo");
+    element.setAttribute("aria-label", "N7 Technologies home");
+    element.setInnerContent(
+      `<img data-n7-header-logo src="${HEADER_LOGO_PATH}" alt="N7 Technologies">`,
+      { html: true }
+    );
+  }
+}
+
 class FounderMailtoElement {
   element(element) {
     element.setAttribute("href", FOUNDER_MAILTO);
@@ -649,6 +695,7 @@ class SiteBodyElement {
           const contactEmails = ${JSON.stringify(CONTACT_EMAILS)};
           const founderPersonalEmails = ${JSON.stringify(FOUNDER_PERSONAL_EMAILS)};
           const mobileNavigationHtml = ${JSON.stringify(MOBILE_NAVIGATION_HTML)};
+          const headerLogoPath = ${JSON.stringify(HEADER_LOGO_PATH)};
           let accountState = null;
           let accountRequest = null;
 
@@ -678,6 +725,22 @@ class SiteBodyElement {
 
             if (isHomepage && homeContainer) {
               homeContainer.classList.add("n7-home-cover");
+            }
+          }
+
+          function syncHeaderBrand() {
+            document.querySelectorAll("body > div.w-full.bg-black").forEach(banner => {
+              if (banner.querySelector('img[src="' + headerLogoPath + '"]')) banner.remove();
+            });
+
+            const brand = document.querySelector('header > div > a[href="/"]');
+            if (!brand) return;
+
+            brand.className = "n7-header-logo";
+            brand.setAttribute("aria-label", "N7 Technologies home");
+            const image = brand.querySelector("img[data-n7-header-logo]");
+            if (!image || image.getAttribute("src") !== headerLogoPath || brand.children.length !== 1) {
+              brand.innerHTML = '<img data-n7-header-logo src="' + headerLogoPath + '" alt="N7 Technologies">';
             }
           }
 
@@ -815,6 +878,7 @@ class SiteBodyElement {
           }
 
           function syncShell() {
+            syncHeaderBrand();
             syncHomeCover();
             replaceContactEmails();
             replaceFounderPersonalEmails();
@@ -1080,7 +1144,7 @@ export default {
     const authResponse = await authRoutes(request, env);
     if (authResponse) return authResponse;
 
-    if (url.pathname === COVER_PATH || url.pathname === PROFILE_IMAGE_PATH) {
+    if ([COVER_PATH, PROFILE_IMAGE_PATH, HEADER_LOGO_PATH].includes(url.pathname)) {
       return env.ASSETS.fetch(request);
     }
 
@@ -1094,6 +1158,8 @@ export default {
     let rewriter = new HTMLRewriter()
       .on("head", new HeadElement(flags))
       .on("body", new SiteBodyElement())
+      .on("body > div.w-full.bg-black", new TopBrandBannerElement())
+      .on('header > div > a[href="/"]', new HeaderBrandElement())
       .on('footer a[href^="mailto:"]', new FounderMailtoElement());
 
     if (flags.homepage) {
