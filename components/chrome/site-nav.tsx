@@ -14,7 +14,7 @@ const linkClass =
 export function SiteNav() {
   return (
     <header className="sticky top-0 z-40 border-b border-[#9e0006] bg-[#e00008]">
-      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 sm:px-8">
+      <div className="mx-auto flex h-28 max-w-7xl items-center justify-between px-6 sm:h-36 sm:px-8">
         {/* Neural Zenith Technologies LLC — CSS wordmark lockup (.nz-* in
             globals.css), built from the brand banner art instead of a PNG.
             Mirrored verbatim in the n7-home-shell Worker so dev == prod. */}

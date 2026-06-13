@@ -248,6 +248,7 @@ const MENU_STYLES = `
      Next.js source (app/globals.css .nz-* block) so dev == prod. */
   .nz-lockup {
     --nz-notch: 9px;
+    zoom: 1.75;
     display: inline-flex;
     padding: 2px;
     background: linear-gradient(180deg, #ff343c 0%, #d20712 52%, #7e0c12 100%);
@@ -426,6 +427,10 @@ const MENU_STYLES = `
   }
 
   @media (max-width: 639px) {
+    .nz-lockup {
+      zoom: 1.3;
+    }
+
     .nz-panel {
       padding: 0.34rem 0.85rem 0.3rem;
     }
