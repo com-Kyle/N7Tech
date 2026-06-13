@@ -1,13 +1,19 @@
 # N7Tech
 
-Production infrastructure and compatibility layer for
-[n7technologies.org](https://www.n7technologies.org).
+The unified repository for [n7technologies.org](https://www.n7technologies.org) —
+both the editable application source and the production Cloudflare infrastructure.
 
-N7Tech runs on Cloudflare Workers and provides the public website shell,
-branding, account system, administrator panel, email routing, and the
-ContractorPod path proxy.
+This repo holds two layers that ship together:
 
-## Current Features
+1. **The Next.js application** (`app/`, `components/`, `lib/`, `backend/`) — the
+   marketing site + admin dashboard source, editable as normal React/TSX + a
+   Go API. Structure mirrors ContractorPod.
+2. **The Cloudflare Worker infrastructure** (`n7-home-shell/`,
+   `n7-email-router/`, `n7technologies-recovered/`) — the public Worker shell
+   that fronts both custom domains, adds branding/auth/admin, routes contact
+   email, and proxies ContractorPod.
+
+## Current features
 
 - Responsive N7 homepage with persistent red network artwork and pinned
   red-and-black branding assets.
@@ -24,111 +30,64 @@ ContractorPod path proxy.
 - Email-verified administrator access for the approved founder Gmail accounts.
 - Contact aliases for `founder@`, `contact@`, and `help@` on the N7 domain.
 
-## Repository Structure
+## Repository layout
 
 ```text
-n7-home-shell/              Public Worker, assets, authentication, and D1 schema
+app/                        Next.js App Router — (public) marketing + (admin) dashboard
+components/                 Shared React components (nav, footer, cards, forms)
+lib/                        Frontend data/util modules
+backend/                    Go 1.25 / Gin / GORM / Postgres API
+public/                     Static assets (brand, screenshots)
+
+n7-home-shell/              Public Worker: assets, authentication, admin, and D1 schema
 n7-email-router/            Inbound contact-email forwarding Worker
 n7technologies-recovered/   Reference snapshot of the recovered origin Worker
 scripts/deploy-n7.sh        GitHub-first guarded Cloudflare deployment
 N7_DEPLOYMENT.md            Detailed production deployment process
 ```
 
-The recovered Worker is retained for reference. Do not deploy it directly
+The recovered Worker is retained for reference only. Do not deploy it directly
 without its matching Cloudflare asset manifest.
 
-## Architecture
+## Run the Next.js app locally
 
-The `n7technologies-shell` Worker owns both public custom domains:
+### 1. Backend (needs Postgres)
 
-- `n7technologies.org`
-- `www.n7technologies.org`
+```sh
+cd backend
+cp .env.example .env          # adjust DATABASE_URL if needed
+docker compose up -d db       # or point DATABASE_URL at your own Postgres
+go mod tidy
+go run ./cmd/server           # listens on :8080, seeds demo products
+```
 
-It serves approved branding assets, handles account and administrator routes,
-proxies ContractorPod, and forwards remaining application requests to the
-`n7technologies` service binding.
+Health check: http://localhost:8080/healthz
+
+### 2. Frontend
+
+```sh
+npm install
+npm run dev                   # http://localhost:3000
+```
+
+The frontend reads the API at `NEXT_PUBLIC_API_BASE_URL` (default
+`http://localhost:8080`). With the backend down, pages still render with
+empty-state placeholders.
+
+## Production infrastructure
+
+The `n7-home-shell` Worker owns both public custom domains (`n7technologies.org`
+and `www.n7technologies.org`). It serves approved branding assets, handles
+account and administrator routes, proxies ContractorPod, and forwards remaining
+application requests to the `n7technologies` service binding.
 
 Cloudflare D1 stores user profiles, sessions, OAuth state, password reset
-tokens, administrator verification records, invitations, and audit logs.
+tokens, administrator verification records, invitations, and audit logs. The
+`n7-email-router` Worker forwards `founder@`, `contact@`, and `help@` to both
+verified founder inboxes through Cloudflare Email Routing.
 
-The `n7-founder-email-router` Worker forwards the three public contact aliases
-to both verified founder inboxes through Cloudflare Email Routing.
+See **`N7_DEPLOYMENT.md`** for the guarded, GitHub-first deployment process
+(`./scripts/deploy-n7.sh`).
 
-## Development
-
-Requirements:
-
-- Node.js
-- npm
-- Wrangler 4
-- GitHub CLI for repository operations
-- Authorized Cloudflare access to the N7 account
-
-Run the public Worker locally:
-
-```bash
-npx wrangler dev --config n7-home-shell/wrangler.toml
-```
-
-Validate JavaScript before committing:
-
-```bash
-node --check n7-home-shell/src/index.js
-node --check n7-home-shell/src/auth.js
-node --check n7-email-router/src/index.js
-```
-
-## Deployment
-
-GitHub is the source of record. Every update must be committed and pushed to
-the `main` branch before Cloudflare is changed.
-
-```bash
-git add .
-git commit -m "Describe the N7 update"
-git push origin main
-./scripts/deploy-n7.sh
-```
-
-The deployment script refuses to run when:
-
-- Tracked or untracked repository files are not committed.
-- The current branch has no GitHub upstream.
-- The local commit does not exactly match the pushed GitHub commit.
-
-It then applies D1 migrations, deploys the email router, and deploys the public
-shell. See [N7_DEPLOYMENT.md](N7_DEPLOYMENT.md) for the complete process.
-
-## Configuration
-
-OAuth login requires these Cloudflare Worker secrets:
-
-```text
-GOOGLE_CLIENT_ID
-GOOGLE_CLIENT_SECRET
-GITHUB_CLIENT_ID
-GITHUB_CLIENT_SECRET
-```
-
-Password reset and administrator verification messages use the Worker's
-Cloudflare Email binding and are sent from `accounts@n7technologies.org`.
-
-## Security
-
-Never commit:
-
-- OAuth client secrets or API tokens
-- Administrator activation links
-- `.dev.vars` or `.env` files
-- Wrangler local state
-- User exports or production database records
-
-The repository ignores these files. Private administrator activation links
-are stored outside Git in `.admin-invites.txt`.
-
-## Documentation
-
-- [Public shell and account system](n7-home-shell/README.md)
-- [Email routing Worker](n7-email-router/README.md)
-- [Production deployment process](N7_DEPLOYMENT.md)
-- [Recovered Worker notes](n7technologies-recovered/README.md)
+Private administrator activation links, OAuth credentials, local Wrangler state,
+and environment secrets must never be committed.

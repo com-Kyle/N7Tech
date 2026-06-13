@@ -1,0 +1,165 @@
+@import "tailwindcss";
+
+/* n7technologies brand tokens — soft-dark charcoal-slate / N7-red accent.
+   Dark-only (NOT pure black). */
+@theme {
+  --color-bg: #222a3a; /* soft charcoal page (a touch lighter) — NOT black */
+  --color-surface: #2b3447; /* elevated slate card — lifted so cards separate */
+  --color-elevated: #333d52; /* higher elevation panels */
+  --color-border: #3b4559; /* subtle border, lighter than surface */
+  --color-fg: #e8eaf0; /* near-white primary text */
+  --color-muted: #a4afc2; /* lifted slate — readable over the carbon weave, still clearly secondary vs --color-fg */
+
+  --color-brand: #e11d27; /* N7 red */
+  --color-brand-strong: #ff2b35; /* brighter red for hover on dark */
+  --color-brand-deep: #9e1119;
+  --color-brand-fg: #ffffff; /* text on red buttons */
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-display: var(--font-chakra), var(--font-inter), sans-serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(225, 29, 39, 0.32);
+  color: #fff;
+}
+
+/* Futuristic display face for headings + wordmark, echoing the logo lettering. */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Metallic chrome text — the "N7" wordmark, bright/silver on the dark bg. */
+.text-chrome {
+  background: linear-gradient(
+    177deg,
+    #ffffff 0%,
+    #e6e8ec 38%,
+    #c8cbd1 60%,
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Red rule with a center dot — mirrors the underline beneath the logo lockup. */
+.brand-rule {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-brand) 18%,
+    var(--color-brand) 82%,
+    transparent
+  );
+}
+.brand-rule::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px rgba(225, 29, 39, 0.14);
+}
+
+/* Carbon-fiber weave — a premium woven texture over the charcoal base.
+   Pure CSS twill: two sets of repeating diagonals at +45deg / -45deg on a fine
+   8px tile, with a bright highlight edge + a dark groove so the weave reads as
+   woven fabric. The -45deg weft is phase-offset by half a tile (background-
+   position) so the two diagonals INTERLACE into a twill diamond instead of a
+   flat crosshatch. A broad, viewport-fixed diagonal sheen sits on top so light
+   appears to catch the weave — the strongest "carbon fiber" cue. All deltas are
+   tiny vs the `#222a3a` base (white/black at low alpha, never pure) so muted
+   body copy (#a4afc2) stays fully readable. */
+.bg-carbon {
+  background-color: var(--color-bg);
+  background-image:
+    /* sheen: a slow, broad diagonal highlight band, fixed to the viewport */
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(255, 255, 255, 0.035) 100%
+    ),
+    /* +45deg twill: highlight edge then dark groove */
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      rgba(0, 0, 0, 0.09) 1px,
+      rgba(0, 0, 0, 0.09) 4px,
+      transparent 4px,
+      transparent 8px
+    ),
+    /* -45deg weft: phase-offset (see background-position) so it interlaces */
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      rgba(0, 0, 0, 0.09) 1px,
+      rgba(0, 0, 0, 0.09) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  background-size:
+    100% 100%,
+    8px 8px,
+    8px 8px;
+  background-position:
+    0 0,
+    0 0,
+    4px 0;
+  background-attachment: fixed, scroll, scroll;
+}
+
+/* Slow, organic "breathing" pulse for the hero's red bloom — a calm
+   inhale/exhale, not a flash. Gentle opacity + a hair of scale so it feels
+   alive without distracting. Applied to the decorative red radial via
+   `.hero-breathe` on top of its base Tailwind opacity. */
+@keyframes breathe {
+  0% {
+    opacity: 0.08;
+    transform: translateX(-50%) scale(0.94);
+  }
+  50% {
+    opacity: 0.3;
+    transform: translateX(-50%) scale(1.1);
+  }
+  100% {
+    opacity: 0.08;
+    transform: translateX(-50%) scale(0.94);
+  }
+}
+
+.hero-breathe {
+  animation: breathe 4.5s ease-in-out infinite;
+}
+
+/* Reduced-motion users get a static red glow at the mid-breath opacity — no
+   animation, no scale jitter. Standard guard for any infinite animation. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-breathe {
+    animation: none;
+    opacity: 0.19;
+    transform: translateX(-50%);
+  }
+}

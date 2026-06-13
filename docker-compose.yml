@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: n7technologies
+      POSTGRES_PASSWORD: n7technologies
+      POSTGRES_DB: n7technologies
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U n7technologies -d n7technologies"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://n7technologies:n7technologies@db:5432/n7technologies?sslmode=disable
+      PORT: "8080"
+      APP_ENV: development
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
