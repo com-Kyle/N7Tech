@@ -3,6 +3,17 @@ import { authRoutes } from "./auth.js";
 const COVER_PATH = "/brand/n7-network-cover.webp";
 const PROFILE_IMAGE_PATH = "/brand/n7-technologies.png";
 const HEADER_LOGO_PATH = "/brand/neural-zenith-banner.png";
+// Neural Zenith Technologies LLC — CSS wordmark lockup (replaces the PNG).
+// Kept identical to the Next.js source (components/chrome/site-nav.tsx) and the
+// .nz-* rules in MENU_STYLES so dev and prod render the same lockup.
+const NZ_LOCKUP_HTML =
+  '<span class="nz-lockup" aria-hidden="true">' +
+    '<span class="nz-panel">' +
+      '<span class="nz-title"><span class="nz-neural">NEURAL</span><span class="nz-zenith">ZENITH</span></span>' +
+      '<span class="nz-sub">TECHNOLOGIES</span>' +
+      '<span class="nz-llc"><span class="nz-llc-rule"></span><span class="nz-dot"></span>LLC<span class="nz-dot"></span><span class="nz-llc-rule"></span></span>' +
+    '</span>' +
+  '</span>';
 const CONTRACTORPOD_PREFIX = "/contractorpod";
 const CONTRACTORPOD_ORIGIN = "https://contractorpod.deploypod.ai";
 const CONTRACTORPOD_CANONICAL_ORIGIN = "https://contractorpod.com";
@@ -222,26 +233,116 @@ const CONTRACTORPOD_CLIENT_BRIDGE = `
 
 const MENU_STYLES = `
   .n7-header-logo {
-    display: flex;
-    width: clamp(10.5rem, 18vw, 14rem);
-    height: 4.25rem;
+    display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
-    overflow: hidden;
-    border-radius: 0.4rem;
-    background: #050505;
-  }
-
-  .n7-header-logo img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
   }
 
   .n7-header-logo:focus-visible {
     outline: 3px solid #fff;
     outline-offset: 3px;
+    border-radius: 0.4rem;
+  }
+
+  /* Neural Zenith Technologies LLC — CSS wordmark lockup. Kept identical to the
+     Next.js source (app/globals.css .nz-* block) so dev == prod. */
+  .nz-lockup {
+    --nz-notch: 9px;
+    display: inline-flex;
+    padding: 2px;
+    background: linear-gradient(180deg, #ff343c 0%, #d20712 52%, #7e0c12 100%);
+    clip-path: polygon(
+      var(--nz-notch) 0, calc(100% - var(--nz-notch)) 0, 100% var(--nz-notch),
+      100% calc(100% - var(--nz-notch)), calc(100% - var(--nz-notch)) 100%,
+      var(--nz-notch) 100%, 0 calc(100% - var(--nz-notch)), 0 var(--nz-notch)
+    );
+    filter: drop-shadow(0 0 5px rgba(225, 29, 39, 0.5));
+  }
+
+  .nz-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.05rem;
+    padding: 0.42rem 1.15rem 0.36rem;
+    background-color: #070709;
+    background-image: url("data:image/svg+xml,%3Csvg%20width='28'%20height='49'%20viewBox='0%200%2028%2049'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cg%20fill='none'%20fill-rule='evenodd'%3E%3Cg%20fill='%23e11d27'%20fill-opacity='0.07'%3E%3Cpath%20d='M13.99%209.25l13%207.5v15l-13%207.5L1%2024.75v-15l12.99-7.5zM3%2021.45v8.6l10.99%206.34%2011-6.35v-8.6l-11-6.34L3%2021.45zM0%2015l12.98-7.5V0h-2v6.35L0%2012.69v2.3zm0%2018.5L12.98%2041v8h-2v-6.85L0%2035.81v-2.3zM15%200v7.5L27.99%2015H28v-2.31h-.01L17%206.35V0h-2zm0%2049v-8l12.99-7.5H28v2.31h-.01L17%2042.95V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-size: 28px 49px;
+    clip-path: polygon(
+      var(--nz-notch) 0, calc(100% - var(--nz-notch)) 0, 100% var(--nz-notch),
+      100% calc(100% - var(--nz-notch)), calc(100% - var(--nz-notch)) 100%,
+      var(--nz-notch) 100%, 0 calc(100% - var(--nz-notch)), 0 var(--nz-notch)
+    );
+  }
+
+  .nz-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4em;
+    font-family: "Chakra Petch", var(--font-chakra), "Rajdhani", sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.05rem, 2.2vw, 1.45rem);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+
+  .nz-neural {
+    background: linear-gradient(180deg, #ffffff 0%, #e7e9ee 42%, #bcc0c8 70%, #fbfbfd 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nz-zenith {
+    background: linear-gradient(180deg, #ff6168 0%, #e11d27 52%, #9e1119 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nz-sub {
+    margin-top: 0.18rem;
+    font-family: "Chakra Petch", var(--font-chakra), "Rajdhani", sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.46rem, 1vw, 0.6rem);
+    letter-spacing: 0.46em;
+    text-indent: 0.46em;
+    background: linear-gradient(180deg, #f4f5f7, #c2c6cd);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nz-llc {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.12rem;
+    font-family: "Chakra Petch", var(--font-chakra), "Rajdhani", sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.4rem, 0.85vw, 0.5rem);
+    letter-spacing: 0.34em;
+    text-indent: 0.34em;
+    color: #ff3b43;
+  }
+
+  .nz-llc-rule {
+    width: clamp(1.1rem, 3vw, 2rem);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e11d27 85%);
+  }
+  .nz-llc-rule:last-child {
+    background: linear-gradient(90deg, #e11d27 15%, transparent);
+  }
+
+  .nz-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 9999px;
+    background: #e11d27;
+    box-shadow: 0 0 4px rgba(225, 29, 39, 0.85);
   }
 
   .n7-mobile-nav {
@@ -329,9 +430,12 @@ const MENU_STYLES = `
   }
 
   @media (max-width: 639px) {
-    .n7-header-logo {
-      width: 9rem;
-      height: 3.5rem;
+    .nz-panel {
+      padding: 0.34rem 0.85rem 0.3rem;
+    }
+
+    .nz-title {
+      font-size: 1.05rem;
     }
 
     .n7-mobile-nav {
@@ -595,13 +699,20 @@ const HOME_STYLES = `
 class HeadElement {
   element(element) {
     const preload = `<link rel="preload" as="image" href="${COVER_PATH}" fetchpriority="high">`;
+    // Chakra Petch powers the Neural Zenith wordmark lockup; load it as a named
+    // family so the injected lockup renders correctly even where the Next.js
+    // next/font variable isn't in scope.
+    const fontLink =
+      `<link rel="preconnect" href="https://fonts.googleapis.com">` +
+      `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>` +
+      `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap">`;
     const pageStyles = [
       MENU_STYLES,
       HOME_STYLES,
       CONTACT_STYLES
     ].join("\n");
 
-    element.append(`${preload}<style>${pageStyles}</style>`, { html: true });
+    element.append(`${preload}${fontLink}<style>${pageStyles}</style>`, { html: true });
   }
 }
 
@@ -627,11 +738,8 @@ class TopBrandBannerElement {
 class HeaderBrandElement {
   element(element) {
     element.setAttribute("class", "n7-header-logo");
-    element.setAttribute("aria-label", "N7 Technologies home");
-    element.setInnerContent(
-      `<img data-n7-header-logo src="${HEADER_LOGO_PATH}" alt="N7 Technologies">`,
-      { html: true }
-    );
+    element.setAttribute("aria-label", "Neural Zenith Technologies LLC — home");
+    element.setInnerContent(NZ_LOCKUP_HTML, { html: true });
   }
 }
 
@@ -696,6 +804,7 @@ class SiteBodyElement {
           const founderPersonalEmails = ${JSON.stringify(FOUNDER_PERSONAL_EMAILS)};
           const mobileNavigationHtml = ${JSON.stringify(MOBILE_NAVIGATION_HTML)};
           const headerLogoPath = ${JSON.stringify(HEADER_LOGO_PATH)};
+          const nzLockupHtml = ${JSON.stringify(NZ_LOCKUP_HTML)};
           let accountState = null;
           let accountRequest = null;
 
@@ -737,10 +846,9 @@ class SiteBodyElement {
             if (!brand) return;
 
             brand.className = "n7-header-logo";
-            brand.setAttribute("aria-label", "N7 Technologies home");
-            const image = brand.querySelector("img[data-n7-header-logo]");
-            if (!image || image.getAttribute("src") !== headerLogoPath || brand.children.length !== 1) {
-              brand.innerHTML = '<img data-n7-header-logo src="' + headerLogoPath + '" alt="N7 Technologies">';
+            brand.setAttribute("aria-label", "Neural Zenith Technologies LLC — home");
+            if (!brand.querySelector(".nz-lockup") || brand.children.length !== 1) {
+              brand.innerHTML = nzLockupHtml;
             }
           }
 

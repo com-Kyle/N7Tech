@@ -14,13 +14,30 @@ const linkClass =
 export function SiteNav() {
   return (
     <header className="sticky top-0 z-40 border-b border-[#9e0006] bg-[#e00008]">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8">
-        <Link href="/" className="group flex items-baseline gap-2">
-          <span className="font-display text-4xl font-extrabold tracking-wide text-black">
-            N7
-          </span>
-          <span className="font-display text-lg font-extrabold tracking-[0.28em] text-black/75 transition-colors group-hover:text-black">
-            TECHNOLOGIES
+      <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-6 sm:px-8">
+        {/* Neural Zenith Technologies LLC — CSS wordmark lockup (.nz-* in
+            globals.css), built from the brand banner art instead of a PNG.
+            Mirrored verbatim in the n7-home-shell Worker so dev == prod. */}
+        <Link
+          href="/"
+          aria-label="Neural Zenith Technologies LLC — home"
+          className="flex shrink-0 items-center"
+        >
+          <span className="nz-lockup" aria-hidden>
+            <span className="nz-panel">
+              <span className="nz-title">
+                <span className="nz-neural">NEURAL</span>
+                <span className="nz-zenith">ZENITH</span>
+              </span>
+              <span className="nz-sub">TECHNOLOGIES</span>
+              <span className="nz-llc">
+                <span className="nz-llc-rule" />
+                <span className="nz-dot" />
+                LLC
+                <span className="nz-dot" />
+                <span className="nz-llc-rule" />
+              </span>
+            </span>
           </span>
         </Link>
         <nav className="flex items-center gap-7 text-xl font-extrabold text-black/85">
