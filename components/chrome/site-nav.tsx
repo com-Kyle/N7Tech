@@ -29,14 +29,12 @@ export function SiteNav() {
                 <span className="nz-neural">NEURAL</span>
                 <span className="nz-zenith">ZENITH</span>
               </span>
-              <span className="nz-sub">TECHNOLOGIES</span>
-              <span className="nz-llc">
-                <span className="nz-llc-rule" />
+              <span className="nz-divider">
+                <span className="nz-rule" />
                 <span className="nz-dot" />
-                LLC
-                <span className="nz-dot" />
-                <span className="nz-llc-rule" />
+                <span className="nz-rule" />
               </span>
+              <span className="nz-sub">TECHNOLOGIES</span>
             </span>
           </span>
         </Link>

@@ -10,8 +10,8 @@ const NZ_LOCKUP_HTML =
   '<span class="nz-lockup" aria-hidden="true">' +
     '<span class="nz-panel">' +
       '<span class="nz-title"><span class="nz-neural">NEURAL</span><span class="nz-zenith">ZENITH</span></span>' +
+      '<span class="nz-divider"><span class="nz-rule"></span><span class="nz-dot"></span><span class="nz-rule"></span></span>' +
       '<span class="nz-sub">TECHNOLOGIES</span>' +
-      '<span class="nz-llc"><span class="nz-llc-rule"></span><span class="nz-dot"></span>LLC<span class="nz-dot"></span><span class="nz-llc-rule"></span></span>' +
     '</span>' +
   '</span>';
 const CONTRACTORPOD_PREFIX = "/contractorpod";
@@ -301,8 +301,27 @@ const MENU_STYLES = `
     color: transparent;
   }
 
+  .nz-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    align-self: stretch;
+    margin: 0.2rem 0 0.16rem;
+  }
+
+  .nz-rule {
+    flex: 1 1 auto;
+    height: 1px;
+  }
+  .nz-rule:first-child {
+    background: linear-gradient(90deg, transparent, #e11d27 90%);
+  }
+  .nz-rule:last-child {
+    background: linear-gradient(90deg, #e11d27 10%, transparent);
+  }
+
   .nz-sub {
-    margin-top: 0.18rem;
     font-family: "Chakra Petch", var(--font-chakra), "Rajdhani", sans-serif;
     font-weight: 600;
     font-size: clamp(0.46rem, 1vw, 0.6rem);
@@ -312,29 +331,6 @@ const MENU_STYLES = `
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-  }
-
-  .nz-llc {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    margin-top: 0.12rem;
-    font-family: "Chakra Petch", var(--font-chakra), "Rajdhani", sans-serif;
-    font-weight: 600;
-    font-size: clamp(0.4rem, 0.85vw, 0.5rem);
-    letter-spacing: 0.34em;
-    text-indent: 0.34em;
-    color: #ff3b43;
-  }
-
-  .nz-llc-rule {
-    width: clamp(1.1rem, 3vw, 2rem);
-    height: 1px;
-    background: linear-gradient(90deg, transparent, #e11d27 85%);
-  }
-  .nz-llc-rule:last-child {
-    background: linear-gradient(90deg, #e11d27 15%, transparent);
   }
 
   .nz-dot {
