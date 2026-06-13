@@ -2,6 +2,7 @@
 # only the N7 production projects and deployment documentation.
 /*
 !/.gitignore
+!/README.md
 !/N7_DEPLOYMENT.md
 !/.github/
 !/.github/**
