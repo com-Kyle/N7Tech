@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ServicesMenu } from "./services-menu";
+import { MobileNav } from "./mobile-nav";
 
 const LINKS = [
   { href: "/products", label: "Products" },
@@ -38,6 +39,9 @@ export function SiteNav() {
               {l.label}
             </Link>
           ))}
+
+          {/* Mobile hamburger — only renders below sm (own client island) */}
+          <MobileNav />
         </nav>
       </div>
     </header>
