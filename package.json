@@ -7,6 +7,10 @@
   },
   "scripts": {
     "dev": "next dev",
+    "dev:db": "wrangler d1 migrations apply n7-accounts --local --config n7-home-shell/wrangler.toml",
+    "dev:app": "next dev -p 3000",
+    "dev:shell": "wrangler dev --config n7-home-shell/wrangler.toml --port 3137 --var ORIGIN_URL:http://localhost:3000",
+    "dev:full": "concurrently -k -n app,shell -c blue,magenta \"npm:dev:app\" \"npm:dev:shell\"",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -27,6 +31,7 @@
     "@types/node": "24.12.3",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "concurrently": "^10.0.3",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
     "tailwindcss": "4.3.0",

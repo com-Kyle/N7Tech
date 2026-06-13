@@ -1241,6 +1241,22 @@ function pageFlags(request) {
   };
 }
 
+// Forward an app request to the Next.js origin. In production this is the
+// `ORIGIN` service binding (the deployed `n7technologies` Worker). For LOCAL
+// dev, set the `ORIGIN_URL` var (e.g. http://localhost:3000 running `next dev`)
+// so the shell can sit in front of a hot-reloading app and localhost renders
+// exactly like prod. Prod never sets ORIGIN_URL, so it always uses the binding.
+async function fetchOrigin(request, env) {
+  if (env.ORIGIN_URL) {
+    const target = new URL(request.url);
+    const base = new URL(env.ORIGIN_URL);
+    target.protocol = base.protocol;
+    target.host = base.host;
+    return fetch(new Request(target.toString(), request));
+  }
+  return env.ORIGIN.fetch(request);
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -1256,7 +1272,7 @@ export default {
       return env.ASSETS.fetch(request);
     }
 
-    const response = await normalizePublicResponse(await env.ORIGIN.fetch(request));
+    const response = await normalizePublicResponse(await fetchOrigin(request, env));
 
     if (!isHtmlResponse(request, response)) {
       return response;

@@ -74,6 +74,28 @@ The frontend reads the API at `NEXT_PUBLIC_API_BASE_URL` (default
 `http://localhost:8080`). With the backend down, pages still render with
 empty-state placeholders.
 
+> **Note:** `npm run dev` serves the **raw Next.js app only** — without the
+> `n7-home-shell` Worker that production runs in front. So the homepage cover
+> art, account/login routes, the ContractorPod proxy, and the header brand
+> lockup will **not** appear here. To preview what actually ships, use the
+> full stack below.
+
+### 3. Full production-like preview (Worker shell in front)
+
+Runs Kyle's `n7-home-shell` Worker in front of a hot-reloading `next dev`, so
+`localhost` renders **exactly like production** — cover background, login,
+accounts, and the Neural Zenith header lockup. The shell reaches the local app
+via the dev-only `ORIGIN_URL` var (prod uses the `ORIGIN` service binding).
+
+```sh
+npm run dev:db        # one-time: apply local D1 migrations for accounts/auth
+npm run dev:full      # next dev (:3000) + shell Worker (:3137) together
+```
+
+Open **http://localhost:3137** (the shell). Local accounts live in a local D1
+DB; `next dev`'s live-reload websocket doesn't tunnel through the Worker, so
+**refresh manually** after edits (the page content is fully up to date).
+
 ## Production infrastructure
 
 The `n7-home-shell` Worker owns both public custom domains (`n7technologies.org`
