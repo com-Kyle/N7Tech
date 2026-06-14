@@ -22,6 +22,7 @@ if [[ "$(git rev-parse HEAD)" != "$(git rev-parse "$UPSTREAM")" ]]; then
 fi
 
 echo "GitHub is current at $(git rev-parse --short HEAD)."
+DEPLOY_STAMP=$(TZ=America/New_York date "+N7KP | %Y-%m-%d %H:%M:%S EST | Git $(git rev-parse --short HEAD)")
 npx wrangler d1 migrations apply n7-accounts --remote --config n7-home-shell/wrangler.toml
-npx wrangler deploy --config n7-email-router/wrangler.toml
-npx wrangler deploy --config n7-home-shell/wrangler.toml
+npx wrangler deploy --config n7-email-router/wrangler.toml --message "$DEPLOY_STAMP"
+npx wrangler deploy --config n7-home-shell/wrangler.toml --message "$DEPLOY_STAMP"

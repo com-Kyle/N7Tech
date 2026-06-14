@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MESSAGE_FILE=$1
+
+if head -n 1 "$MESSAGE_FILE" | grep -q '^N7KP | '; then
+  exit 0
+fi
+
+STAMP=$(TZ=America/New_York date '+N7KP | %Y-%m-%d %H:%M:%S EST')
+TEMP_FILE="${MESSAGE_FILE}.n7kp"
+
+{
+  printf '%s | ' "$STAMP"
+  cat "$MESSAGE_FILE"
+} > "$TEMP_FILE"
+
+mv "$TEMP_FILE" "$MESSAGE_FILE"

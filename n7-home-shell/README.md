@@ -6,7 +6,11 @@ Cloudflare Worker that places the N7 red network cover artwork behind the
 The shell also:
 
 - Gives Products, Services, About, and Contact the same prominent black button
-  treatment, with a larger high-contrast Services dropdown.
+  treatment, applies that same treatment to Login/Account, and includes a
+  larger high-contrast Services dropdown.
+- Uses full document navigation for same-site links so the transformed shell
+  loads every destination correctly on the first click instead of entering a
+  broken Next.js client-router state.
 - Adds a mobile-only three-line menu for Products, Services, About, and Contact
   without altering the desktop navigation.
 - Publishes the complete ContractorPod application at

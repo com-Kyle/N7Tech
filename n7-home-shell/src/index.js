@@ -360,7 +360,8 @@ const MENU_STYLES = `
   header button[aria-haspopup="menu"],
   header nav > a[href="/products"],
   header nav > a[href="/about"],
-  header nav > a[href="/contact"] {
+  header nav > a[href="/contact"],
+  .n7-desktop-account-link {
     border: 2px solid #050505;
     border-radius: 0.7rem;
     background: linear-gradient(180deg, #191919, #050505);
@@ -377,7 +378,9 @@ const MENU_STYLES = `
   header nav > a[href="/contact"]:hover,
   header nav > a[href="/products"]:focus-visible,
   header nav > a[href="/about"]:focus-visible,
-  header nav > a[href="/contact"]:focus-visible {
+  header nav > a[href="/contact"]:focus-visible,
+  .n7-desktop-account-link:hover,
+  .n7-desktop-account-link:focus-visible {
     border-color: #fff;
     background: #050505;
     color: #fff !important;
@@ -583,22 +586,9 @@ const MENU_STYLES = `
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid #e00008;
-      border-radius: 0.7rem;
-      background: #e00008;
-      color: #fff !important;
-      padding: 0.65rem 1rem;
+      font-size: 1.25rem;
       font-weight: 800;
-      line-height: 1.25;
       text-decoration: none;
-      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.28);
-    }
-
-    .n7-desktop-account-link:hover,
-    .n7-desktop-account-link:focus-visible {
-      border-color: #fff;
-      background: #050505;
-      outline: none;
     }
   }
 `;
@@ -819,6 +809,7 @@ class SiteBodyElement {
           const nzLockupHtml = ${JSON.stringify(NZ_LOCKUP_HTML)};
           let accountState = null;
           let accountRequest = null;
+          let documentNavigationReady = false;
 
           function mailtoUrl(contact) {
             return "mailto:" + contact.email + "?subject=" + encodeURIComponent(contact.subject);
@@ -971,6 +962,29 @@ class SiteBodyElement {
             root.dataset.initialized = "true";
           }
 
+          function setupDocumentNavigation() {
+            if (documentNavigationReady) return;
+
+            document.addEventListener("click", event => {
+              if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+              const link = event.target.closest?.("a[href]");
+              if (!link || link.target === "_blank" || link.hasAttribute("download")) return;
+
+              const href = link.getAttribute("href") || "";
+              if (!href || href.startsWith("#") || /^(?:mailto:|tel:|javascript:|data:|blob:)/i.test(href)) return;
+
+              const destination = new URL(link.href, window.location.href);
+              if (destination.origin !== window.location.origin) return;
+              if (destination.pathname === window.location.pathname && destination.search === window.location.search && destination.hash) return;
+
+              event.preventDefault();
+              event.stopImmediatePropagation();
+              window.location.assign(destination.href);
+            }, true);
+
+            documentNavigationReady = true;
+          }
+
           async function syncAccountLinks() {
             const applyState = () => {
               document.querySelectorAll(".n7-account-link").forEach(link => {
@@ -1002,6 +1016,7 @@ class SiteBodyElement {
             syncHomeCover();
             replaceContactEmails();
             replaceFounderPersonalEmails();
+            setupDocumentNavigation();
             setupMobileMenu();
             syncAccountLinks();
           }

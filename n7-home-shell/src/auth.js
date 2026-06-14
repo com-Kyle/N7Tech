@@ -4,6 +4,7 @@ const SESSION_DAYS = 30;
 const PASSWORD_ITERATIONS = 100000;
 const PASSWORD_RESET_MINUTES = 60;
 const PASSWORD_RESET_FROM = "accounts@n7technologies.org";
+const OAUTH_ORIGIN = "https://www.n7technologies.org";
 const ADMIN_VERIFICATION_HOURS = 24;
 const SELF_SIGNUP_ADMIN_EMAILS = new Set([
   "n7kpierce@gmail.com",
@@ -736,7 +737,7 @@ async function startOauth(request, env, provider) {
   if (!config) return redirect(`/login?error=${encodeURIComponent(`${provider === "google" ? "Gmail" : "GitHub"} login is awaiting OAuth credentials.`)}`);
   const url = new URL(request.url);
   const state = randomToken();
-  const redirectUri = `${url.origin}/api/auth/oauth/${provider}/callback`;
+  const redirectUri = `${OAUTH_ORIGIN}/api/auth/oauth/${provider}/callback`;
   await env.DB.prepare(`INSERT INTO oauth_states (state_hash, provider, return_to, created_at, expires_at) VALUES (?, ?, ?, ?, ?)`)
     .bind(await sha256(state), provider, safeReturnTo(url.searchParams.get("returnTo")), nowIso(), futureIso(10 * 60000)).run();
 
@@ -800,7 +801,7 @@ async function finishOauth(request, env, provider) {
   if (!state) return redirect("/login?error=OAuth%20session%20expired.%20Please%20try%20again.");
   const config = oauthConfig(env, provider);
   if (!config) return redirect("/login?error=OAuth%20is%20not%20configured.");
-  const identity = await oauthIdentity(provider, config, code, `${url.origin}/api/auth/oauth/${provider}/callback`);
+  const identity = await oauthIdentity(provider, config, code, `${OAUTH_ORIGIN}/api/auth/oauth/${provider}/callback`);
   if (!identity) return redirect("/login?error=Unable%20to%20verify%20that%20social%20account.");
 
   const email = normalizeEmail(identity.email);

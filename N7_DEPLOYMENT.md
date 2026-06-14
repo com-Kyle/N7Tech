@@ -3,6 +3,10 @@
 The GitHub repository at `https://github.com/com-Kyle/N7Tech` is the source of
 record for N7 production changes.
 
+Run `./scripts/setup-git.sh` once after cloning. It configures the repository to
+stamp commit subjects with `N7KP`, the Eastern date, and the Eastern time.
+Cloudflare deployment messages receive the same stamp automatically.
+
 ## Required Order
 
 1. Make and test changes locally.

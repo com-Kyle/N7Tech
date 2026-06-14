@@ -111,5 +111,97 @@ verified founder inboxes through Cloudflare Email Routing.
 See **`N7_DEPLOYMENT.md`** for the guarded, GitHub-first deployment process
 (`./scripts/deploy-n7.sh`).
 
-Private administrator activation links, OAuth credentials, local Wrangler state,
-and environment secrets must never be committed.
+## Development
+
+Requirements:
+
+- Node.js
+- npm
+- Wrangler 4
+- GitHub CLI for repository operations
+- Authorized Cloudflare access to the N7 account
+
+Run the public Worker locally:
+
+```bash
+npx wrangler dev --config n7-home-shell/wrangler.toml
+```
+
+Validate JavaScript before committing:
+
+```bash
+node --check n7-home-shell/src/index.js
+node --check n7-home-shell/src/auth.js
+node --check n7-email-router/src/index.js
+```
+
+## Deployment
+
+GitHub is the source of record. Every update must be committed and pushed to
+the `main` branch before Cloudflare is changed.
+
+Enable repository commit stamping once per clone:
+
+```bash
+./scripts/setup-git.sh
+```
+
+Commit subjects and Cloudflare deployment messages are automatically prefixed
+with `N7KP` and the requested Eastern date/time stamp.
+
+```bash
+git add .
+git commit -m "Describe the N7 update"
+git push origin main
+./scripts/deploy-n7.sh
+```
+
+The deployment script refuses to run when:
+
+- Tracked or untracked repository files are not committed.
+- The current branch has no GitHub upstream.
+- The local commit does not exactly match the pushed GitHub commit.
+
+It then applies D1 migrations, deploys the email router, and deploys the public
+shell. See [N7_DEPLOYMENT.md](N7_DEPLOYMENT.md) for the complete process.
+
+## Configuration
+
+OAuth login requires these Cloudflare Worker secrets:
+
+```text
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+GITHUB_CLIENT_ID
+GITHUB_CLIENT_SECRET
+```
+
+Password reset and administrator verification messages use the Worker's
+Cloudflare Email binding and are sent from `accounts@n7technologies.org`.
+
+Google and GitHub OAuth applications must use these canonical callback URLs:
+
+```text
+https://www.n7technologies.org/api/auth/oauth/google/callback
+https://www.n7technologies.org/api/auth/oauth/github/callback
+```
+
+## Security
+
+Never commit:
+
+- OAuth client secrets or API tokens
+- Administrator activation links
+- `.dev.vars` or `.env` files
+- Wrangler local state
+- User exports or production database records
+
+The repository ignores these files. Private administrator activation links
+are stored outside Git in `.admin-invites.txt`.
+
+## Documentation
+
+- [Public shell and account system](n7-home-shell/README.md)
+- [Email routing Worker](n7-email-router/README.md)
+- [Production deployment process](N7_DEPLOYMENT.md)
+- [Recovered Worker notes](n7technologies-recovered/README.md)
