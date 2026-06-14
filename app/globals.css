@@ -206,86 +206,50 @@ a {
   }
 }
 
-/* Carbon-fiber weave — a premium woven texture over the charcoal base.
-   Pure CSS twill: two sets of repeating diagonals at +45deg / -45deg on a fine
-   8px tile, with a bright highlight edge + a dark groove so the weave reads as
-   woven fabric. The -45deg weft is phase-offset by half a tile (background-
-   position) so the two diagonals INTERLACE into a twill diamond instead of a
-   flat crosshatch. A broad, viewport-fixed diagonal sheen sits on top so light
-   appears to catch the weave — the strongest "carbon fiber" cue. All deltas are
-   tiny vs the `#222a3a` base (white/black at low alpha, never pure) so muted
-   body copy (#a4afc2) stays fully readable. */
+/* Home-page technical backdrop. Large, low-contrast grid lines give the page
+   structure without creating a repeating icon or competing with the content.
+   Two restrained red light fields carry the brand color through the canvas. */
 .bg-carbon {
   background-color: var(--color-bg);
   background-image:
-    /* sheen: a slow, broad diagonal highlight band, fixed to the viewport */
+    radial-gradient(
+      ellipse 70% 36% at 50% -8%,
+      rgba(225, 29, 39, 0.18),
+      rgba(225, 29, 39, 0.04) 48%,
+      transparent 74%
+    ),
+    radial-gradient(
+      circle at 92% 52%,
+      rgba(158, 17, 25, 0.09),
+      transparent 28%
+    ),
     linear-gradient(
-      125deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 30%,
-      transparent 70%,
-      rgba(255, 255, 255, 0.035) 100%
+      rgba(255, 255, 255, 0.026) 1px,
+      transparent 1px
     ),
-    /* +45deg twill: highlight edge then dark groove */
-    repeating-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.05) 0px,
-      rgba(255, 255, 255, 0.05) 1px,
-      rgba(0, 0, 0, 0.09) 1px,
-      rgba(0, 0, 0, 0.09) 4px,
-      transparent 4px,
-      transparent 8px
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.026) 1px,
+      transparent 1px
     ),
-    /* -45deg weft: phase-offset (see background-position) so it interlaces */
-    repeating-linear-gradient(
-      -45deg,
-      rgba(255, 255, 255, 0.05) 0px,
-      rgba(255, 255, 255, 0.05) 1px,
-      rgba(0, 0, 0, 0.09) 1px,
-      rgba(0, 0, 0, 0.09) 4px,
-      transparent 4px,
-      transparent 8px
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.018),
+      transparent 34%,
+      transparent 68%,
+      rgba(0, 0, 0, 0.1)
     );
   background-size:
     100% 100%,
-    8px 8px,
-    8px 8px;
+    100% 100%,
+    72px 72px,
+    72px 72px,
+    100% 100%;
   background-position:
     0 0,
     0 0,
-    4px 0;
-  background-attachment: fixed, scroll, scroll;
-}
-
-/* Slow, organic "breathing" pulse for the hero's red bloom — a calm
-   inhale/exhale, not a flash. Gentle opacity + a hair of scale so it feels
-   alive without distracting. Applied to the decorative red radial via
-   `.hero-breathe` on top of its base Tailwind opacity. */
-@keyframes breathe {
-  0% {
-    opacity: 0.08;
-    transform: translateX(-50%) scale(0.94);
-  }
-  50% {
-    opacity: 0.3;
-    transform: translateX(-50%) scale(1.1);
-  }
-  100% {
-    opacity: 0.08;
-    transform: translateX(-50%) scale(0.94);
-  }
-}
-
-.hero-breathe {
-  animation: breathe 4.5s ease-in-out infinite;
-}
-
-/* Reduced-motion users get a static red glow at the mid-breath opacity — no
-   animation, no scale jitter. Standard guard for any infinite animation. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-breathe {
-    animation: none;
-    opacity: 0.19;
-    transform: translateX(-50%);
-  }
+    center top,
+    center top,
+    0 0;
+  background-attachment: fixed, fixed, scroll, scroll, fixed;
 }

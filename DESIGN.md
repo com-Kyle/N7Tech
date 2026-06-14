@@ -19,7 +19,7 @@ metallic wordmark, and a single accent.
 | `--color-elevated` | `#333d52` | Higher-elevation panels |
 | `--color-border` | `#3b4559` | Subtle border, lighter than surface |
 | `--color-fg` | `#e8eaf0` | Near-white primary text |
-| `--color-muted` | `#a4afc2` | Muted secondary text (lifted slate — readable over the carbon weave) |
+| `--color-muted` | `#a4afc2` | Muted secondary text (lifted slate, readable over the technical backdrop) |
 | `--color-brand` | `#e11d27` | N7 red — CTAs, accents, status |
 | `--color-brand-strong` | `#ff2b35` | **Brighter** red for hover on dark |
 | `--color-brand-deep` | `#9e1119` | Gradient shadow end |
@@ -27,6 +27,10 @@ metallic wordmark, and a single accent.
 
 Red is an accent, not a flood — keep one red focal element per view (a CTA, a
 status dot, the brand rule, the hero bloom).
+
+The home page backdrop uses a low-contrast 72px architectural grid over soft
+charcoal, with broad red ambient light fields. Avoid small repeating geometric
+tiles; they read as decorative symbols and compete with the content.
 
 Contrast: `#e8eaf0` on `#222a3a` is strong for primary text; reserve `#94a3b8`
 (muted) for secondary copy only.
@@ -67,9 +71,9 @@ read on slate without becoming neon.
   bright on the charcoal bg.
 - **Brand rule** (`.brand-rule`) — red hairline with a tight center dot
   (`0 0 0 2px rgba(225,29,39,0.14)` ring). Reads well on charcoal.
-- **Hero bloom** — a subtle red radial (`opacity-[0.14]`, `blur-[120px]`) at the
-  top of each marketing page (home, about, products) for cross-page consistency.
-  A tasteful bloom on dark — NOT the old 0.30 neon. Card CTA washes sit ~0.16.
+- **Hero bloom** — inner marketing pages use a subtle red radial
+  (`opacity-[0.14]`, `blur-[120px]`). The home page does not add a separate hero
+  bloom because its single technical backdrop already includes ambient red.
 - **Button hover** — primary red buttons shift to `--color-brand-strong`
   (`#ff2b35`, **brighter**) on hover — hover brightens on dark, never darkens.
 

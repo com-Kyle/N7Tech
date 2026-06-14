@@ -63,11 +63,6 @@ export default function HomePage() {
     <div className="bg-carbon">
       {/* --- HERO --- */}
       <section className="relative overflow-hidden">
-        <div
-          aria-hidden
-          className="hero-breathe pointer-events-none absolute left-1/2 top-24 h-[420px] w-[min(620px,90vw)] rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
-        />
         <div className="relative mx-auto flex max-w-[90rem] flex-col items-center gap-10 px-4 pb-16 pt-16 sm:px-6 md:flex-row md:gap-14 lg:gap-20">
           {/* Logo chip — left of the headline */}
           <div className="shrink-0 rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
@@ -81,8 +76,8 @@ export default function HomePage() {
             />
           </div>
 
-          {/* Headline + subhead + CTAs — on a surface panel so text never sits
-              directly on the carbon weave. Balances the logo chip beside it. */}
+          {/* Headline + subhead + CTAs — on a surface panel so text stays
+              crisp over the technical backdrop. Balances the logo chip. */}
           <div className="flex flex-col items-center rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-8 text-center shadow-sm ring-1 ring-white/5 sm:p-10 md:items-start md:text-left">
             {/* Proof chip — ContractorPod is live, the studio's strongest
                 credibility signal. Lime dot is ContractorPod's own accent. */}
