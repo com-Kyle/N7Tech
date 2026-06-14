@@ -88,7 +88,7 @@ a {
    --------------------------------------------------------------------------- */
 .nz-lockup {
   --nz-notch: 9px;
-  zoom: 1.75; /* overall lockup scale — single knob for readability */
+  zoom: 1.45; /* overall lockup scale — single knob for readability */
   display: inline-flex;
   padding: 2px; /* this is the red frame thickness */
   background: linear-gradient(180deg, #ff343c 0%, #d20712 52%, #7e0c12 100%);
@@ -196,7 +196,7 @@ a {
 
 @media (max-width: 639px) {
   .nz-lockup {
-    zoom: 1.3; /* gentler scale on phones so it clears the hamburger */
+    zoom: 1.25; /* gentler scale on phones so it clears the hamburger */
   }
   .nz-panel {
     padding: 0.34rem 0.85rem 0.3rem;
