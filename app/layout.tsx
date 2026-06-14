@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     // ASSET-TODO: replace with a real 1200×630 og-default.png export. Using the
     // valid (square) logo for now — cropped previews are acceptable, a
     // malformed image file is not.
-    images: ["/brand/n7-technologies.png"],
+    images: ["/brand/neural-zenith-logo.png"],
   },
   twitter: {
     card: "summary_large_image",
     title: "N7 Technologies",
     description: "Building the next generation of software.",
     // ASSET-TODO: replace with a real 1200×630 og-default.png export.
-    images: ["/brand/n7-technologies.png"],
+    images: ["/brand/neural-zenith-logo.png"],
   },
 };
 
@@ -58,7 +58,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "N7 Technologies",
   url: "https://www.n7technologies.org",
-  logo: "https://www.n7technologies.org/brand/n7-technologies.png",
+  logo: "https://www.n7technologies.org/brand/neural-zenith-logo.png",
 };
 
 export default function RootLayout({

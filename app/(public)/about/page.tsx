@@ -80,8 +80,8 @@ export default function AboutPage() {
         <div className="relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-20 text-center sm:px-8">
           <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
-              src="/brand/n7-technologies.png"
-              alt="N7 Technologies"
+              src="/brand/neural-zenith-logo.png"
+              alt="Neural Zenith Technologies"
               width={1254}
               height={1254}
               priority

@@ -67,8 +67,8 @@ export default function HomePage() {
           {/* Logo chip — left of the headline */}
           <div className="shrink-0 rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
             <Image
-              src="/brand/n7-technologies.png"
-              alt="N7 Technologies"
+              src="/brand/neural-zenith-logo.png"
+              alt="Neural Zenith Technologies"
               width={1254}
               height={1254}
               priority
