@@ -13,17 +13,34 @@ Cloudflare deployment messages receive the same stamp automatically.
 2. Commit the complete change to Git.
 3. Push the commit to the `main` branch on GitHub.
 4. Deploy to Cloudflare only after GitHub contains that exact commit.
-5. Verify both `n7technologies.org` and `www.n7technologies.org` after deploy.
 
-Use the guarded deployment script from the repository root:
+There is exactly **one** deploy command. You never have to know which Worker
+your change touched — run this for every prod change, from the repo root:
 
 ```bash
-./scripts/deploy-n7.sh
+npm run deploy        # equivalent: ./scripts/deploy-n7.sh
 ```
 
-The script stops if tracked files are modified, the branch has no GitHub
-upstream, or local commits have not been pushed. It then applies pending D1
-migrations, deploys the email router, and deploys the public N7 shell.
+It is guarded (stops if tracked files are modified, the branch has no GitHub
+upstream, or local commits are unpushed), then does everything in the one
+correct order:
+
+1. applies pending remote D1 migrations,
+2. builds + deploys the **app** Worker (`n7technologies`),
+3. deploys the **email router**,
+4. deploys the **shell** Worker (`n7technologies-shell`) **last** — so it
+   reclaims the `www` + apex custom domain and fronts the app,
+5. verifies `https://www.n7technologies.org/login` returns `200` and fails
+   loudly if not (a `404` means the shell got bypassed).
+
+Order is load-bearing: the shell must deploy after the app, or the app keeps the
+custom domain and login/auth silently disappear (the 2026-06-14 incident). The
+app Worker is private (`workers_dev:false`, no routes) and is reached only via
+the shell's `ORIGIN` service binding — never re-add custom-domain routes to its
+`wrangler.jsonc`.
+
+Escape hatches (rarely needed): `npm run deploy:app` (app only),
+`npm run deploy:shell` (shell only).
 
 ## Production Components
 

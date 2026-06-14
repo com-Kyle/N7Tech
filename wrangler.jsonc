@@ -4,6 +4,11 @@
   "name": "n7technologies",
   "compatibility_date": "2026-06-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  // This app is private — reachable ONLY via the shell Worker's `ORIGIN` service
+  // binding, never a public URL. Disabling workers.dev + preview URLs keeps the
+  // public domain solely on the shell (see the routes note below).
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
