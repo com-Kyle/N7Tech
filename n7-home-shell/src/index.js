@@ -654,53 +654,13 @@ const CONTACT_STYLES = `
   }
 `;
 
-const HOME_STYLES = `
-  .n7-home-cover {
-    position: relative;
-    isolation: isolate;
-    background-color: #030305;
-    background-image:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(3, 3, 5, 0.8) 50rem, #05060a 80rem),
-      url("${COVER_PATH}");
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: min(1983px, 100vw) auto;
-    background-attachment: fixed;
-  }
-
-  .n7-home-cover > section:first-child {
-    min-height: min(820px, calc(100vh - 5rem));
-    display: flex;
-    align-items: center;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(3, 3, 5, 0.72));
-  }
-
-  .n7-home-cover > section:first-child > div:last-child > div {
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .n7-home-cover > section:not(:first-child) {
-    background: rgba(5, 6, 10, 0.9);
-    box-shadow: 0 -24px 50px rgba(0, 0, 0, 0.35);
-  }
-
-  @media (max-width: 767px) {
-    .n7-home-cover {
-      background-position: 38% top;
-      background-size: auto 610px;
-      background-attachment: scroll;
-    }
-
-    .n7-home-cover > section:first-child {
-      min-height: auto;
-    }
-  }
-`;
+// NOTE: the homepage backdrop is now owned entirely by the Next.js app
+// (.bg-carbon in app/globals.css — the grid-horizon background). The shell used
+// to inject a competing .n7-home-cover cover image here; that was removed
+// 2026-06-14 because it layered on top of the app background and clashed.
 
 class HeadElement {
   element(element) {
-    const preload = `<link rel="preload" as="image" href="${COVER_PATH}" fetchpriority="high">`;
     // Chakra Petch powers the Neural Zenith wordmark lockup; load it as a named
     // family so the injected lockup renders correctly even where the Next.js
     // next/font variable isn't in scope.
@@ -710,24 +670,10 @@ class HeadElement {
       `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap">`;
     const pageStyles = [
       MENU_STYLES,
-      HOME_STYLES,
       CONTACT_STYLES
     ].join("\n");
 
-    element.append(`${preload}${fontLink}<style>${pageStyles}</style>`, { html: true });
-  }
-}
-
-class HomeContainerElement {
-  element(element) {
-    const classes = element.getAttribute("class") || "";
-    element.setAttribute("class", `${classes} n7-home-cover`.trim());
-  }
-}
-
-class SocialImageElement {
-  element(element) {
-    element.setAttribute("content", `https://www.n7technologies.org${COVER_PATH}`);
+    element.append(`${fontLink}<style>${pageStyles}</style>`, { html: true });
   }
 }
 
@@ -838,21 +784,6 @@ class SiteBodyElement {
                 '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>' +
               '</a>'
             ).join("");
-          }
-
-          function syncHomeCover() {
-            const homeContainer = document.querySelector("main > div.bg-carbon");
-            const isHomepage = window.location.pathname === "/";
-
-            document.querySelectorAll(".n7-home-cover").forEach(element => {
-              if (!isHomepage || element !== homeContainer) {
-                element.classList.remove("n7-home-cover");
-              }
-            });
-
-            if (isHomepage && homeContainer) {
-              homeContainer.classList.add("n7-home-cover");
-            }
           }
 
           function syncHeaderBrand() {
@@ -1044,7 +975,6 @@ class SiteBodyElement {
 
           function syncShell() {
             syncHeaderBrand();
-            syncHomeCover();
             replaceContactEmails();
             replaceFounderPersonalEmails();
             replaceQuoteLinks();
@@ -1348,10 +1278,7 @@ export default {
 
     if (flags.homepage) {
       rewriter = rewriter
-        .on("main > div.bg-carbon", new HomeContainerElement())
-        .on('main a[href="/contact"]', new HomeQuoteLinkElement())
-        .on('meta[property="og:image"]', new SocialImageElement())
-        .on('meta[name="twitter:image"]', new SocialImageElement());
+        .on('main a[href="/contact"]', new HomeQuoteLinkElement());
     }
 
     if (flags.servicePage) {
