@@ -748,7 +748,10 @@ async function startOauth(request, env, provider) {
   authorization.searchParams.set("redirect_uri", redirectUri);
   authorization.searchParams.set("state", state);
   authorization.searchParams.set("scope", provider === "google" ? "openid email profile" : "read:user user:email");
-  if (provider === "google") authorization.searchParams.set("prompt", "select_account");
+  if (provider === "google") {
+    authorization.searchParams.set("response_type", "code");
+    authorization.searchParams.set("prompt", "select_account");
+  }
   return redirect(authorization.href);
 }
 
