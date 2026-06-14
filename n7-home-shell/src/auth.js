@@ -201,13 +201,14 @@ function securityHeaders(contentType = "text/html; charset=utf-8") {
   };
 }
 
-function page(title, content, status = 200) {
+function page(title, content, status = 200, headContent = "") {
   return new Response(`<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)} | N7 Technologies</title>
+  ${headContent}
   <style>
     :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background:#05060a; color:#f7f7f8; }
     * { box-sizing:border-box; }
@@ -574,6 +575,17 @@ function quoteRequestPage(request) {
   </main>`);
 }
 
+function quoteCalendarHandoffPage(calendarUrl) {
+  const safeCalendarUrl = escapeHtml(calendarUrl);
+  return page("Opening Google Calendar", `<main class="card auth-card">
+    <h1>Opening Google Calendar</h1>
+    <p class="success">Your quote request was sent to both N7 founders.</p>
+    <p class="muted">Google Calendar should open automatically. Review the appointment and select <strong>Save</strong> to send the invitation.</p>
+    <a class="button" href="${safeCalendarUrl}">Open Google Calendar</a>
+    <p class="muted" style="margin-top:1rem"><a href="/quote">Schedule another consultation</a></p>
+  </main>`, 200, `<meta http-equiv="refresh" content="0;url=${safeCalendarUrl}">`);
+}
+
 async function submitQuoteRequest(request, env) {
   if (!assertSameOrigin(request)) return json({ error: "Invalid request origin." }, 403);
   const data = await bodyData(request);
@@ -654,7 +666,7 @@ async function submitQuoteRequest(request, env) {
   calendar.searchParams.set("details", calendarDetails);
   calendar.searchParams.set("location", "Online — N7 Technologies will provide meeting details");
   calendar.searchParams.set("add", QUOTE_NOTIFICATION_EMAILS.join(","));
-  return redirect(calendar.href);
+  return quoteCalendarHandoffPage(calendar.href);
 }
 
 async function completeProfilePage(request, env) {
