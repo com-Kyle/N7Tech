@@ -206,50 +206,119 @@ a {
   }
 }
 
-/* Home-page technical backdrop. Large, low-contrast grid lines give the page
-   structure without creating a repeating icon or competing with the content.
-   Two restrained red light fields carry the brand color through the canvas. */
+/* Home-page technical backdrop — a dark "horizon" environment: a red neon
+   perspective grid floor recedes to a glowing vanishing point at center, with
+   atmospheric red glow above it. Pure CSS, no raster (reference-driven). Two
+   fixed pseudo layers sit behind the page content (z-index 0); content is
+   lifted to z-index 1. The home page deliberately goes near-black here, darker
+   than the site-wide charcoal token — an intentional exception to DESIGN.md. */
 .bg-carbon {
-  background-color: var(--color-bg);
+  position: relative;
+  isolation: isolate;
+  background-color: #05060a;
+}
+
+/* Page content rides above the fixed backdrop layers. */
+.bg-carbon > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Layer 1 — the perspective grid floor (lower half of the viewport). A flat red
+   grid is tipped back in 3D so its lines converge to a central vanishing point;
+   the mask dissolves the far edge into the horizon glow. */
+.bg-carbon::before {
+  content: "";
+  position: fixed;
+  left: 50%;
+  bottom: -4vh;
+  z-index: 0;
+  width: 340vw;
+  height: 150vh;
+  pointer-events: none;
+  transform: translateX(-50%) perspective(34vh) rotateX(63deg);
+  transform-origin: center bottom;
   background-image:
-    radial-gradient(
-      ellipse 70% 36% at 50% -8%,
-      rgba(225, 29, 39, 0.18),
-      rgba(225, 29, 39, 0.04) 48%,
-      transparent 74%
-    ),
-    radial-gradient(
-      circle at 92% 52%,
-      rgba(158, 17, 25, 0.09),
-      transparent 28%
-    ),
-    linear-gradient(
-      rgba(255, 255, 255, 0.026) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
+    repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.026) 1px,
-      transparent 1px
+      transparent 0,
+      transparent calc(2.6vw - 1px),
+      rgba(255, 48, 54, 0.55) calc(2.6vw - 1px),
+      rgba(255, 48, 54, 0.55) 2.6vw
     ),
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.018),
-      transparent 34%,
-      transparent 68%,
-      rgba(0, 0, 0, 0.1)
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent calc(2.6vw - 1px),
+      rgba(255, 48, 54, 0.4) calc(2.6vw - 1px),
+      rgba(255, 48, 54, 0.4) 2.6vw
     );
-  background-size:
-    100% 100%,
-    100% 100%,
-    72px 72px,
-    72px 72px,
-    100% 100%;
-  background-position:
-    0 0,
-    0 0,
-    center top,
-    center top,
-    0 0;
-  background-attachment: fixed, fixed, scroll, scroll, fixed;
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 6%,
+    rgba(0, 0, 0, 0.5) 42%,
+    transparent 86%
+  );
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 6%,
+    rgba(0, 0, 0, 0.5) 42%,
+    transparent 86%
+  );
+  filter: drop-shadow(0 0 6px rgba(225, 29, 39, 0.35));
+}
+
+/* Layer 2 — atmosphere: the bright horizon vanishing-point glow the grid
+   recedes into, vertical light beams rising from the horizon along the left and
+   right edges (to fill the bare side margins), a soft red wash up top, and a
+   dark vignette at the edges. Earlier layers paint on top. */
+.bg-carbon::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    /* hot vanishing-point core */
+    radial-gradient(
+      ellipse 24% 2.5% at 50% 51%,
+      rgba(255, 150, 150, 0.95),
+      rgba(255, 60, 66, 0.32) 45%,
+      transparent 72%
+    ),
+    /* horizon glow bloom */
+    radial-gradient(
+      ellipse 58% 26% at 50% 51%,
+      rgba(225, 29, 39, 0.42),
+      rgba(160, 18, 24, 0.12) 40%,
+      transparent 72%
+    ),
+    /* LEFT margin — a tall edge rail + a cluster of bright vertical beams of
+       varying height rising from the horizon, for a real "data spire" presence */
+    radial-gradient(ellipse 0.12% 56% at 3% 30%, rgba(255, 90, 96, 0.4), transparent 86%),
+    radial-gradient(ellipse 0.2% 40% at 7% 34%, rgba(255, 130, 136, 0.7), transparent 80%),
+    radial-gradient(ellipse 0.16% 28% at 12% 40%, rgba(255, 100, 106, 0.55), transparent 82%),
+    radial-gradient(ellipse 0.18% 46% at 17% 32%, rgba(255, 120, 126, 0.55), transparent 80%),
+    radial-gradient(ellipse 0.14% 22% at 21% 44%, rgba(255, 90, 96, 0.4), transparent 82%),
+    /* RIGHT margin — mirror of the left cluster */
+    radial-gradient(ellipse 0.12% 56% at 97% 30%, rgba(255, 90, 96, 0.4), transparent 86%),
+    radial-gradient(ellipse 0.2% 40% at 93% 34%, rgba(255, 130, 136, 0.7), transparent 80%),
+    radial-gradient(ellipse 0.16% 28% at 88% 40%, rgba(255, 100, 106, 0.55), transparent 82%),
+    radial-gradient(ellipse 0.18% 46% at 83% 32%, rgba(255, 120, 126, 0.55), transparent 80%),
+    radial-gradient(ellipse 0.14% 22% at 79% 44%, rgba(255, 90, 96, 0.4), transparent 82%),
+    /* side margins — wider, brighter soft glow columns behind the beam clusters */
+    radial-gradient(ellipse 8% 50% at 10% 38%, rgba(225, 40, 46, 0.22), transparent 74%),
+    radial-gradient(ellipse 8% 50% at 90% 38%, rgba(225, 40, 46, 0.22), transparent 74%),
+    /* upper atmosphere wash */
+    radial-gradient(
+      ellipse 120% 55% at 50% -12%,
+      rgba(120, 12, 16, 0.26),
+      transparent 60%
+    ),
+    /* edge vignette */
+    radial-gradient(
+      ellipse 92% 82% at 50% 54%,
+      transparent 52%,
+      rgba(0, 0, 0, 0.55)
+    );
 }
