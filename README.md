@@ -25,8 +25,10 @@ This repo holds two layers that ship together:
 - Email/password accounts backed by Cloudflare D1.
 - Google and GitHub OAuth integration points.
 - One-hour, single-use password reset links with session revocation.
-- User profiles for homeowners and contractors.
-- Administrator dashboard with account status controls and activity records.
+- User profiles for clients, homeowners, and contractors. Google and GitHub
+  signups are classified as clients automatically.
+- Administrator dashboard with editable names, occupations, account types,
+  active/suspended status, N7 verification controls, and activity records.
 - Email-verified administrator access for the approved founder Gmail accounts.
 - Contact aliases for `founder@`, `contact@`, and `help@` on the N7 domain.
 
@@ -185,6 +187,9 @@ Google and GitHub OAuth applications must use these canonical callback URLs:
 https://www.n7technologies.org/api/auth/oauth/google/callback
 https://www.n7technologies.org/api/auth/oauth/github/callback
 ```
+
+The Google OAuth client must include the Google callback above under
+**Authorized redirect URIs**. Adding only the site origin is not sufficient.
 
 ## Security
 

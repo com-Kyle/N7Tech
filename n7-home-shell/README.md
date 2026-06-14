@@ -24,10 +24,12 @@ The shell also:
 - Adds a working `/forgot-password` flow using one-hour, single-use reset
   links. Completing a reset invalidates all existing account sessions and
   outstanding reset links.
-- Collects name, phone number, birthday, optional occupation, and Homeowner or
-  Contractor account type during signup.
+- Collects name, phone number, birthday, optional occupation, and Client,
+  Homeowner, or Contractor account type during signup. Google and GitHub
+  signups are automatically classified as Client.
 - Adds `/admin` with signup totals, account details, recent activity, and
-  active/suspended status controls.
+  controls for name, occupation, account type, active/suspended status, and
+  administrator-managed N7 verification.
 - Allows `n7kpierce@gmail.com` and `n7dpagan@gmail.com` to use the normal signup
   form and activates administrator access after a one-click email ownership
   verification. No private invitation is required for those two addresses.

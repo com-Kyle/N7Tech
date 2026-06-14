@@ -6,6 +6,7 @@ const PASSWORD_RESET_MINUTES = 60;
 const PASSWORD_RESET_FROM = "accounts@n7technologies.org";
 const OAUTH_ORIGIN = "https://www.n7technologies.org";
 const ADMIN_VERIFICATION_HOURS = 24;
+const ACCOUNT_TYPES = new Set(["client", "homeowner", "contractor"]);
 const SELF_SIGNUP_ADMIN_EMAILS = new Set([
   "n7kpierce@gmail.com",
   "n7dpagan@gmail.com"
@@ -172,11 +173,11 @@ function page(title, content, status = 200) {
     .notice { border:1px solid #34353d; background:#111218; color:#c8cad1; }
     .error { border:1px solid #85242a; background:#2a0c0f; color:#ffb1b4; }
     .success { border:1px solid #27663d; background:#0d2817; color:#aff0c3; }
-    .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-bottom:1rem; }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:1rem; margin-bottom:1rem; }
     .stat { border:1px solid #292a31; border-radius:.75rem; background:#0d0e13; padding:1rem; }
     .stat strong { display:block; margin-top:.3rem; font-size:1.8rem; }
     .table-wrap { overflow:auto; border:1px solid #292a31; border-radius:.75rem; }
-    table { width:100%; border-collapse:collapse; min-width:900px; }
+    table { width:100%; border-collapse:collapse; min-width:1100px; }
     th,td { border-bottom:1px solid #292a31; padding:.75rem; text-align:left; vertical-align:top; }
     th { background:#111218; color:#c6c8ce; font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; }
     td { font-size:.88rem; }
@@ -185,6 +186,11 @@ function page(title, content, status = 200) {
     .pill.suspended { border-color:#8b3035; color:#ff9ea3; }
     .row-form { display:flex; gap:.4rem; }
     .row-form select,.row-form button { padding:.45rem .55rem; font-size:.78rem; }
+    .admin-user-form { display:grid; grid-template-columns:repeat(2,minmax(155px,1fr)); gap:.55rem; min-width:430px; }
+    .admin-user-form label { font-size:.72rem; }
+    .admin-user-form input,.admin-user-form select,.admin-user-form button { padding:.5rem .6rem; font-size:.8rem; }
+    .admin-user-form .verify-field { display:flex; align-items:center; gap:.5rem; padding:.45rem .15rem; }
+    .admin-user-form input[type="checkbox"] { width:auto; accent-color:#e00008; }
     @media (max-width:760px) { .grid,.oauth,.stats { grid-template-columns:1fr; } .topbar { align-items:flex-start; } }
   </style>
 </head>
@@ -207,12 +213,20 @@ function formError(url, message, route) {
   return redirect(target.pathname + target.search);
 }
 
-function validateProfile(data) {
+function accountCategory(user) {
+  return user?.account_category || user?.account_type || null;
+}
+
+function legacyAccountType(category) {
+  return category === "client" ? null : category;
+}
+
+function validateProfile(data, forcedAccountType = null) {
   const name = String(data.name || "").trim();
   const phone = String(data.phone || "").trim();
   const birthday = String(data.birthday || "").trim();
   const occupation = String(data.occupation || "").trim();
-  const accountType = String(data.account_type || "").toLowerCase();
+  const accountType = String(forcedAccountType || data.account_type || "").toLowerCase();
   const birthdayDate = new Date(`${birthday}T00:00:00Z`);
 
   if (name.length < 2 || name.length > 100) return { error: "Enter your full name." };
@@ -221,7 +235,7 @@ function validateProfile(data) {
     return { error: "Enter a valid birthday." };
   }
   if (occupation.length > 120) return { error: "Occupation must be 120 characters or fewer." };
-  if (!["homeowner", "contractor"].includes(accountType)) return { error: "Select Homeowner or Contractor." };
+  if (!ACCOUNT_TYPES.has(accountType)) return { error: "Select Client, Homeowner, or Contractor." };
   return { name, phone, birthday, occupation: occupation || null, accountType };
 }
 
@@ -323,19 +337,24 @@ function authMessage(url) {
   return `${error ? `<div class="error">${escapeHtml(error)}</div>` : ""}${success ? `<div class="success">${escapeHtml(success)}</div>` : ""}`;
 }
 
-function profileFields(values = {}) {
+function profileFields(values = {}, options = {}) {
+  const selectedType = options.lockedAccountType || accountCategory(values) || "";
+  const accountTypeField = options.lockedAccountType
+    ? `<label class="full">Account type<input type="hidden" name="account_type" value="${escapeHtml(options.lockedAccountType)}"><input value="Client" disabled></label>`
+    : `<label class="full">I am a
+      <select name="account_type" required>
+        <option value="">Select one</option>
+        <option value="client"${selectedType === "client" ? " selected" : ""}>Client</option>
+        <option value="homeowner"${selectedType === "homeowner" ? " selected" : ""}>Homeowner</option>
+        <option value="contractor"${selectedType === "contractor" ? " selected" : ""}>Contractor</option>
+      </select>
+    </label>`;
   return `<div class="grid">
     <label>Name<input name="name" autocomplete="name" required minlength="2" maxlength="100" value="${escapeHtml(values.name)}"></label>
     <label>Phone number<input name="phone" autocomplete="tel" required maxlength="24" value="${escapeHtml(values.phone)}"></label>
     <label>Birthday<input type="date" name="birthday" autocomplete="bday" required value="${escapeHtml(values.birthday)}"></label>
     <label>Occupation <span class="muted">(optional)</span><input name="occupation" autocomplete="organization-title" maxlength="120" value="${escapeHtml(values.occupation)}"></label>
-    <label class="full">I am a
-      <select name="account_type" required>
-        <option value="">Select one</option>
-        <option value="homeowner"${values.account_type === "homeowner" ? " selected" : ""}>Homeowner</option>
-        <option value="contractor"${values.account_type === "contractor" ? " selected" : ""}>Contractor</option>
-      </select>
-    </label>
+    ${accountTypeField}
   </div>`;
 }
 
@@ -424,7 +443,7 @@ async function signupPage(request, env) {
   const url = new URL(request.url);
   return page("Sign up", `<main class="card auth-card">
     <h1>Create your N7 account</h1>
-    <p class="muted">Required fields help N7 tailor products for homeowners and contractors. Occupation is optional.</p>
+    <p class="muted">Required fields help N7 tailor products for clients, homeowners, and contractors. Occupation is optional.</p>
     ${authMessage(url)}
     <div class="oauth">
       <a class="button secondary" href="/api/auth/oauth/google">Sign up with Gmail</a>
@@ -453,7 +472,7 @@ async function completeProfilePage(request, env) {
     <p class="muted">Your ${escapeHtml(user.auth_provider)} login is connected. Add the remaining required account details.</p>
     ${authMessage(url)}
     <form method="post" action="/api/auth/profile">
-      ${profileFields(user)}
+      ${profileFields(user, { lockedAccountType: ["google", "github"].includes(user.auth_provider) ? "client" : null })}
       <button style="margin-top:1rem;width:100%" type="submit">Save profile</button>
     </form>
   </main>`);
@@ -475,7 +494,8 @@ async function accountPage(request, env) {
       <div><strong>Phone</strong><p>${escapeHtml(user.phone)}</p></div>
       <div><strong>Birthday</strong><p>${escapeHtml(user.birthday)}</p></div>
       <div><strong>Occupation</strong><p>${escapeHtml(user.occupation || "Not provided")}</p></div>
-      <div><strong>Account type</strong><p class="pill">${escapeHtml(user.account_type)}</p></div>
+      <div><strong>Account type</strong><p class="pill">${escapeHtml(accountCategory(user) || "Pending")}</p></div>
+      <div><strong>Verified by N7</strong><p class="pill ${user.admin_verified ? "active" : ""}">${user.admin_verified ? "Verified" : "Not verified"}</p></div>
       <div><strong>Login method</strong><p class="pill">${escapeHtml(user.auth_provider)}</p></div>
     </div>
     <div class="toplinks" style="margin-top:1.5rem">
@@ -505,11 +525,11 @@ async function signup(request, env) {
   await env.DB.prepare(`
     INSERT INTO users (
       id, email, password_hash, password_salt, name, phone, birthday, occupation,
-      account_type, auth_provider, email_verified, role, profile_complete, created_at, updated_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'email', 0, 'user', 1, ?, ?)
+      account_type, account_category, auth_provider, email_verified, role, profile_complete, created_at, updated_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'email', 0, 'user', 1, ?, ?)
   `).bind(
     id, email, password.hash, password.salt, profile.name, profile.phone, profile.birthday,
-    profile.occupation, profile.accountType, timestamp, timestamp
+    profile.occupation, legacyAccountType(profile.accountType), profile.accountType, timestamp, timestamp
   ).run();
   const token = await createSession(env, request, id);
   await audit(env, id, "user.signup", id, { provider: "email" });
@@ -568,7 +588,7 @@ async function verifyAdmin(request, env) {
 
   const timestamp = nowIso();
   await env.DB.batch([
-    env.DB.prepare("UPDATE users SET role = 'admin', email_verified = 1, updated_at = ? WHERE id = ?").bind(timestamp, verification.user_id),
+    env.DB.prepare("UPDATE users SET role = 'admin', email_verified = 1, admin_verified = 1, updated_at = ? WHERE id = ?").bind(timestamp, verification.user_id),
     env.DB.prepare("UPDATE admin_verifications SET used_at = ? WHERE user_id = ? AND used_at IS NULL").bind(timestamp, verification.user_id),
     env.DB.prepare("DELETE FROM admin_invites WHERE email = ? AND used_at IS NULL").bind(normalizeEmail(verification.email))
   ]);
@@ -705,12 +725,13 @@ async function updateProfile(request, env) {
   if (!assertSameOrigin(request)) return json({ error: "Invalid request origin." }, 403);
   const user = await currentUser(env, request);
   if (!user) return redirect("/login?returnTo=/complete-profile");
-  const profile = validateProfile(await bodyData(request));
+  const forcedAccountType = ["google", "github"].includes(user.auth_provider) ? "client" : null;
+  const profile = validateProfile(await bodyData(request), forcedAccountType);
   if (profile.error) return formError(request.url, profile.error, "/complete-profile");
   await env.DB.prepare(`
-    UPDATE users SET name = ?, phone = ?, birthday = ?, occupation = ?, account_type = ?,
+    UPDATE users SET name = ?, phone = ?, birthday = ?, occupation = ?, account_type = ?, account_category = ?,
       profile_complete = 1, updated_at = ? WHERE id = ?
-  `).bind(profile.name, profile.phone, profile.birthday, profile.occupation, profile.accountType, nowIso(), user.id).run();
+  `).bind(profile.name, profile.phone, profile.birthday, profile.occupation, legacyAccountType(profile.accountType), profile.accountType, nowIso(), user.id).run();
   await audit(env, user.id, "user.profile_completed", user.id);
   return redirect("/account");
 }
@@ -813,9 +834,9 @@ async function finishOauth(request, env, provider) {
   if (!user) {
     const id = crypto.randomUUID();
     await env.DB.prepare(`
-      INSERT INTO users (id, email, name, auth_provider, provider_user_id, email_verified, role, profile_complete, created_at, updated_at, last_login_at)
-      VALUES (?, ?, ?, ?, ?, 1, ?, 0, ?, ?, ?)
-    `).bind(id, email, identity.name, provider, identity.id, ADMIN_EMAILS.has(email) ? "admin" : "user", timestamp, timestamp, timestamp).run();
+      INSERT INTO users (id, email, name, account_category, auth_provider, provider_user_id, email_verified, role, admin_verified, profile_complete, created_at, updated_at, last_login_at)
+      VALUES (?, ?, ?, 'client', ?, ?, 1, ?, ?, 0, ?, ?, ?)
+    `).bind(id, email, identity.name, provider, identity.id, ADMIN_EMAILS.has(email) ? "admin" : "user", ADMIN_EMAILS.has(email) ? 1 : 0, timestamp, timestamp, timestamp).run();
     user = await env.DB.prepare("SELECT * FROM users WHERE id = ?").bind(id).first();
     await audit(env, id, "user.signup", id, { provider });
   } else {
@@ -870,13 +891,13 @@ async function activateAdmin(request, env) {
   const id = existing?.id || crypto.randomUUID();
   const timestamp = nowIso();
   if (existing) {
-    await env.DB.prepare(`UPDATE users SET password_hash = ?, password_salt = ?, name = ?, phone = ?, birthday = ?, occupation = ?, account_type = ?, role = 'admin', status = 'active', profile_complete = 1, updated_at = ? WHERE id = ?`)
-      .bind(password.hash, password.salt, profile.name, profile.phone, profile.birthday, profile.occupation, profile.accountType, timestamp, id).run();
+    await env.DB.prepare(`UPDATE users SET password_hash = ?, password_salt = ?, name = ?, phone = ?, birthday = ?, occupation = ?, account_type = ?, account_category = ?, role = 'admin', status = 'active', admin_verified = 1, profile_complete = 1, updated_at = ? WHERE id = ?`)
+      .bind(password.hash, password.salt, profile.name, profile.phone, profile.birthday, profile.occupation, legacyAccountType(profile.accountType), profile.accountType, timestamp, id).run();
   } else {
     await env.DB.prepare(`
-      INSERT INTO users (id, email, password_hash, password_salt, name, phone, birthday, occupation, account_type, auth_provider, email_verified, role, status, profile_complete, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'email', 1, 'admin', 'active', 1, ?, ?)
-    `).bind(id, email, password.hash, password.salt, profile.name, profile.phone, profile.birthday, profile.occupation, profile.accountType, timestamp, timestamp).run();
+      INSERT INTO users (id, email, password_hash, password_salt, name, phone, birthday, occupation, account_type, account_category, auth_provider, email_verified, role, status, admin_verified, profile_complete, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'email', 1, 'admin', 'active', 1, 1, ?, ?)
+    `).bind(id, email, password.hash, password.salt, profile.name, profile.phone, profile.birthday, profile.occupation, legacyAccountType(profile.accountType), profile.accountType, timestamp, timestamp).run();
   }
   await env.DB.prepare("UPDATE admin_invites SET used_at = ? WHERE token_hash = ?").bind(timestamp, tokenHash).run();
   const session = await createSession(env, request, id);
@@ -890,49 +911,68 @@ async function adminPage(request, env) {
   if (user.role !== "admin" || !ADMIN_EMAILS.has(normalizeEmail(user.email))) {
     return page("Forbidden", `<main class="card auth-card"><h1>Administrator access required</h1><p class="error">This account is not authorized for the N7 admin panel.</p><a class="button secondary" href="/account">Return to account</a></main>`, 403);
   }
+  const url = new URL(request.url);
   const [totals, users, audits] = await Promise.all([
-    env.DB.prepare(`SELECT COUNT(*) total, SUM(account_type = 'homeowner') homeowners, SUM(account_type = 'contractor') contractors, SUM(status = 'suspended') suspended FROM users`).first(),
-    env.DB.prepare(`SELECT id, email, name, phone, birthday, occupation, account_type, auth_provider, role, status, created_at, last_login_at FROM users ORDER BY created_at DESC LIMIT 200`).all(),
+    env.DB.prepare(`SELECT COUNT(*) total, SUM(account_category = 'client') clients, SUM(account_category = 'homeowner') homeowners, SUM(account_category = 'contractor') contractors, SUM(admin_verified = 1) verified, SUM(status = 'suspended') suspended FROM users`).first(),
+    env.DB.prepare(`SELECT id, email, name, phone, birthday, occupation, account_type, account_category, admin_verified, auth_provider, role, status, created_at, last_login_at FROM users ORDER BY created_at DESC LIMIT 200`).all(),
     env.DB.prepare(`SELECT action, details, created_at FROM audit_logs ORDER BY created_at DESC LIMIT 20`).all()
   ]);
-  const rows = users.results.map(entry => `<tr>
-    <td><strong>${escapeHtml(entry.name || "Incomplete profile")}</strong><br><span class="muted">${escapeHtml(entry.email)}</span></td>
+  const rows = users.results.map(entry => {
+    const category = accountCategory(entry) || "client";
+    return `<tr>
+    <td><strong>${escapeHtml(entry.email)}</strong><br><span class="muted">${escapeHtml(entry.auth_provider)} · ${escapeHtml(entry.role)}</span></td>
     <td>${escapeHtml(entry.phone || "—")}<br><span class="muted">${escapeHtml(entry.birthday || "—")}</span></td>
-    <td>${escapeHtml(entry.occupation || "—")}</td>
-    <td><span class="pill">${escapeHtml(entry.account_type || "pending")}</span></td>
-    <td>${escapeHtml(entry.auth_provider)}<br><span class="muted">${escapeHtml(entry.role)}</span></td>
-    <td><span class="pill ${escapeHtml(entry.status)}">${escapeHtml(entry.status)}</span></td>
+    <td><span class="pill">${escapeHtml(category)}</span><br><span class="pill ${entry.admin_verified ? "active" : ""}" style="margin-top:.35rem">${entry.admin_verified ? "Verified" : "Not verified"}</span></td>
     <td>${escapeHtml(new Date(entry.created_at).toLocaleDateString("en-US"))}<br><span class="muted">Last: ${entry.last_login_at ? escapeHtml(new Date(entry.last_login_at).toLocaleDateString("en-US")) : "Never"}</span></td>
-    <td><form class="row-form" method="post" action="/api/admin/users/${encodeURIComponent(entry.id)}/status"><select name="status"><option value="active"${entry.status === "active" ? " selected" : ""}>Active</option><option value="suspended"${entry.status === "suspended" ? " selected" : ""}>Suspended</option></select><button type="submit">Save</button></form></td>
-  </tr>`).join("");
+    <td><form class="admin-user-form" method="post" action="/api/admin/users/${encodeURIComponent(entry.id)}">
+      <label>Name<input name="name" required minlength="2" maxlength="100" value="${escapeHtml(entry.name || "")}"></label>
+      <label>Occupation<input name="occupation" maxlength="120" value="${escapeHtml(entry.occupation || "")}"></label>
+      <label>Account type<select name="account_type"><option value="client"${category === "client" ? " selected" : ""}>Client</option><option value="homeowner"${category === "homeowner" ? " selected" : ""}>Homeowner</option><option value="contractor"${category === "contractor" ? " selected" : ""}>Contractor</option></select></label>
+      <label>Status<select name="status"><option value="active"${entry.status === "active" ? " selected" : ""}>Active</option><option value="suspended"${entry.status === "suspended" ? " selected" : ""}>Suspended</option></select></label>
+      <label class="verify-field"><input type="checkbox" name="admin_verified" value="1"${entry.admin_verified ? " checked" : ""}> Verified by N7</label>
+      <button type="submit">Save user</button>
+    </form></td>
+  </tr>`;
+  }).join("");
   const activity = audits.results.map(entry => `<li><strong>${escapeHtml(entry.action)}</strong> <span class="muted">${escapeHtml(new Date(entry.created_at).toLocaleString("en-US"))}</span></li>`).join("");
   return page("Admin", `<main>
     <div class="topbar"><div><h1>N7 administrator panel</h1><p class="muted">Signed in as ${escapeHtml(user.email)}.</p></div><form method="post" action="/api/auth/logout"><button class="secondary">Log out</button></form></div>
+    ${authMessage(url)}
     <section class="stats">
       <div class="stat">Total accounts<strong>${Number(totals.total || 0)}</strong></div>
+      <div class="stat">Clients<strong>${Number(totals.clients || 0)}</strong></div>
       <div class="stat">Homeowners<strong>${Number(totals.homeowners || 0)}</strong></div>
       <div class="stat">Contractors<strong>${Number(totals.contractors || 0)}</strong></div>
+      <div class="stat">Verified<strong>${Number(totals.verified || 0)}</strong></div>
       <div class="stat">Suspended<strong>${Number(totals.suspended || 0)}</strong></div>
     </section>
-    <section class="card"><h2>Recent signups and account status</h2><div class="table-wrap"><table><thead><tr><th>User</th><th>Contact</th><th>Occupation</th><th>Type</th><th>Login</th><th>Status</th><th>Dates</th><th>Manage</th></tr></thead><tbody>${rows || '<tr><td colspan="8">No signups yet.</td></tr>'}</tbody></table></div></section>
+    <section class="card"><h2>Users and account controls</h2><div class="table-wrap"><table><thead><tr><th>Account</th><th>Contact</th><th>Classification</th><th>Dates</th><th>Manage</th></tr></thead><tbody>${rows || '<tr><td colspan="5">No signups yet.</td></tr>'}</tbody></table></div></section>
     <section class="card" style="margin-top:1rem"><h2>Recent activity</h2><ol>${activity || "<li>No activity yet.</li>"}</ol></section>
   </main>`);
 }
 
-async function updateUserStatus(request, env, targetId) {
+async function updateUser(request, env, targetId) {
   if (!assertSameOrigin(request)) return json({ error: "Invalid request origin." }, 403);
   const actor = await currentUser(env, request);
   if (!actor || actor.role !== "admin" || !ADMIN_EMAILS.has(normalizeEmail(actor.email))) return json({ error: "Forbidden" }, 403);
   const data = await bodyData(request);
-  const status = String(data.status || "");
+  const name = String(data.name || "").trim();
+  const occupation = String(data.occupation || "").trim();
+  const category = String(data.account_type || "").toLowerCase();
+  const status = String(data.status || "").toLowerCase();
+  const adminVerified = data.admin_verified === "1" ? 1 : 0;
+  if (name.length < 2 || name.length > 100) return formError(request.url, "Enter a valid user name.", "/admin");
+  if (occupation.length > 120) return formError(request.url, "Occupation must be 120 characters or fewer.", "/admin");
+  if (!ACCOUNT_TYPES.has(category)) return formError(request.url, "Select a valid account type.", "/admin");
   if (!["active", "suspended"].includes(status)) return json({ error: "Invalid status" }, 400);
-  const target = await env.DB.prepare("SELECT email FROM users WHERE id = ?").bind(targetId).first();
+  const target = await env.DB.prepare("SELECT email, status FROM users WHERE id = ?").bind(targetId).first();
   if (!target) return json({ error: "User not found" }, 404);
   if (ADMIN_EMAILS.has(normalizeEmail(target.email)) && status === "suspended") return redirect("/admin?error=Administrator%20accounts%20cannot%20be%20suspended%20here.");
-  await env.DB.prepare("UPDATE users SET status = ?, updated_at = ? WHERE id = ?").bind(status, nowIso(), targetId).run();
-  if (status === "suspended") await env.DB.prepare("DELETE FROM sessions WHERE user_id = ?").bind(targetId).run();
-  await audit(env, actor.id, "admin.user_status_changed", targetId, { status });
-  return redirect("/admin");
+  await env.DB.prepare(`UPDATE users SET name = ?, occupation = ?, account_type = ?, account_category = ?, status = ?, admin_verified = ?, updated_at = ? WHERE id = ?`)
+    .bind(name, occupation || null, legacyAccountType(category), category, status, adminVerified, nowIso(), targetId).run();
+  if (status === "suspended" && target.status !== "suspended") await env.DB.prepare("DELETE FROM sessions WHERE user_id = ?").bind(targetId).run();
+  await audit(env, actor.id, "admin.user_updated", targetId, { name, occupation: occupation || null, account_type: category, status, verified: Boolean(adminVerified) });
+  return redirect("/admin?success=User%20updated.");
 }
 
 export async function authRoutes(request, env) {
@@ -969,7 +1009,7 @@ export async function authRoutes(request, env) {
   if (method === "GET" && oauthStart) return startOauth(request, env, oauthStart[1]);
   const oauthCallback = path.match(/^\/api\/auth\/oauth\/(google|github)\/callback$/);
   if (method === "GET" && oauthCallback) return finishOauth(request, env, oauthCallback[1]);
-  const statusRoute = path.match(/^\/api\/admin\/users\/([^/]+)\/status$/);
-  if (method === "POST" && statusRoute) return updateUserStatus(request, env, decodeURIComponent(statusRoute[1]));
+  const userRoute = path.match(/^\/api\/admin\/users\/([^/]+)$/);
+  if (method === "POST" && userRoute) return updateUser(request, env, decodeURIComponent(userRoute[1]));
   return null;
 }
