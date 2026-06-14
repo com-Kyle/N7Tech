@@ -8,13 +8,14 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  // Serve straight from the custom domain (zone already on this Cloudflare
-  // account). Cloudflare provisions DNS + TLS automatically. This also avoids
-  // needing a workers.dev subdomain.
-  "routes": [
-    { "pattern": "www.n7technologies.org", "custom_domain": true },
-    { "pattern": "n7technologies.org", "custom_domain": true }
-  ],
+  // IMPORTANT: this app Worker must NOT claim the custom domain. The public
+  // domain (www.n7technologies.org + apex) belongs to the SHELL Worker
+  // (n7-home-shell), which fronts this app and injects branding + the login
+  // button + /api/auth/* routes. The shell reaches this app via its `ORIGIN`
+  // service binding (by Worker name, not by URL), so this app needs no public
+  // route. A Cloudflare custom domain can attach to only one Worker — when this
+  // app also declared the domain, every `npm run deploy` stole it from the
+  // shell and silently dropped login/auth from prod. Do not re-add routes here.
   // The Go API on Render (backed by Neon Postgres). Next inlines NEXT_PUBLIC_*
   // at build time, so this must also be set in the build env (npm run deploy
   // passes it) — this entry keeps runtime + docs in sync.
