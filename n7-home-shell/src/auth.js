@@ -10,15 +10,20 @@ const ACCOUNT_TYPES = new Set(["client", "homeowner", "contractor"]);
 const QUOTE_TIMEZONE = "America/New_York";
 const QUOTE_MINIMUM_NOTICE_MS = 48 * 60 * 60 * 1000;
 const QUOTE_NOTIFICATION_EMAILS = ["n7dpagan@gmail.com", "n7kpierce@gmail.com"];
+// Keep in sync with the tier `contactSubject`s in `lib/services.ts` (+ the
+// per-service "Custom" subject the service pages link to). A subject not in this
+// set is dropped to "General project consultation" on the quote form.
 const QUOTE_SERVICES = new Set([
   "General project consultation",
   "Website Services inquiry",
   "App Services inquiry",
   "Website Services — Launch ($499)",
-  "Website Services — Growth (~$1,500)",
+  "Website Services — Growth ($2,400)",
+  "Website Services — Pro ($3,500)",
   "Website Services — Custom (let's talk)",
   "App Services — MVP ($2,500)",
-  "App Services — Product ($10k+)",
+  "App Services — Product ($9,500)",
+  "App Services — Scale ($14,000)",
   "App Services — Custom (let's talk)"
 ]);
 const SELF_SIGNUP_ADMIN_EMAILS = new Set([

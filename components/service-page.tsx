@@ -5,6 +5,7 @@
  * eyebrow, font-display headings, flat content cards (surface + ring-1
  * ring-white/5), and a red brand CTA.
  */
+import { Check } from "lucide-react";
 import { ContactButton } from "@/components/contact-buttons";
 import type { Service } from "@/lib/services";
 
@@ -96,7 +97,30 @@ export function ServicePage({ service }: { service: Service }) {
               <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
                 {tier.blurb}
               </p>
-              <div className="mt-7 flex grow flex-col justify-end">
+              <ul className="mt-6 flex flex-col gap-2.5">
+                {tier.features.map((feature) =>
+                  feature.startsWith("Everything in") ? (
+                    <li
+                      key={feature}
+                      className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]"
+                    >
+                      {feature}
+                    </li>
+                  ) : (
+                    <li key={feature} className="flex items-start gap-2.5 text-sm">
+                      <Check
+                        size={16}
+                        aria-hidden
+                        className="mt-0.5 shrink-0 text-[var(--color-brand)]"
+                      />
+                      <span className="leading-snug text-[var(--color-fg)]">
+                        {feature}
+                      </span>
+                    </li>
+                  ),
+                )}
+              </ul>
+              <div className="mt-7 flex grow flex-col justify-end pt-1">
                 <ContactButton
                   label={tier.cta}
                   subject={tier.contactSubject}
@@ -106,6 +130,23 @@ export function ServicePage({ service }: { service: Service }) {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Custom / "not sure which" escape hatch — the concrete top tier (Pro /
+            Scale) replaces the old "Custom — Let's talk" card; this keeps the
+            bespoke option without diluting the three-tier grid. */}
+        <div className="mx-auto mt-10 max-w-2xl text-center">
+          <p className="text-sm text-[var(--color-muted)]">
+            Need something bigger, or not sure which tier fits? We&rsquo;ll scope
+            and quote it to fit exactly what you need.
+          </p>
+          <div className="mt-4 flex justify-center">
+            <ContactButton
+              label="Talk about a custom build"
+              subject={`${service.name} — Custom (let's talk)`}
+              variant="secondary"
+            />
+          </div>
         </div>
       </section>
 

@@ -15,17 +15,24 @@ export type ServicePillar = {
 };
 
 export type ServiceTier = {
-  /** Tier name, e.g. "Launch" | "Growth" | "Custom". */
+  /** Tier name, e.g. "Launch" | "Growth" | "Pro". */
   name: string;
-  /** Display price, e.g. "$499", "~$1,500", "Let's talk". */
+  /** Display price, e.g. "$499", "$2,400". */
   price: string;
-  /** One-line scope summary. */
+  /** One-line scope summary shown under the price. */
   blurb: string;
+  /**
+   * What's included in this tier — 4-6 short bullets. Higher tiers are written
+   * as a superset (the first bullet reads "Everything in <lower>, plus:").
+   */
+  features: ReadonlyArray<string>;
   /** CTA label for this tier's button (e.g. "Start a Launch site"). */
   cta: string;
   /**
    * The `?subject=` forwarded to the contact form, so the captured lead carries
-   * which tier was picked (e.g. "Website Services — Launch ($499)").
+   * which tier was picked (e.g. "Website Services — Launch ($499)"). MUST stay
+   * in sync with the `QUOTE_SERVICES` allowlist in `n7-home-shell/src/auth.js`,
+   * or the quote form will not pre-select the tier.
    */
   contactSubject: string;
   /** The middle, recommended/anchor tier — visually emphasized. */
@@ -71,24 +78,47 @@ export const WEBSITE_SERVICE: Service = {
     {
       name: "Launch",
       price: "$499",
-      blurb: "A landing or simple site, designed and launched fast.",
+      blurb: "A sharp landing or single-page site, designed and launched fast.",
+      features: [
+        "1 page — landing or single-page",
+        "Custom design from your brand",
+        "Mobile-responsive, fast-loading",
+        "Contact form wired to your inbox",
+        "Live in about a week",
+      ],
       cta: "Start a Launch site",
       contactSubject: "Website Services — Launch ($499)",
     },
     {
       name: "Growth",
-      price: "~$1,500",
-      blurb: "A multi-page site with a CMS, so you can edit it yourself.",
+      price: "$2,400",
+      blurb: "A full multi-page site with a CMS you can edit yourself.",
+      features: [
+        "Everything in Launch, plus:",
+        "Up to 8 pages",
+        "CMS — edit your own content",
+        "SEO setup + analytics",
+        "Blog or news section",
+        "30 days of post-launch support",
+      ],
       cta: "Start a Growth site",
-      contactSubject: "Website Services — Growth (~$1,500)",
+      contactSubject: "Website Services — Growth ($2,400)",
       featured: true,
     },
     {
-      name: "Custom",
-      price: "Let's talk",
-      blurb: "Anything bigger or bespoke — scoped to exactly what you need.",
-      cta: "Talk about Custom",
-      contactSubject: "Website Services — Custom (let's talk)",
+      name: "Pro",
+      price: "$3,500",
+      blurb: "A larger, bespoke site with custom features and integrations.",
+      features: [
+        "Everything in Growth, plus:",
+        "Unlimited core pages",
+        "Custom features (booking, payments, CRM)",
+        "Performance + accessibility hardening",
+        "Priority build timeline",
+        "90 days of post-launch support",
+      ],
+      cta: "Start a Pro site",
+      contactSubject: "Website Services — Pro ($3,500)",
     },
   ],
 };
@@ -118,23 +148,46 @@ export const APP_SERVICE: Service = {
       name: "MVP",
       price: "$2,500",
       blurb: "Validate the idea with a real, working build people can use.",
+      features: [
+        "Core feature set (1-2 key flows)",
+        "Web or single platform",
+        "Modern, AI-native stack",
+        "Auth + your core data model",
+        "Shipped to real testers",
+      ],
       cta: "Start an MVP",
       contactSubject: "App Services — MVP ($2,500)",
     },
     {
       name: "Product",
-      price: "$10k+",
+      price: "$9,500",
       blurb: "The full product build — polished, scalable, and ready to grow.",
+      features: [
+        "Everything in MVP, plus:",
+        "Full feature set",
+        "Web + mobile",
+        "Polished, production-grade UI/UX",
+        "Admin dashboard + analytics",
+        "30 days of post-launch support",
+      ],
       cta: "Start a Product build",
-      contactSubject: "App Services — Product ($10k+)",
+      contactSubject: "App Services — Product ($9,500)",
       featured: true,
     },
     {
-      name: "Custom",
-      price: "Let's talk",
-      blurb: "Bespoke scope — we scope and price it to fit exactly what you need.",
-      cta: "Talk about Custom",
-      contactSubject: "App Services — Custom (let's talk)",
+      name: "Scale",
+      price: "$14,000",
+      blurb: "A production-grade app built to scale — with the works.",
+      features: [
+        "Everything in Product, plus:",
+        "Advanced integrations + AI agents",
+        "Performance + load hardening",
+        "CI/CD pipeline + monitoring",
+        "Priority roadmap",
+        "90 days of post-launch support",
+      ],
+      cta: "Start a Scale build",
+      contactSubject: "App Services — Scale ($14,000)",
     },
   ],
 };
