@@ -117,7 +117,10 @@ export function ContactButton({
     );
   }
 
-  const href = subject ? `/contact?subject=${encodeURIComponent(subject)}#form` : "/contact#form";
+  const isQuote = label.toLowerCase().includes("quote");
+  const href = isQuote
+    ? (subject ? `/quote?service=${encodeURIComponent(subject)}` : "/quote")
+    : (subject ? `/contact?subject=${encodeURIComponent(subject)}#form` : "/contact#form");
   return (
     <Link href={href} className={cls}>
       <Mail size={16} aria-hidden />

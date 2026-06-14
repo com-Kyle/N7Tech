@@ -751,6 +751,21 @@ class FounderMailtoElement {
   }
 }
 
+class HomeQuoteLinkElement {
+  element(element) {
+    element.setAttribute("href", "/quote");
+  }
+}
+
+class ServiceQuoteLinkElement {
+  element(element) {
+    const href = element.getAttribute("href") || "";
+    const contactUrl = new URL(href, "https://www.n7technologies.org");
+    const service = contactUrl.searchParams.get("subject");
+    element.setAttribute("href", service ? `/quote?service=${encodeURIComponent(service)}` : "/quote");
+  }
+}
+
 class FounderContactCardsElement {
   constructor() {
     this.count = 0;
@@ -900,6 +915,22 @@ class SiteBodyElement {
             });
           }
 
+          function replaceQuoteLinks() {
+            if (window.location.pathname === "/") {
+              document.querySelectorAll('main a[href^="/contact"]').forEach(link => {
+                if (link.textContent.toLowerCase().includes("quote")) link.href = "/quote";
+              });
+            }
+
+            if (["/website-services", "/app-services"].includes(window.location.pathname)) {
+              document.querySelectorAll('main a[href^="/contact?subject="]').forEach(link => {
+                const destination = new URL(link.href, window.location.origin);
+                const service = destination.searchParams.get("subject");
+                link.href = service ? "/quote?service=" + encodeURIComponent(service) : "/quote";
+              });
+            }
+          }
+
           function ensureMobileNavigation() {
             const headerContainer = document.querySelector("header > div");
             if (!headerContainer) return null;
@@ -1016,6 +1047,7 @@ class SiteBodyElement {
             syncHomeCover();
             replaceContactEmails();
             replaceFounderPersonalEmails();
+            replaceQuoteLinks();
             setupDocumentNavigation();
             setupMobileMenu();
             syncAccountLinks();
@@ -1264,7 +1296,8 @@ function pageFlags(request) {
   return {
     homepage: url.pathname === "/",
     contactPage: url.pathname === "/contact",
-    aboutPage: url.pathname === "/about"
+    aboutPage: url.pathname === "/about",
+    servicePage: ["/website-services", "/app-services"].includes(url.pathname)
   };
 }
 
@@ -1316,8 +1349,14 @@ export default {
     if (flags.homepage) {
       rewriter = rewriter
         .on("main > div.bg-carbon", new HomeContainerElement())
+        .on('main a[href="/contact"]', new HomeQuoteLinkElement())
         .on('meta[property="og:image"]', new SocialImageElement())
         .on('meta[name="twitter:image"]', new SocialImageElement());
+    }
+
+    if (flags.servicePage) {
+      rewriter = rewriter
+        .on('main a[href^="/contact?subject="]', new ServiceQuoteLinkElement());
     }
 
     if (flags.contactPage) {

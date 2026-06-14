@@ -7,6 +7,20 @@ const PASSWORD_RESET_FROM = "accounts@n7technologies.org";
 const OAUTH_ORIGIN = "https://www.n7technologies.org";
 const ADMIN_VERIFICATION_HOURS = 24;
 const ACCOUNT_TYPES = new Set(["client", "homeowner", "contractor"]);
+const QUOTE_TIMEZONE = "America/New_York";
+const QUOTE_MINIMUM_NOTICE_MS = 48 * 60 * 60 * 1000;
+const QUOTE_NOTIFICATION_EMAILS = ["n7dpagan@gmail.com", "n7kpierce@gmail.com"];
+const QUOTE_SERVICES = new Set([
+  "General project consultation",
+  "Website Services inquiry",
+  "App Services inquiry",
+  "Website Services — Launch ($499)",
+  "Website Services — Growth (~$1,500)",
+  "Website Services — Custom (let's talk)",
+  "App Services — MVP ($2,500)",
+  "App Services — Product ($10k+)",
+  "App Services — Custom (let's talk)"
+]);
 const SELF_SIGNUP_ADMIN_EMAILS = new Set([
   "n7kpierce@gmail.com",
   "n7dpagan@gmail.com"
@@ -95,6 +109,55 @@ function futureIso(milliseconds) {
   return new Date(Date.now() + milliseconds).toISOString();
 }
 
+function zonedParts(date, timeZone = QUOTE_TIMEZONE) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23"
+  }).formatToParts(date);
+  return Object.fromEntries(parts.filter(part => part.type !== "literal").map(part => [part.type, part.value]));
+}
+
+function localDateTimeValue(date) {
+  const parts = zonedParts(date);
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+}
+
+function timeZoneOffset(date, timeZone = QUOTE_TIMEZONE) {
+  const parts = zonedParts(date, timeZone);
+  const represented = Date.UTC(
+    Number(parts.year),
+    Number(parts.month) - 1,
+    Number(parts.day),
+    Number(parts.hour),
+    Number(parts.minute),
+    Number(parts.second)
+  );
+  return represented - date.getTime();
+}
+
+function easternLocalToDate(value) {
+  const match = String(value || "").match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/);
+  if (!match) return null;
+  const [, year, month, day, hour, minute] = match;
+  const wallClock = Date.UTC(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute));
+  let result = wallClock - timeZoneOffset(new Date(wallClock));
+  result = wallClock - timeZoneOffset(new Date(result));
+  const date = new Date(result);
+  const normalized = zonedParts(date);
+  const roundTrip = `${normalized.year}-${normalized.month}-${normalized.day}T${normalized.hour}:${normalized.minute}`;
+  return roundTrip === value ? date : null;
+}
+
+function googleDate(date) {
+  return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+}
+
 function cookieValue(request, name) {
   const cookies = request.headers.get("cookie") || "";
   for (const part of cookies.split(";")) {
@@ -163,8 +226,9 @@ function page(title, content, status = 200) {
     .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
     .full { grid-column:1/-1; }
     label { display:grid; gap:.4rem; color:#d9dae0; font-size:.9rem; font-weight:700; }
-    input,select { width:100%; border:1px solid #383942; border-radius:.55rem; background:#090a0e; color:#fff; padding:.8rem .85rem; font:inherit; }
-    input:focus,select:focus { border-color:#e00008; outline:2px solid rgba(224,0,8,.2); }
+    input,select,textarea { width:100%; border:1px solid #383942; border-radius:.55rem; background:#090a0e; color:#fff; padding:.8rem .85rem; font:inherit; }
+    input:focus,select:focus,textarea:focus { border-color:#e00008; outline:2px solid rgba(224,0,8,.2); }
+    textarea { min-height:9rem; resize:vertical; }
     button,.button { display:inline-flex; align-items:center; justify-content:center; border:0; border-radius:.6rem; background:#e00008; color:#fff; padding:.82rem 1.05rem; font:inherit; font-weight:900; cursor:pointer; text-decoration:none; }
     button:hover,.button:hover { background:#ff1f27; }
     .secondary { border:1px solid #383942; background:#17181e; }
@@ -460,6 +524,137 @@ async function signupPage(request, env) {
     <p class="notice">By creating an account, you consent to N7 storing the profile information submitted here for account administration and service delivery.</p>
     <p class="muted">Already registered? <a href="/login">Log in</a>.</p>
   </main>`);
+}
+
+function quoteServiceOptions(selected) {
+  return [...QUOTE_SERVICES].map(service =>
+    `<option value="${escapeHtml(service)}"${service === selected ? " selected" : ""}>${escapeHtml(service)}</option>`
+  ).join("");
+}
+
+function quoteRequestPage(request) {
+  const url = new URL(request.url);
+  const requestedService = String(url.searchParams.get("service") || "").trim();
+  const selectedService = QUOTE_SERVICES.has(requestedService) ? requestedService : "General project consultation";
+  const earliest = new Date(Date.now() + QUOTE_MINIMUM_NOTICE_MS + 15 * 60000);
+  earliest.setUTCMinutes(Math.ceil(earliest.getUTCMinutes() / 15) * 15, 0, 0);
+  const latest = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+
+  return page("Schedule a quote consultation", `<main class="card auth-card">
+    <h1>Schedule a quote consultation</h1>
+    <p class="muted">Tell us what you are planning and choose a time at least 48 hours in advance. All appointment times below are Eastern Time.</p>
+    ${authMessage(url)}
+    <form method="post" action="/api/quotes">
+      <div class="grid">
+        <label>Name<input name="name" autocomplete="name" required minlength="2" maxlength="100"></label>
+        <label>Email<input type="email" name="email" autocomplete="email" required maxlength="254"></label>
+        <label>Phone number<input name="phone" autocomplete="tel" required maxlength="24"></label>
+        <label>Company <span class="muted">(optional)</span><input name="company" autocomplete="organization" maxlength="120"></label>
+        <label class="full">Service
+          <select name="service" required>${quoteServiceOptions(selectedService)}</select>
+        </label>
+        <label>Preferred date and time
+          <input type="datetime-local" name="scheduled_for" required step="900" min="${localDateTimeValue(earliest)}" max="${localDateTimeValue(latest)}">
+          <span class="muted">Eastern Time, with a minimum of 48 hours notice.</span>
+        </label>
+        <label>Meeting length
+          <select name="duration" required>
+            <option value="30">30 minutes</option>
+            <option value="60">60 minutes</option>
+          </select>
+        </label>
+        <label class="full">Preliminary project details
+          <textarea name="project_details" required minlength="20" maxlength="5000" placeholder="What do you need built or improved? Include goals, important features, budget range, and desired launch timing."></textarea>
+        </label>
+        <label style="position:absolute;left:-10000px" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+        <button class="full" type="submit">Continue to Google Calendar</button>
+      </div>
+    </form>
+    <p class="notice">Submitting immediately emails the request to both N7 founders. Google Calendar opens next with the appointment details and both founders added as guests. Select <strong>Save</strong> in Google Calendar to send the calendar invitation.</p>
+  </main>`);
+}
+
+async function submitQuoteRequest(request, env) {
+  if (!assertSameOrigin(request)) return json({ error: "Invalid request origin." }, 403);
+  const data = await bodyData(request);
+  if (String(data.website || "").trim()) return redirect("/quote");
+
+  const name = String(data.name || "").trim();
+  const email = normalizeEmail(data.email);
+  const phone = String(data.phone || "").trim();
+  const company = String(data.company || "").trim();
+  const service = String(data.service || "").trim();
+  const projectDetails = String(data.project_details || "").trim();
+  const duration = Number(data.duration);
+  const scheduledStart = easternLocalToDate(data.scheduled_for);
+
+  if (name.length < 2 || name.length > 100) return formError(request.url, "Enter your full name.", "/quote");
+  if (!isEmail(email)) return formError(request.url, "Enter a valid email address.", "/quote");
+  if (!/^[0-9+().\-\s]{7,24}$/.test(phone)) return formError(request.url, "Enter a valid phone number.", "/quote");
+  if (company.length > 120) return formError(request.url, "Company must be 120 characters or fewer.", "/quote");
+  if (!QUOTE_SERVICES.has(service)) return formError(request.url, "Select a valid service.", "/quote");
+  if (projectDetails.length < 20 || projectDetails.length > 5000) return formError(request.url, "Provide at least 20 characters of project details.", "/quote");
+  if (![30, 60].includes(duration)) return formError(request.url, "Select a valid meeting length.", "/quote");
+  if (!scheduledStart || scheduledStart.getTime() < Date.now() + QUOTE_MINIMUM_NOTICE_MS) {
+    return formError(request.url, "Choose an appointment at least 48 hours from now.", `/quote?service=${encodeURIComponent(service)}`);
+  }
+  if (scheduledStart.getTime() > Date.now() + 365 * 24 * 60 * 60 * 1000) {
+    return formError(request.url, "Choose an appointment within the next year.", `/quote?service=${encodeURIComponent(service)}`);
+  }
+
+  const ipHash = await sha256(request.headers.get("cf-connecting-ip") || "unknown");
+  const recent = await env.DB.prepare("SELECT COUNT(*) AS total FROM quote_requests WHERE requested_ip_hash = ? AND created_at > ?")
+    .bind(ipHash, futureIso(-60 * 60 * 1000)).first();
+  if (Number(recent?.total || 0) >= 5) {
+    return formError(request.url, "Too many quote requests were submitted. Try again later.", "/quote");
+  }
+
+  const id = crypto.randomUUID();
+  const timestamp = nowIso();
+  await env.DB.prepare(`
+    INSERT INTO quote_requests (
+      id, name, email, phone, company, service, project_details, scheduled_start,
+      timezone, duration_minutes, notification_status, requested_ip_hash, created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)
+  `).bind(
+    id, name, email, phone, company || null, service, projectDetails,
+    scheduledStart.toISOString(), QUOTE_TIMEZONE, duration, ipHash, timestamp
+  ).run();
+
+  const scheduledLabel = new Intl.DateTimeFormat("en-US", {
+    timeZone: QUOTE_TIMEZONE,
+    dateStyle: "full",
+    timeStyle: "short"
+  }).format(scheduledStart);
+  const notificationText = `New N7 quote consultation request\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company || "Not provided"}\nService: ${service}\nRequested time: ${scheduledLabel} Eastern Time\nLength: ${duration} minutes\n\nPreliminary details:\n${projectDetails}`;
+  const notificationHtml = `<h1>New N7 quote consultation request</h1><p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email)}<br><strong>Phone:</strong> ${escapeHtml(phone)}<br><strong>Company:</strong> ${escapeHtml(company || "Not provided")}<br><strong>Service:</strong> ${escapeHtml(service)}<br><strong>Requested time:</strong> ${escapeHtml(scheduledLabel)} Eastern Time<br><strong>Length:</strong> ${duration} minutes</p><h2>Preliminary details</h2><p style="white-space:pre-wrap">${escapeHtml(projectDetails)}</p>`;
+
+  try {
+    await Promise.all(QUOTE_NOTIFICATION_EMAILS.map(to => env.EMAIL.send({
+      to,
+      from: { email: PASSWORD_RESET_FROM, name: "N7 Technologies" },
+      subject: `New quote consultation: ${name}`,
+      text: notificationText,
+      html: notificationHtml
+    })));
+    await env.DB.prepare("UPDATE quote_requests SET notification_status = 'sent' WHERE id = ?").bind(id).run();
+  } catch (error) {
+    console.error("Quote notification failed", error);
+    await env.DB.prepare("UPDATE quote_requests SET notification_status = 'failed' WHERE id = ?").bind(id).run();
+    return formError(request.url, "Your request was saved, but founder notifications could not be sent. Please try again later.", `/quote?service=${encodeURIComponent(service)}`);
+  }
+
+  const scheduledEnd = new Date(scheduledStart.getTime() + duration * 60000);
+  const calendarDetails = `N7 Technologies quote consultation request\n\nContact: ${name}\nEmail: ${email}\nPhone: ${phone}\nCompany: ${company || "Not provided"}\nService: ${service}\n\nPreliminary details:\n${projectDetails}\n\nN7 will follow up with online meeting details.`;
+  const calendar = new URL("https://calendar.google.com/calendar/render");
+  calendar.searchParams.set("action", "TEMPLATE");
+  calendar.searchParams.set("text", `N7 Quote Consultation — ${service}`);
+  calendar.searchParams.set("dates", `${googleDate(scheduledStart)}/${googleDate(scheduledEnd)}`);
+  calendar.searchParams.set("ctz", QUOTE_TIMEZONE);
+  calendar.searchParams.set("details", calendarDetails);
+  calendar.searchParams.set("location", "Online — N7 Technologies will provide meeting details");
+  calendar.searchParams.set("add", QUOTE_NOTIFICATION_EMAILS.join(","));
+  return redirect(calendar.href);
 }
 
 async function completeProfilePage(request, env) {
@@ -980,11 +1175,12 @@ export async function authRoutes(request, env) {
   const path = url.pathname;
   const method = request.method;
 
-  if (!env.DB && ["/login", "/signup", "/forgot-password", "/reset-password", "/account", "/complete-profile", "/admin"].includes(path)) {
+  if (!env.DB && ["/login", "/signup", "/forgot-password", "/reset-password", "/account", "/complete-profile", "/admin", "/quote"].includes(path)) {
     return new Response("Account database is unavailable.", { status: 503 });
   }
   if (method === "GET" && path === "/login") return loginPage(request, env);
   if (method === "GET" && path === "/signup") return signupPage(request, env);
+  if (method === "GET" && path === "/quote") return quoteRequestPage(request);
   if (method === "GET" && path === "/forgot-password") return forgotPasswordPage(request, env);
   if (method === "GET" && path === "/reset-password") return resetPasswordPage(request, env);
   if (method === "GET" && path === "/verify-admin") return verifyAdmin(request, env);
@@ -997,6 +1193,7 @@ export async function authRoutes(request, env) {
     return json(user ? { authenticated: true, name: user.name, email: user.email, role: user.role } : { authenticated: false });
   }
   if (method === "POST" && path === "/api/auth/signup") return signup(request, env);
+  if (method === "POST" && path === "/api/quotes") return submitQuoteRequest(request, env);
   if (method === "POST" && path === "/api/auth/login") return login(request, env);
   if (method === "POST" && path === "/api/auth/forgot-password") return requestPasswordReset(request, env);
   if (method === "POST" && path === "/api/auth/reset-password") return resetPassword(request, env);

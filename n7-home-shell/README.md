@@ -30,6 +30,9 @@ The shell also:
 - Adds `/admin` with signup totals, account details, recent activity, and
   controls for name, occupation, account type, active/suspended status, and
   administrator-managed N7 verification.
+- Adds `/quote` for scheduled quote consultations. Requests must be at least 48
+  hours in advance, are stored in D1, notify both founders by email, and then
+  open a prefilled Google Calendar event with both founders added as guests.
 - Allows `n7kpierce@gmail.com` and `n7dpagan@gmail.com` to use the normal signup
   form and activates administrator access after a one-click email ownership
   verification. No private invitation is required for those two addresses.

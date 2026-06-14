@@ -117,7 +117,7 @@ export default function HomePage() {
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:justify-start">
               <Link
-                href="/contact"
+                href="/quote"
                 className="inline-flex items-center gap-2 rounded-md bg-[var(--color-brand)] px-5 py-3 font-semibold text-[var(--color-brand-fg)] shadow-sm transition-colors hover:bg-[var(--color-brand-strong)]"
               >
                 Get a free quote now <ArrowRight size={16} aria-hidden />

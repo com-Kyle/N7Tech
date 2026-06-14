@@ -29,6 +29,9 @@ This repo holds two layers that ship together:
   signups are classified as clients automatically.
 - Administrator dashboard with editable names, occupations, account types,
   active/suspended status, N7 verification controls, and activity records.
+- Quote scheduling at `/quote` with preliminary project details, a server-side
+  48-hour minimum, founder email notifications, and a prefilled Google Calendar
+  event containing both founder Gmail addresses as guests.
 - Email-verified administrator access for the approved founder Gmail accounts.
 - Contact aliases for `founder@`, `contact@`, and `help@` on the N7 domain.
 
@@ -106,9 +109,9 @@ account and administrator routes, proxies ContractorPod, and forwards remaining
 application requests to the `n7technologies` service binding.
 
 Cloudflare D1 stores user profiles, sessions, OAuth state, password reset
-tokens, administrator verification records, invitations, and audit logs. The
-`n7-email-router` Worker forwards `founder@`, `contact@`, and `help@` to both
-verified founder inboxes through Cloudflare Email Routing.
+tokens, administrator verification records, invitations, quote requests, and
+audit logs. The `n7-email-router` Worker forwards `founder@`, `contact@`, and
+`help@` to both verified founder inboxes through Cloudflare Email Routing.
 
 See **`N7_DEPLOYMENT.md`** for the guarded, GitHub-first deployment process
 (`./scripts/deploy-n7.sh`).
