@@ -244,11 +244,18 @@ const MENU_STYLES = `
     border-radius: 0.4rem;
   }
 
+  /* The shell owns the header bar height — keep the bar tall enough for the
+     lockup even when the separately-deployed app worker still ships an older
+     height class (e.g. h-20). min-height wins over the app's fixed height. */
+  header > div {
+    min-height: 7rem;
+  }
+
   /* Neural Zenith Technologies LLC — CSS wordmark lockup. Kept identical to the
      Next.js source (app/globals.css .nz-* block) so dev == prod. */
   .nz-lockup {
     --nz-notch: 9px;
-    zoom: 1.75;
+    zoom: 1.45;
     display: inline-flex;
     padding: 2px;
     background: linear-gradient(180deg, #ff343c 0%, #d20712 52%, #7e0c12 100%);
@@ -427,8 +434,12 @@ const MENU_STYLES = `
   }
 
   @media (max-width: 639px) {
+    header > div {
+      min-height: 5rem;
+    }
+
     .nz-lockup {
-      zoom: 1.3;
+      zoom: 1.25;
     }
 
     .nz-panel {
