@@ -1,19 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Boxes, Sparkles, ShieldCheck, Wrench, ArrowRight, Mail } from "lucide-react";
-import { ProductCard } from "@/components/product-card";
+import {
+  ArrowRight,
+  Mail,
+  Cpu,
+  Target,
+  Compass,
+  Medal,
+  Leaf,
+  Handshake,
+  HeartHandshake,
+} from "lucide-react";
 import { ContactButton } from "@/components/contact-buttons";
-import { PODS, ENGINE } from "@/lib/products";
+import { ENGINE } from "@/lib/products";
 import { PRIMARY_CONTACT, SECONDARY_CONTACT } from "@/lib/contact";
 
+export const metadata = {
+  title: "About — N7 Technologies",
+  description:
+    "N7 Technologies is a founder-run studio building small, honest AI pods for everyday people. Meet the founders, the engine that powers the pods, our mission, our veteran-first pledge, and our commitment to sustainable, responsible operations.",
+};
+
 /**
- * The two founders. Names + the single contact email come from
- * `lib/contact.ts` (the source of truth); the longer background blurb lives
- * here because it's about-page narrative, not contact metadata.
+ * The two people who own and run N7. Names + the single contact email come from
+ * `lib/contact.ts` (the source of truth); the role label and the longer
+ * background blurb live here because they're about-page narrative, not contact
+ * metadata. Dante is the founder, Kyle the co-founder — the ordering mirrors
+ * PRIMARY/SECONDARY in `lib/contact.ts`.
  */
 const FOUNDERS: ReadonlyArray<{
   name: string;
   email: string;
+  role: string;
   field: string;
   school: string;
   body: string;
@@ -21,6 +39,7 @@ const FOUNDERS: ReadonlyArray<{
   {
     name: PRIMARY_CONTACT.name,
     email: PRIMARY_CONTACT.email,
+    role: "Founder",
     field: "Project & supply-chain management",
     school: "Bachelor's, Penn State University",
     body: "Comes from operations and supply chain — the discipline of making moving parts arrive on time and on budget. Runs product, the customer relationship, and the day-to-day of every pod.",
@@ -28,42 +47,54 @@ const FOUNDERS: ReadonlyArray<{
   {
     name: SECONDARY_CONTACT.name,
     email: SECONDARY_CONTACT.email,
+    role: "Co-founder",
     field: "Audio engineering & music production",
     school: "Bachelor's, Full Sail University",
     body: "Comes from audio engineering and production — a craft of obsessing over how a finished thing actually feels to use. Shapes the build and the polish that makes each pod feel right.",
   },
 ];
 
-export const metadata = {
-  title: "About — N7 Technologies",
-  description:
-    "N7 Technologies is a studio building small, focused AI pods for everyday people. ContractorPod is live today; MealPod and BudgetPod are coming soon. The pods run on DeployPod — a separate AI-infrastructure partner.",
-};
-
-const PRINCIPLES: ReadonlyArray<{
+/** Mission and vision — the two statements that anchor everything else. */
+const PURPOSE: ReadonlyArray<{
+  kicker: string;
   title: string;
   body: string;
   icon: React.ReactNode;
 }> = [
   {
-    title: "Ship small pods, not platforms",
-    body: "Every product solves one job for one audience. We'd rather ship a few sharp tools than one bloated suite.",
-    icon: <Boxes size={22} aria-hidden />,
+    kicker: "Our mission",
+    title: "Put frontier AI in everyday hands.",
+    body: "We put frontier AI to work in everyday hands — wrapping the best models available in small, honest tools for tradespeople, home cooks, and households. We don't build the models; we package them behind plain-spoken interfaces that quote real price ranges, own their limits, and never pretend a chatbot is a contract.",
+    icon: <Target size={22} aria-hidden />,
   },
   {
-    title: "AI for the everyday",
-    body: "Frontier models aren't just for engineers. Our pods put the same intelligence behind ChatGPT into job sites, kitchens, and budgets.",
-    icon: <Sparkles size={22} aria-hidden />,
+    kicker: "Our vision",
+    title: "The same caliber of AI, for everyone.",
+    body: "A world where a solo contractor, a parent running a household, or a veteran has the same caliber of AI models working for them as any large company — and never has to learn to code, or decode the fine print, to use it. The people who build, cook, fix, and serve already bring the skill; the tool should meet them there and get out of the way.",
+    icon: <Compass size={22} aria-hidden />,
+  },
+];
+
+/** The CSR / sustainability pledge — three commitments, plain-spoken. */
+const PLEDGE: ReadonlyArray<{
+  title: string;
+  body: string;
+  icon: React.ReactNode;
+}> = [
+  {
+    title: "Operate sustainably",
+    body: "We run lean by design — minimal footprint, efficient compute, no waste we can avoid. As we grow, we measure our environmental impact honestly and work to shrink it, rather than buy our way out of it after the fact.",
+    icon: <Leaf size={22} aria-hidden />,
   },
   {
-    title: "Honest interfaces",
-    body: "Ranges instead of fake-binding numbers. Disclaimers built in, not bolted on. We never let a chat bubble pretend to be a contract.",
-    icon: <ShieldCheck size={22} aria-hidden />,
+    title: "Choose sustainable partners",
+    body: "We don't build alone, so the companies we build on matter. We favor infrastructure and partners with credible commitments to renewable-powered, responsible operations — and we keep choosing the ones who take their footprint as seriously as we take ours.",
+    icon: <Handshake size={22} aria-hidden />,
   },
   {
-    title: "Own the boring parts",
-    body: "Payments, scheduling, audit trails — the parts everyone hates. Our pods absorb the drudgery so people can keep doing the craft.",
-    icon: <Wrench size={22} aria-hidden />,
+    title: "Give back to our communities",
+    body: "A small company can still be a good neighbor. We hold ourselves to using what we build to serve the people around us — starting with the veterans and working families our pods are meant to reach.",
+    icon: <HeartHandshake size={22} aria-hidden />,
   },
 ];
 
@@ -92,14 +123,13 @@ export default function AboutPage() {
             The studio behind ContractorPod
           </p>
           <h1 className="font-display mt-8 max-w-3xl text-balance text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl">
-            We build small, sharp AI pods for everyday people.
+            Two founders building small, honest AI pods for everyday people.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-[var(--color-muted)]">
-            N7 Technologies is a studio shipping AI-native software in tightly
-            focused product pods — one job, one audience, one polished interface.
-            ContractorPod is live today. MealPod and BudgetPod are next. The pods
-            run on DeployPod — a separate AI-infrastructure company we partner
-            with.
+            N7 Technologies is a founder-run studio shipping AI-native software in
+            tightly focused product pods — one job, one audience, one polished
+            interface. We answer our own email, run our own products, and stand
+            behind the people we build for.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
@@ -113,137 +143,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* --- MISSION --- */}
-      <section className="mx-auto max-w-3xl px-6 py-20 text-center">
-        <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-          Why N7 Technologies exists
-        </p>
-        <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-          The best models are locked behind chatbots. We unlock them through
-          interfaces.
-        </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-[var(--color-muted)]">
-          GPT-class models can quote a deck rebuild, plan a week of meals, or
-          draft a budget — but only if someone wraps them in the right context,
-          the right tools, and the right guardrails. That wrapping is our job. We
-          pick small audiences the big AI labs ignore, and we ship them tools
-          their grandmother could use.
-        </p>
-        <div className="brand-rule mx-auto mt-10 w-full max-w-md" />
-      </section>
-
-      {/* --- TWO COMPANIES (left-aligned, breaks the centered rhythm) --- */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
-        <div className="max-w-2xl">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-            How we&rsquo;re structured
-          </p>
-          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            Two companies, working together
-          </h2>
-          <p className="mt-6 text-[var(--color-muted)]">
-            N7 Technologies and DeployPod are independent companies bound by a
-            master services agreement. N7 ships the consumer pods; DeployPod
-            ships the AI infrastructure they run on. Close, aligned, but legally
-            and operationally distinct.
-          </p>
-        </div>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {/* N7 */}
-          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.12] blur-3xl"
-              style={{ background: "var(--color-brand)" }}
-            />
-            <div className="relative">
-              <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-                Pods
-              </span>
-              <h3 className="font-display text-chrome mt-4 text-2xl font-bold tracking-wide">
-                N7 Technologies
-              </h3>
-              <p className="mt-2 text-sm font-semibold text-[var(--color-brand)]">
-                The studio that owns the pods.
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
-                N7 Technologies owns the ContractorPod, MealPod, and BudgetPod
-                brands. We do product, design, payments, and the day-to-day
-                operations of each pod — and we set the rules every pod follows
-                about honest AI interfaces.
-              </p>
-              <ul className="mt-5 space-y-2 text-sm text-[var(--color-fg)]">
-                {[
-                  "Owns the ContractorPod, MealPod & BudgetPod brands",
-                  "Ships product, design, and payments",
-                  "Holds the customer relationship",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5">
-                    <span aria-hidden className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-brand)]" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* DeployPod */}
-          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.12] blur-3xl"
-              style={{ background: ENGINE.accent }}
-            />
-            <div className="relative">
-              <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-                Engine
-              </span>
-              <h3 className="font-display mt-4 text-2xl font-bold tracking-wide text-[var(--color-fg)]">
-                {ENGINE.name}
-              </h3>
-              <p className="mt-2 text-sm font-semibold" style={{ color: ENGINE.accent }}>
-                {ENGINE.tagline}
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
-                {ENGINE.description}
-              </p>
-              <ul className="mt-5 space-y-2 text-sm text-[var(--color-fg)]">
-                {[
-                  "Hosts and runs every agent the pods use",
-                  "Owns model orchestration, retrieval, tool-use",
-                  "Licenses the engine to N7 under an MSA",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5">
-                    <span
-                      aria-hidden
-                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: ENGINE.accent }}
-                    />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link
-                href={ENGINE.page}
-                className="mt-5 inline-flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-80"
-                style={{ color: ENGINE.accent }}
-              >
-                Learn more about DeployPod <ArrowRight size={15} aria-hidden />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- FOUNDERS (left-aligned content cards — the trust signal) --- */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
+      {/* --- FOUNDERS (top — the trust signal) --- */}
+      <section className="mx-auto max-w-7xl px-6 pt-8 pb-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
             Who&rsquo;s behind it
           </p>
           <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            Two founders who build and run what they sell
+            The founders who build and run what they sell
           </h2>
           <p className="mt-6 text-[var(--color-muted)]">
             N7 Technologies is two people, not a faceless studio. Neither of us
@@ -268,7 +175,7 @@ export default function AboutPage() {
               />
               <div className="relative">
                 <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
-                  Co-founder
+                  {f.role}
                 </span>
                 <h3 className="font-display mt-4 text-2xl font-bold tracking-tight text-[var(--color-fg)]">
                   {f.name}
@@ -295,18 +202,173 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* --- PRINCIPLES (left-aligned, alternates with the centered sections) --- */}
+      {/* --- DEPLOYPOD (after founders, before mission — they wire the agents) --- */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-            Operating principles
+            The engine behind the pods
           </p>
           <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            Four rules that show up in every pod
+            We design the pods. DeployPod wires the agents.
           </h2>
+          <p className="mt-6 text-[var(--color-muted)]">
+            We don&rsquo;t run the AI plumbing ourselves. N7 Technologies and
+            DeployPod are independent companies bound by a master services
+            agreement: N7 ships the consumer pods; DeployPod builds and runs the
+            agents inside them.
+          </p>
         </div>
+
+        <div className="mt-12">
+          <div className="relative overflow-hidden rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-[0.12] blur-3xl"
+              style={{ background: ENGINE.accent }}
+            />
+            <div className="relative md:flex md:items-start md:gap-8">
+              <div className="md:max-w-xl">
+                <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+                  Engine
+                </span>
+                <h3 className="font-display mt-4 text-2xl font-bold tracking-wide text-[var(--color-fg)]">
+                  {ENGINE.name}
+                </h3>
+                <p className="mt-2 text-sm font-semibold" style={{ color: ENGINE.accent }}>
+                  {ENGINE.tagline}
+                </p>
+                <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
+                  When you chat with Mason inside ContractorPod, you&rsquo;re
+                  talking to a DeployPod-hosted agent. They own model
+                  orchestration, retrieval, and tool-use — the hosted-agent
+                  runtime every pod calls into — and license that engine to N7.
+                  Close and aligned, but legally and operationally distinct.
+                </p>
+                <Link
+                  href={ENGINE.page}
+                  className="mt-5 inline-flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-80"
+                  style={{ color: ENGINE.accent }}
+                >
+                  Learn more about DeployPod <ArrowRight size={15} aria-hidden />
+                </Link>
+              </div>
+              <ul className="mt-6 grid flex-1 gap-2 text-sm text-[var(--color-fg)] md:mt-1">
+                {[
+                  "Hosts and runs every agent the pods use",
+                  "Owns model orchestration, retrieval, tool-use",
+                  "Licenses the engine to N7 under an MSA",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2.5">
+                    <Cpu
+                      size={16}
+                      className="mt-0.5 shrink-0"
+                      style={{ color: ENGINE.accent }}
+                      aria-hidden
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- MISSION & VISION --- */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+            What drives us
+          </p>
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            Our mission and vision
+          </h2>
+          <div className="brand-rule mx-auto mt-8 w-full max-w-md" />
+        </div>
+
         <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {PRINCIPLES.map((p) => (
+          {PURPOSE.map((p) => (
+            <div
+              key={p.kicker}
+              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5"
+            >
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-border)] bg-[var(--color-elevated)] text-[var(--color-brand)]">
+                {p.icon}
+              </span>
+              <p className="mt-5 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-muted)]">
+                {p.kicker}
+              </p>
+              <h3 className="font-display mt-2 text-xl font-bold tracking-tight">
+                {p.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">
+                {p.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* --- VETERANS PLEDGE (highlighted band) --- */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
+        <div className="relative overflow-hidden rounded-2xl border border-[var(--color-brand)]/40 bg-[var(--color-surface)] p-8 shadow-sm ring-1 ring-white/5 sm:p-12">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full opacity-[0.16] blur-[90px]"
+            style={{ background: "rgba(225,29,39,0.85)" }}
+          />
+          <div className="relative max-w-3xl">
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-brand)]/50 bg-[var(--color-brand)]/[0.08] text-[var(--color-brand)]">
+              <Medal size={22} aria-hidden />
+            </span>
+            <p className="mt-5 font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-brand)]">
+              Our pledge to veterans
+            </p>
+            <h2 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+              Affordable for everyone. Free for veterans wherever we can carry it.
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-[var(--color-muted)]">
+              We believe the people who served shouldn&rsquo;t be priced out of
+              the tools that make work and life easier. So we keep our pods as
+              affordable as we honestly can for everyone — and we go further for
+              veterans. We discount wherever the math allows, and we offer it
+              free wherever we can carry the cost ourselves.
+            </p>
+            <p className="mt-4 text-lg leading-relaxed text-[var(--color-muted)]">
+              This is a commitment, not a coupon. If you&rsquo;ve served and a
+              price is the only thing standing between you and a pod, reach out.
+              We&rsquo;d rather find a way than turn you away.
+            </p>
+            <div className="mt-8">
+              <ContactButton
+                label="Talk to us"
+                subject="Veteran pricing — N7 Technologies"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- CSR & SUSTAINABILITY --- */}
+      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
+        <div className="max-w-2xl">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+            Corporate social responsibility
+          </p>
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            Responsibility isn&rsquo;t a footnote
+          </h2>
+          <p className="mt-6 text-[var(--color-muted)]">
+            We&rsquo;re a small company, but how we operate still leaves a
+            footprint — on the planet, on the partners we choose, and on the
+            communities our pods reach. We hold ourselves to a simple standard:
+            act sustainably, build with people who do the same, and give back
+            where we can.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {PLEDGE.map((p) => (
             <div
               key={p.title}
               className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-7 shadow-sm ring-1 ring-white/5"
@@ -321,23 +383,6 @@ export default function AboutPage() {
                 {p.body}
               </p>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* --- PRODUCT FAMILY --- */}
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
-        <div className="text-center">
-          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
-            The pod family
-          </p>
-          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            One pod live, two on the way
-          </h2>
-        </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {PODS.map((pod) => (
-            <ProductCard key={pod.slug} pod={pod} />
           ))}
         </div>
       </section>
