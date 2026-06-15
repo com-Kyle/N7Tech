@@ -145,18 +145,23 @@ node --check n7-email-router/src/index.js
 GitHub is the source of record. Every update must be committed and pushed to
 the `main` branch before Cloudflare is changed.
 
-Enable repository commit stamping once per clone:
+Enable repository commit stamping and GitHub synchronization checks once per
+clone:
 
 ```bash
 ./scripts/setup-git.sh
 ```
 
 Commit subjects and Cloudflare deployment messages are automatically prefixed
-with `N7KP` and the requested Eastern date/time stamp.
+with `N7KP` and the requested Eastern date/time stamp. The `pre-commit` and
+`pre-push` hooks fetch GitHub and block the operation if the local branch is
+behind or has diverged from its upstream.
 
 ```bash
+git pull --ff-only origin main
 git add .
 git commit -m "Describe the N7 update"
+git pull --rebase origin main
 git push origin main
 ./scripts/deploy-n7.sh
 ```

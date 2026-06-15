@@ -5,14 +5,19 @@ record for N7 production changes.
 
 Run `./scripts/setup-git.sh` once after cloning. It configures the repository to
 stamp commit subjects with `N7KP`, the Eastern date, and the Eastern time.
-Cloudflare deployment messages receive the same stamp automatically.
+Cloudflare deployment messages receive the same stamp automatically. It also
+enables `pre-commit` and `pre-push` checks that fetch GitHub and stop when the
+local branch is behind or diverged.
 
 ## Required Order
 
-1. Make and test changes locally.
-2. Commit the complete change to Git.
-3. Push the commit to the `main` branch on GitHub.
-4. Deploy to Cloudflare only after GitHub contains that exact commit.
+1. Pull the latest `main` branch with `git pull --ff-only origin main`.
+2. Make and test changes locally.
+3. Pull/rebase again before committing if GitHub changed during the work.
+4. Commit the complete change to Git.
+5. Run `git pull --rebase origin main` before pushing.
+6. Push the commit to the `main` branch on GitHub.
+7. Deploy to Cloudflare only after GitHub contains that exact commit.
 
 There is exactly **one** deploy command. You never have to know which Worker
 your change touched — run this for every prod change, from the repo root:
