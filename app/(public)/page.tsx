@@ -134,7 +134,7 @@ export default function HomePage() {
       {/* --- WHAT WE DO (services) --- */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
-          <p className="inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 font-sans text-sm font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)] ring-1 ring-white/5">
+          <p className="neon-glow inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 font-sans text-sm font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)] ring-1 ring-white/5">
             What we do
           </p>
           <h2 className="font-display mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
@@ -192,7 +192,7 @@ export default function HomePage() {
       {/* --- PRODUCT SHOWCASE --- */}
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
         <div className="max-w-2xl">
-          <p className="inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 font-sans text-sm font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)] ring-1 ring-white/5">
+          <p className="neon-glow inline-flex w-fit items-center rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3.5 py-1.5 font-sans text-sm font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)] ring-1 ring-white/5">
             Our products
           </p>
           <h2 className="font-display mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
@@ -272,14 +272,14 @@ export default function HomePage() {
                 className="hidden w-full max-w-[248px] rotate-3 opacity-95 sm:block"
               />
             </div>
-            <p className="mx-auto mt-4 w-fit rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-center text-sm text-[var(--color-muted)] ring-1 ring-white/5">
+            <p className="neon-glow mx-auto mt-4 w-fit rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1 text-center text-sm text-[var(--color-muted)] ring-1 ring-white/5">
               Preview
             </p>
           </div>
         </div>
 
         {/* All products / MealPod mention */}
-        <div className="mx-auto mt-12 flex w-fit flex-wrap items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-2.5 text-base text-[var(--color-muted)] shadow-sm ring-1 ring-white/5">
+        <div className="neon-glow mx-auto mt-12 flex w-fit flex-wrap items-center justify-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-5 py-2.5 text-base text-[var(--color-muted)] shadow-sm ring-1 ring-white/5">
           <span>Three pods in the family — including MealPod.</span>
           <Link
             href="/products"

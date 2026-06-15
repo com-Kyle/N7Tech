@@ -106,7 +106,7 @@ export default function AboutPage() {
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
+          style={{ background: "radial-gradient(closest-side, rgba(180,60,255,0.85), transparent)" }}
         />
         <div className="relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-20 pt-20 text-center sm:px-8">
           <div className="rounded-2xl bg-[#11151f] p-3 shadow-lg ring-1 ring-white/10 sm:p-4">
@@ -174,7 +174,7 @@ export default function AboutPage() {
                 style={{ background: "var(--color-brand)" }}
               />
               <div className="relative">
-                <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+                <span className="neon-glow inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                   {f.role}
                 </span>
                 <h3 className="font-display mt-4 text-2xl font-bold tracking-tight text-[var(--color-fg)]">
@@ -228,7 +228,7 @@ export default function AboutPage() {
             />
             <div className="relative md:flex md:items-start md:gap-8">
               <div className="md:max-w-xl">
-                <span className="inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+                <span className="neon-glow inline-flex items-center rounded-full border border-[var(--color-border)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
                   Engine
                 </span>
                 <h3 className="font-display mt-4 text-2xl font-bold tracking-wide text-[var(--color-fg)]">
@@ -315,7 +315,7 @@ export default function AboutPage() {
           <div
             aria-hidden
             className="pointer-events-none absolute -left-16 -top-16 h-64 w-64 rounded-full opacity-[0.16] blur-[90px]"
-            style={{ background: "rgba(225,29,39,0.85)" }}
+            style={{ background: "rgba(180,60,255,0.85)" }}
           />
           <div className="relative max-w-3xl">
             <span className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--color-brand)]/50 bg-[var(--color-brand)]/[0.08] text-[var(--color-brand)]">
@@ -393,7 +393,7 @@ export default function AboutPage() {
           <div
             aria-hidden
             className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(480px,80%)] -translate-x-1/2 rounded-full opacity-[0.16] blur-[90px]"
-            style={{ background: "rgba(225,29,39,0.85)" }}
+            style={{ background: "rgba(180,60,255,0.85)" }}
           />
           <div className="relative">
             <h2 className="font-display text-2xl font-bold tracking-tight">

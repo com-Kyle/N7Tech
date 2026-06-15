@@ -13,11 +13,11 @@ export const metadata = {
 export default function ProductsPage() {
   return (
     <section className="relative mx-auto max-w-7xl overflow-hidden px-6 py-24 sm:px-8">
-      {/* Red bloom wash — matches the home + about hero device on charcoal. */}
+      {/* Neon-purple bloom wash — matches the home + about hero device on charcoal. */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
-        style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
+        style={{ background: "radial-gradient(closest-side, rgba(180,60,255,0.85), transparent)" }}
       />
       <h1 className="font-display relative text-4xl font-bold tracking-tight sm:text-5xl">
         Products

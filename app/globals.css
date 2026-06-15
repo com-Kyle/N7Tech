@@ -15,6 +15,10 @@
   --color-brand-deep: #9e1119;
   --color-brand-fg: #ffffff; /* text on red buttons */
 
+  --color-neon: #b43cff; /* neon purple — ambient glow accent (home backdrop + pills + tables) */
+  --color-neon-strong: #c965ff; /* brighter purple for hot cores */
+  --color-neon-deep: #7814c8; /* deep purple for atmosphere */
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
   --font-display: var(--font-chakra), var(--font-inter), sans-serif;
@@ -78,6 +82,21 @@ a {
   background: var(--color-brand);
   transform: translate(-50%, -50%);
   box-shadow: 0 0 0 2px rgba(225, 29, 39, 0.14);
+}
+
+/* Reusable neon-purple glow — a faint purple ring + soft outer bloom. Applied
+   to pills/badges and the comparison tables across pages so they pick up the
+   same neon-purple language as the home backdrop, without recoloring brand red.
+   Hover variant lifts the bloom slightly. */
+.neon-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-neon) 24%, transparent),
+    0 0 22px -4px color-mix(in srgb, var(--color-neon) 55%, transparent);
+}
+.neon-glow:hover {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-neon) 36%, transparent),
+    0 0 28px -3px color-mix(in srgb, var(--color-neon) 70%, transparent);
 }
 
 /* ============================================================================
@@ -243,15 +262,15 @@ a {
       90deg,
       transparent 0,
       transparent calc(2.6vw - 1px),
-      rgba(255, 48, 54, 0.55) calc(2.6vw - 1px),
-      rgba(255, 48, 54, 0.55) 2.6vw
+      rgba(178, 60, 255, 0.55) calc(2.6vw - 1px),
+      rgba(178, 60, 255, 0.55) 2.6vw
     ),
     repeating-linear-gradient(
       0deg,
       transparent 0,
       transparent calc(2.6vw - 1px),
-      rgba(255, 48, 54, 0.4) calc(2.6vw - 1px),
-      rgba(255, 48, 54, 0.4) 2.6vw
+      rgba(178, 60, 255, 0.4) calc(2.6vw - 1px),
+      rgba(178, 60, 255, 0.4) 2.6vw
     );
   -webkit-mask-image: linear-gradient(
     to top,
@@ -265,7 +284,7 @@ a {
     rgba(0, 0, 0, 0.5) 42%,
     transparent 86%
   );
-  filter: drop-shadow(0 0 6px rgba(225, 29, 39, 0.35));
+  filter: drop-shadow(0 0 6px rgba(168, 40, 255, 0.35));
 }
 
 /* Layer 2 — atmosphere: the bright horizon vanishing-point glow the grid
@@ -282,37 +301,37 @@ a {
     /* hot vanishing-point core */
     radial-gradient(
       ellipse 24% 2.5% at 50% 51%,
-      rgba(255, 150, 150, 0.95),
-      rgba(255, 60, 66, 0.32) 45%,
+      rgba(224, 178, 255, 0.95),
+      rgba(190, 80, 255, 0.32) 45%,
       transparent 72%
     ),
     /* horizon glow bloom */
     radial-gradient(
       ellipse 58% 26% at 50% 51%,
-      rgba(225, 29, 39, 0.42),
-      rgba(160, 18, 24, 0.12) 40%,
+      rgba(168, 40, 255, 0.42),
+      rgba(110, 20, 190, 0.12) 40%,
       transparent 72%
     ),
     /* LEFT margin — a tall edge rail + a cluster of bright vertical beams of
        varying height rising from the horizon, for a real "data spire" presence */
-    radial-gradient(ellipse 0.12% 56% at 3% 30%, rgba(255, 90, 96, 0.4), transparent 86%),
-    radial-gradient(ellipse 0.2% 40% at 7% 34%, rgba(255, 130, 136, 0.7), transparent 80%),
-    radial-gradient(ellipse 0.16% 28% at 12% 40%, rgba(255, 100, 106, 0.55), transparent 82%),
-    radial-gradient(ellipse 0.18% 46% at 17% 32%, rgba(255, 120, 126, 0.55), transparent 80%),
-    radial-gradient(ellipse 0.14% 22% at 21% 44%, rgba(255, 90, 96, 0.4), transparent 82%),
+    radial-gradient(ellipse 0.12% 56% at 3% 30%, rgba(200, 110, 255, 0.4), transparent 86%),
+    radial-gradient(ellipse 0.2% 40% at 7% 34%, rgba(214, 150, 255, 0.7), transparent 80%),
+    radial-gradient(ellipse 0.16% 28% at 12% 40%, rgba(205, 120, 255, 0.55), transparent 82%),
+    radial-gradient(ellipse 0.18% 46% at 17% 32%, rgba(212, 140, 255, 0.55), transparent 80%),
+    radial-gradient(ellipse 0.14% 22% at 21% 44%, rgba(200, 110, 255, 0.4), transparent 82%),
     /* RIGHT margin — mirror of the left cluster */
-    radial-gradient(ellipse 0.12% 56% at 97% 30%, rgba(255, 90, 96, 0.4), transparent 86%),
-    radial-gradient(ellipse 0.2% 40% at 93% 34%, rgba(255, 130, 136, 0.7), transparent 80%),
-    radial-gradient(ellipse 0.16% 28% at 88% 40%, rgba(255, 100, 106, 0.55), transparent 82%),
-    radial-gradient(ellipse 0.18% 46% at 83% 32%, rgba(255, 120, 126, 0.55), transparent 80%),
-    radial-gradient(ellipse 0.14% 22% at 79% 44%, rgba(255, 90, 96, 0.4), transparent 82%),
+    radial-gradient(ellipse 0.12% 56% at 97% 30%, rgba(200, 110, 255, 0.4), transparent 86%),
+    radial-gradient(ellipse 0.2% 40% at 93% 34%, rgba(214, 150, 255, 0.7), transparent 80%),
+    radial-gradient(ellipse 0.16% 28% at 88% 40%, rgba(205, 120, 255, 0.55), transparent 82%),
+    radial-gradient(ellipse 0.18% 46% at 83% 32%, rgba(212, 140, 255, 0.55), transparent 80%),
+    radial-gradient(ellipse 0.14% 22% at 79% 44%, rgba(200, 110, 255, 0.4), transparent 82%),
     /* side margins — wider, brighter soft glow columns behind the beam clusters */
-    radial-gradient(ellipse 8% 50% at 10% 38%, rgba(225, 40, 46, 0.22), transparent 74%),
-    radial-gradient(ellipse 8% 50% at 90% 38%, rgba(225, 40, 46, 0.22), transparent 74%),
+    radial-gradient(ellipse 8% 50% at 10% 38%, rgba(170, 60, 255, 0.22), transparent 74%),
+    radial-gradient(ellipse 8% 50% at 90% 38%, rgba(170, 60, 255, 0.22), transparent 74%),
     /* upper atmosphere wash */
     radial-gradient(
       ellipse 120% 55% at 50% -12%,
-      rgba(120, 12, 16, 0.26),
+      rgba(80, 16, 150, 0.26),
       transparent 60%
     ),
     /* edge vignette */

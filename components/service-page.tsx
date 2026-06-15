@@ -1,9 +1,9 @@
 /**
  * Shared template for an agency-style service page (Website / App services).
  * Both pages render `<ServicePage service={...} />` so they stay one coherent
- * layout. Matches the site's charcoal design language: red hero bloom, font-sans
- * eyebrow, font-display headings, flat content cards (surface + ring-1
- * ring-white/5), and a red brand CTA.
+ * layout. Matches the site's charcoal design language: neon-purple hero bloom,
+ * font-sans eyebrow, font-display headings, flat content cards (surface + ring-1
+ * ring-white/5), a neon-purple-glowing compare table, and a red brand CTA.
  */
 import { Check, Minus } from "lucide-react";
 import { ContactButton } from "@/components/contact-buttons";
@@ -36,7 +36,7 @@ export function ServicePage({ service }: { service: Service }) {
         <div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
-          style={{ background: "radial-gradient(closest-side, rgba(225,29,39,0.85), transparent)" }}
+          style={{ background: "radial-gradient(closest-side, rgba(180,60,255,0.85), transparent)" }}
         />
         <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-24 text-center sm:px-8">
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
@@ -164,7 +164,7 @@ export function ServicePage({ service }: { service: Service }) {
           </p>
         </div>
 
-        <div className="mt-10 overflow-x-auto rounded-lg border border-[var(--color-border)] ring-1 ring-white/5">
+        <div className="neon-glow mt-10 overflow-x-auto rounded-lg border border-[var(--color-border)] ring-1 ring-white/5">
           <table className="w-full min-w-[680px] border-collapse text-left">
             <thead>
               <tr className="border-b border-[var(--color-border)]">
