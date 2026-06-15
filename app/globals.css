@@ -30,9 +30,15 @@ body {
   font-family: var(--font-sans);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* Link reset lives in @layer base so per-element Tailwind utilities
+   (text-white, hover:text-[brand], underline, …) override it as authored.
+   Unlayered, this rule beats every layered utility and silently forces all
+   links to inherit their parent's color / drop underlines. */
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 ::selection {
