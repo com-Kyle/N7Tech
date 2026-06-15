@@ -34,7 +34,17 @@ export default function ProductsPage() {
       </h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {PODS.map((pod) => (
-          <ProductCard key={pod.slug} pod={pod} />
+          <div key={pod.slug} className="flex flex-col gap-2">
+            <ProductCard pod={pod} />
+            {pod.slug === "contractorpod" && (
+              <Link
+                href="/products/contractorpod"
+                className="inline-flex items-center gap-1 self-start text-sm font-semibold text-[var(--color-brand)] transition-colors hover:underline"
+              >
+                Learn more <ArrowRight size={15} aria-hidden />
+              </Link>
+            )}
+          </div>
         ))}
       </div>
 
