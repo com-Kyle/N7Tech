@@ -24,13 +24,17 @@ metallic wordmark, and a single accent.
 | `--color-brand-strong` | `#ff2b35` | **Brighter** red for hover on dark |
 | `--color-brand-deep` | `#9e1119` | Gradient shadow end |
 | `--color-brand-fg` | `#ffffff` | Text on red buttons |
+| `--color-neon` | `#b43cff` | Neon-purple **ambient** glow — home backdrop, hero blooms, pill/table glow (realized in CSS as `rgba(180,60,255,…)`) |
 
-Red is an accent, not a flood — keep one red focal element per view (a CTA, a
-status dot, the brand rule, the hero bloom).
+Red is the one **focal** accent — keep a single red focal element per view (a
+CTA, a status dot, the brand rule). Neon purple (`--color-neon`) is a separate
+**ambient** layer: low-opacity atmospheric glow (blooms, backdrop), never a
+focal accent and never competing with red.
 
-The home page backdrop uses a low-contrast 72px architectural grid over soft
-charcoal, with broad red ambient light fields. Avoid small repeating geometric
-tiles; they read as decorative symbols and compete with the content.
+The home page backdrop uses a low-contrast architectural grid (a faint red
+weave) over soft charcoal, with broad neon-purple ambient light fields and
+vertical "data-spire" beams down the side margins. Avoid small repeating
+geometric tiles; they read as decorative symbols and compete with the content.
 
 Contrast: `#e8eaf0` on `#222a3a` is strong for primary text; reserve `#94a3b8`
 (muted) for secondary copy only.
@@ -71,9 +75,12 @@ read on slate without becoming neon.
   bright on the charcoal bg.
 - **Brand rule** (`.brand-rule`) — red hairline with a tight center dot
   (`0 0 0 2px rgba(225,29,39,0.14)` ring). Reads well on charcoal.
-- **Hero bloom** — inner marketing pages use a subtle red radial
-  (`opacity-[0.14]`, `blur-[120px]`). The home page does not add a separate hero
-  bloom because its single technical backdrop already includes ambient red.
+- **Hero bloom** — inner marketing pages use a subtle neon-purple radial
+  (`--color-neon`, realized as `rgba(180,60,255,0.85)`): hero blooms at
+  `opacity-[0.14]` / `blur-[120px]`, secondary section blooms at `opacity-[0.16]`
+  / `blur-[90px]`. It's ambient atmosphere, not a focal accent — red stays the
+  single focal color. The home page doesn't add a separate hero bloom because its
+  backdrop already carries the purple ambient layer.
 - **Button hover** — primary red buttons shift to `--color-brand-strong`
   (`#ff2b35`, **brighter**) on hover — hover brightens on dark, never darkens.
 
@@ -105,7 +112,7 @@ principles" left-aligned) to avoid the all-centered "generic AI SaaS" tell.
 
 Agency-style service pages (Website / App) render through one component —
 `components/service-page.tsx`, fed a `Service` from `lib/services.ts` (the
-source of truth, mirroring `lib/products.ts`). Shape: red-bloom hero (eyebrow →
+source of truth, mirroring `lib/products.ts`). Shape: purple-bloom hero (eyebrow →
 H1 service name → tagline → "Starting at <price>" → "Get a quote" `ContactButton`
 with the service's `contactSubject`) → a 3-pillar grid (**Build / Improve /
 Test**, flat content cards) → a closing CTA. Add a new service by adding a
@@ -113,8 +120,9 @@ Test**, flat content cards) → a closing CTA. Add a new service by adding a
 
 The `/deploypod` cross-marketing page is bespoke (not the template) and uses
 DeployPod **blue** (`#3B82F6`, from `ENGINE.accent`) as its hero/CTA accent while
-keeping the shared chrome — the one place a non-red accent is sanctioned, because
-the about page already established DeployPod = blue.
+keeping the shared chrome — the one place a non-red **focal** accent is sanctioned
+(distinct from the site-wide purple **ambient** layer), because the about page
+already established DeployPod = blue.
 
 ## Nav — Services dropdown
 
@@ -129,6 +137,8 @@ the gap. Hidden below `sm` like the other text links (no mobile menu yet).
 - Dark-only, soft charcoal — never pure black, never a light surface.
 - Cards lean on border + `ring-1 ring-white/5`, not drop-shadow.
 - Red is an accent, not a flood — one red focal element per view.
+- Neon purple (`--color-neon`) is the ambient layer only (blooms, backdrop) —
+  low opacity, never a focal accent.
 - Wordmark is always `N7` (`.text-chrome`, metallic) + `TECHNOLOGIES` (wide
   tracking).
 - Eyebrows in `font-sans`; reserve `font-display` (Chakra Petch) for headlines.
