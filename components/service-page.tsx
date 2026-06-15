@@ -5,7 +5,7 @@
  * eyebrow, font-display headings, flat content cards (surface + ring-1
  * ring-white/5), and a red brand CTA.
  */
-import { Check } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import { ContactButton } from "@/components/contact-buttons";
 import type { Service } from "@/lib/services";
 
@@ -147,6 +147,104 @@ export function ServicePage({ service }: { service: Service }) {
               variant="secondary"
             />
           </div>
+        </div>
+      </section>
+
+      {/* --- COMPARE TIERS: feature matrix (what you do / don't get) --- */}
+      <section className="mx-auto max-w-7xl px-6 pt-16 sm:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
+            Compare
+          </p>
+          <h2 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            What&rsquo;s included at each tier
+          </h2>
+          <p className="mt-4 text-[var(--color-muted)]">
+            Exactly what you get — and what you don&rsquo;t — as you move up.
+          </p>
+        </div>
+
+        <div className="mt-10 overflow-x-auto rounded-lg border border-[var(--color-border)] ring-1 ring-white/5">
+          <table className="w-full min-w-[680px] border-collapse text-left">
+            <thead>
+              <tr className="border-b border-[var(--color-border)]">
+                <th className="bg-[var(--color-surface)] p-4 text-sm font-semibold text-[var(--color-muted)]">
+                  Feature
+                </th>
+                {service.tiers.map((tier) => (
+                  <th
+                    key={tier.name}
+                    className={[
+                      "p-4 text-center align-bottom",
+                      tier.featured
+                        ? "bg-[var(--color-brand)]/[0.07]"
+                        : "bg-[var(--color-surface)]",
+                    ].join(" ")}
+                  >
+                    <div
+                      className={[
+                        "font-display text-lg font-bold tracking-tight",
+                        tier.featured
+                          ? "text-[var(--color-brand)]"
+                          : "text-[var(--color-fg)]",
+                      ].join(" ")}
+                    >
+                      {tier.name}
+                    </div>
+                    <div className="mt-1 text-sm text-[var(--color-muted)]">
+                      {tier.price}
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {service.comparison.map((row) => (
+                <tr
+                  key={row.label}
+                  className="border-b border-[var(--color-border)]/60 last:border-0"
+                >
+                  <th
+                    scope="row"
+                    className="p-4 text-left text-sm font-medium text-[var(--color-fg)]"
+                  >
+                    {row.label}
+                  </th>
+                  {row.values.map((value, i) => (
+                    <td
+                      key={i}
+                      className={[
+                        "p-4 text-center text-sm",
+                        service.tiers[i]?.featured
+                          ? "bg-[var(--color-brand)]/[0.05]"
+                          : "",
+                      ].join(" ")}
+                    >
+                      {typeof value === "boolean" ? (
+                        value ? (
+                          <Check
+                            size={18}
+                            aria-label="Included"
+                            className="mx-auto text-[var(--color-brand)]"
+                          />
+                        ) : (
+                          <Minus
+                            size={16}
+                            aria-label="Not included"
+                            className="mx-auto text-[var(--color-muted)]/50"
+                          />
+                        )
+                      ) : (
+                        <span className="font-medium text-[var(--color-fg)]">
+                          {value}
+                        </span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 

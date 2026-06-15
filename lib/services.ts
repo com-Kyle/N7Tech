@@ -39,6 +39,20 @@ export type ServiceTier = {
   featured?: boolean;
 };
 
+/**
+ * One row of the tier comparison table. `values` aligns 1:1 with `tiers` order
+ * (so `values[0]` is the lowest tier). A `boolean` renders as ✓ (included) or a
+ * muted dash (not included — "what you don't get"); a `string` renders the value
+ * verbatim (e.g. "Up to 8", "30 days").
+ */
+export type ComparisonValue = boolean | string;
+export type ComparisonRow = {
+  /** Feature/capability name shown in the left column. */
+  label: string;
+  /** One value per tier, in `tiers` order. */
+  values: readonly [ComparisonValue, ComparisonValue, ComparisonValue];
+};
+
 export type Service = {
   slug: string;
   name: string;
@@ -52,6 +66,12 @@ export type Service = {
   pillars: ReadonlyArray<ServicePillar>;
   /** Exactly three good-better-best tiers; the middle one is `featured`. */
   tiers: ReadonlyArray<ServiceTier>;
+  /**
+   * Feature-by-feature comparison across the three tiers (same order as
+   * `tiers`). Drives the "Compare tiers" table so what you do/don't get as you
+   * move up is explicit. Source of truth shared with the per-tier checklists.
+   */
+  comparison: ReadonlyArray<ComparisonRow>;
 };
 
 export const WEBSITE_SERVICE: Service = {
@@ -76,7 +96,7 @@ export const WEBSITE_SERVICE: Service = {
   ],
   tiers: [
     {
-      name: "Launch",
+      name: "Minimum Website Package",
       price: "$499",
       blurb: "A sharp landing or single-page site, designed and launched fast.",
       features: [
@@ -86,15 +106,15 @@ export const WEBSITE_SERVICE: Service = {
         "Contact form wired to your inbox",
         "Live in about a week",
       ],
-      cta: "Start a Launch site",
-      contactSubject: "Website Services — Launch ($499)",
+      cta: "Start a Minimum site",
+      contactSubject: "Website Services — Minimum Website Package ($499)",
     },
     {
       name: "Growth",
       price: "$2,400",
       blurb: "A full multi-page site with a CMS you can edit yourself.",
       features: [
-        "Everything in Launch, plus:",
+        "Everything in Minimum, plus:",
         "Up to 8 pages",
         "CMS — edit your own content",
         "SEO setup + analytics",
@@ -121,6 +141,19 @@ export const WEBSITE_SERVICE: Service = {
       contactSubject: "Website Services — Pro ($3,500)",
     },
   ],
+  comparison: [
+    { label: "Pages", values: ["1", "Up to 8", "Unlimited"] },
+    { label: "Custom design from your brand", values: [true, true, true] },
+    { label: "Mobile-responsive, fast-loading", values: [true, true, true] },
+    { label: "Contact form to your inbox", values: [true, true, true] },
+    { label: "CMS — edit content yourself", values: [false, true, true] },
+    { label: "Blog / news section", values: [false, true, true] },
+    { label: "SEO setup + analytics", values: [false, true, true] },
+    { label: "Custom features (booking, payments, CRM)", values: [false, false, true] },
+    { label: "Performance + accessibility hardening", values: [false, false, true] },
+    { label: "Priority build timeline", values: [false, false, true] },
+    { label: "Post-launch support", values: [false, "30 days", "90 days"] },
+  ],
 };
 
 export const APP_SERVICE: Service = {
@@ -145,7 +178,7 @@ export const APP_SERVICE: Service = {
   ],
   tiers: [
     {
-      name: "MVP",
+      name: "Minimum App Package",
       price: "$2,500",
       blurb: "Validate the idea with a real, working build people can use.",
       features: [
@@ -155,15 +188,15 @@ export const APP_SERVICE: Service = {
         "Auth + your core data model",
         "Shipped to real testers",
       ],
-      cta: "Start an MVP",
-      contactSubject: "App Services — MVP ($2,500)",
+      cta: "Start a Minimum build",
+      contactSubject: "App Services — Minimum App Package ($2,500)",
     },
     {
       name: "Product",
       price: "$9,500",
       blurb: "The full product build — polished, scalable, and ready to grow.",
       features: [
-        "Everything in MVP, plus:",
+        "Everything in Minimum, plus:",
         "Full feature set",
         "Web + mobile",
         "Polished, production-grade UI/UX",
@@ -189,6 +222,19 @@ export const APP_SERVICE: Service = {
       cta: "Start a Scale build",
       contactSubject: "App Services — Scale ($14,000)",
     },
+  ],
+  comparison: [
+    { label: "Feature scope", values: ["Core (1-2 flows)", "Full feature set", "Full + advanced"] },
+    { label: "Platforms", values: ["Web or single", "Web + mobile", "Web + mobile"] },
+    { label: "Modern, AI-native stack", values: [true, true, true] },
+    { label: "Auth + your core data model", values: [true, true, true] },
+    { label: "Polished, production-grade UI/UX", values: [false, true, true] },
+    { label: "Admin dashboard + analytics", values: [false, true, true] },
+    { label: "Advanced integrations + AI agents", values: [false, false, true] },
+    { label: "Performance + load hardening", values: [false, false, true] },
+    { label: "CI/CD pipeline + monitoring", values: [false, false, true] },
+    { label: "Priority roadmap", values: [false, false, true] },
+    { label: "Post-launch support", values: [false, "30 days", "90 days"] },
   ],
 };
 
