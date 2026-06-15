@@ -231,7 +231,7 @@ export function ServicePage({ service }: { service: Service }) {
                           <Minus
                             size={16}
                             aria-label="Not included"
-                            className="mx-auto text-[var(--color-muted)]/50"
+                            className="mx-auto text-[var(--color-muted)]"
                           />
                         )
                       ) : (

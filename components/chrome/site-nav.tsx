@@ -9,7 +9,7 @@ const LINKS = [
 ];
 
 const linkClass =
-  "text-black/75 transition-colors hover:text-black";
+  "text-black transition-colors hover:text-black/70";
 
 export function SiteNav() {
   return (
@@ -38,7 +38,7 @@ export function SiteNav() {
             </span>
           </span>
         </Link>
-        <nav className="flex items-center gap-7 text-xl font-extrabold text-black/85">
+        <nav className="flex items-center gap-7 text-xl font-extrabold text-black">
           {/* Products */}
           <Link href="/products" className={`hidden ${linkClass} sm:block`}>
             Products
