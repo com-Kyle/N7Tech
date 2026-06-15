@@ -48,7 +48,7 @@ export function ServicesMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-1 text-black/85 transition-colors hover:text-black"
+        className="flex items-center gap-1 text-black transition-colors hover:text-black/70"
       >
         Services
         <ChevronDown
