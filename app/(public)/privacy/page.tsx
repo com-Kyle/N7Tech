@@ -204,10 +204,11 @@ export default function PrivacyPage() {
               </a>
               .
             </p>
-            <p className="mt-6 text-sm leading-relaxed text-[var(--color-muted)]">
-              {/* PLACEHOLDER — needs human legal review before launch. */}
-              [Governing law / jurisdiction: state to be confirmed.] [Company
-              mailing address: to be confirmed.]
+            <p className="mt-6 text-base leading-relaxed text-[var(--color-muted)]">
+              This policy is governed by the laws of the State of Delaware,
+              USA, where Neural Zenith Technologies LLC is organized.{" "}
+              {/* TODO before launch: add the registered mailing address. */}
+              <span className="italic">[Mailing address — to be added.]</span>
             </p>
           </div>
         </div>

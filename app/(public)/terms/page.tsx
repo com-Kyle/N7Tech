@@ -119,14 +119,14 @@ export default function TermsPage() {
               Governing law
             </h2>
             <p className="mt-4 text-base leading-relaxed text-[var(--color-muted)]">
-              These terms are governed by the laws of the jurisdiction in which
-              Neural Zenith Technologies LLC is organized.
+              These terms are governed by the laws of the State of Delaware,
+              USA, where Neural Zenith Technologies LLC is organized, and any
+              disputes will be resolved in the state or federal courts located
+              in Delaware.
             </p>
-            <p className="mt-6 text-sm leading-relaxed text-[var(--color-muted)]">
-              {/* PLACEHOLDER — needs human legal review before launch. */}
-              [Governing law / jurisdiction: state to be confirmed.] [Venue for
-              disputes: to be confirmed.] [Company mailing address: to be
-              confirmed.]
+            <p className="mt-6 text-base leading-relaxed text-[var(--color-muted)]">
+              {/* TODO before launch: add the registered mailing address. */}
+              <span className="italic">[Mailing address — to be added.]</span>
             </p>
           </div>
 
