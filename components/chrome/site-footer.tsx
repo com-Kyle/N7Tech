@@ -27,15 +27,24 @@ export function SiteFooter() {
           <Link href="/about" className="transition-colors hover:text-[var(--color-brand)]">
             About
           </Link>
+          <Link href="/faq" className="transition-colors hover:text-[var(--color-brand)]">
+            FAQ
+          </Link>
           <a
             href={mailtoHref(PRIMARY_CONTACT.email)}
             className="transition-colors hover:text-[var(--color-brand)]"
           >
             Contact
           </a>
+          <Link href="/privacy" className="transition-colors hover:text-[var(--color-brand)]">
+            Privacy
+          </Link>
+          <Link href="/terms" className="transition-colors hover:text-[var(--color-brand)]">
+            Terms
+          </Link>
         </nav>
 
-        <span>© {year} N7 Technologies. All rights reserved.</span>
+        <span>© {year} Neural Zenith Technologies LLC. All rights reserved.</span>
       </div>
     </footer>
   );

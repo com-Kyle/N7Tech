@@ -56,7 +56,9 @@ export const metadata: Metadata = {
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "N7 Technologies",
+  name: "Neural Zenith Technologies LLC",
+  legalName: "Neural Zenith Technologies LLC",
+  alternateName: "N7 Technologies",
   url: "https://www.n7technologies.org",
   logo: "https://www.n7technologies.org/brand/neural-zenith-logo.png",
 };

@@ -153,7 +153,8 @@ export default function AboutPage() {
             The founders who build and run what they sell
           </h2>
           <p className="mt-6 text-[var(--color-muted)]">
-            N7 Technologies is two people, not a faceless studio. Neither of us
+            We&rsquo;re Neural Zenith Technologies, LLC &mdash; N7 for short. Two
+            people, not a faceless studio. Neither of us
             came up through a computer-science track — we came from operations
             and from production. We taught ourselves to ship AI software, and
             ContractorPod is live proof: built, run, and supported by the same
