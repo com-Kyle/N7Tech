@@ -23,8 +23,13 @@ export default async function QuotePage({
   const { service } = await searchParams;
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-24 sm:px-8">
-      <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+    <section className="relative mx-auto max-w-6xl overflow-hidden px-6 py-24 sm:px-8">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
+        style={{ background: "radial-gradient(closest-side, rgba(180,60,255,0.85), transparent)" }}
+      />
+      <div className="relative grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
         {/* Left — the ask + the form + the fallback addresses */}
         <div>
           <h1 className="font-display text-4xl font-bold tracking-tight">Get a quote</h1>

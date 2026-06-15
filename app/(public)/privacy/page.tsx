@@ -10,8 +10,13 @@ const EFFECTIVE_DATE = "June 15, 2026";
 
 export default function PrivacyPage() {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-24 sm:px-8">
-      <div className="max-w-3xl">
+    <section className="relative mx-auto max-w-6xl overflow-hidden px-6 py-24 sm:px-8">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-16 h-[420px] w-[min(620px,90vw)] -translate-x-1/2 rounded-full opacity-[0.14] blur-[120px]"
+        style={{ background: "radial-gradient(closest-side, rgba(180,60,255,0.85), transparent)" }}
+      />
+      <div className="relative max-w-3xl">
         <p className="font-sans text-xs font-semibold uppercase tracking-[0.25em] text-[var(--color-muted)]">
           Legal
         </p>
