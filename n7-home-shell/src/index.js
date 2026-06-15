@@ -839,7 +839,14 @@ class SiteBodyElement {
               const link = card && card.querySelector('a[href^="mailto:"]');
               if (!link) return;
 
-              link.href = "mailto:" + email;
+              // Idempotency guard: once our markup is applied, do NOT rewrite
+              // innerHTML again. Rewriting every sync re-triggers the body
+              // MutationObserver into an infinite ~60fps resync loop that starves
+              // the main thread ("buffers forever" hang — Ares 2026-06-15).
+              const desiredHref = "mailto:" + email;
+              if (link.classList.contains("n7-founder-personal-email") && link.getAttribute("href") === desiredHref) return;
+
+              link.href = desiredHref;
               link.className = "n7-founder-personal-email";
               link.setAttribute("aria-label", "Email " + name + " at " + email);
               link.innerHTML = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg><span>Email: ' + email + '</span>';
@@ -983,7 +990,23 @@ class SiteBodyElement {
             syncAccountLinks();
           }
 
-          const scheduleSync = () => window.requestAnimationFrame(syncShell);
+          // The observer must be PAUSED while the shell mutates the DOM, or the
+          // shell's own rewrites re-fire it endlessly (Ares 2026-06-15). syncShell
+          // only runs inside syncShellGuarded, which disconnects first and
+          // reconnects after.
+          let observer = null;
+          let observing = false;
+          function observeBody() {
+            if (observer && !observing) {
+              observer.observe(document.body, { childList: true, subtree: true });
+              observing = true;
+            }
+          }
+          function syncShellGuarded() {
+            if (observing) { observer.disconnect(); observing = false; }
+            try { syncShell(); } finally { observeBody(); }
+          }
+          const scheduleSync = () => window.requestAnimationFrame(syncShellGuarded);
           const originalPushState = history.pushState;
           const originalReplaceState = history.replaceState;
 
@@ -999,14 +1022,11 @@ class SiteBodyElement {
             return result;
           };
 
-          const observer = new MutationObserver(scheduleSync);
+          observer = new MutationObserver(scheduleSync);
           const startShell = () => {
-            syncShell();
-            observer.observe(document.body, {
-              childList: true,
-              subtree: true,
-              characterData: true
-            });
+            // First pass runs syncShell with the observer detached, then attaches
+            // it — so the initial branding rewrites don't kick off the loop.
+            syncShellGuarded();
           };
 
           if (document.readyState === "complete") {
