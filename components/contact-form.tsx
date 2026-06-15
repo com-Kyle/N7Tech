@@ -27,7 +27,7 @@ const fieldClass =
 const labelClass =
   "mb-1.5 block font-sans text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]";
 
-export function ContactForm({ source }: { source: string }) {
+export function ContactForm({ source, service }: { source: string; service?: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [waking, setWaking] = useState(false);
 
@@ -63,11 +63,18 @@ export function ContactForm({ source }: { source: string }) {
 
     const form = e.currentTarget;
     const data = new FormData(form);
+    const userMessage = (data.get("message") as string)?.trim() || undefined;
+    // When the form carries a service/tier context (the /quote page reads it
+    // from ?service=), prepend it to the message so the captured lead tells the
+    // founder exactly which tier it came from — no backend field needed.
+    const message = service
+      ? `Quote request — ${service}${userMessage ? `\n\n${userMessage}` : ""}`
+      : userMessage;
     const input = {
       name: (data.get("name") as string)?.trim() || undefined,
       email: (data.get("email") as string)?.trim() ?? "",
       company: (data.get("company") as string)?.trim() || undefined,
-      message: (data.get("message") as string)?.trim() || undefined,
+      message,
       source,
       website: (data.get("website") as string) || undefined, // honeypot
     };
