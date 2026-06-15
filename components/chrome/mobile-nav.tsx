@@ -18,6 +18,7 @@ const PRIMARY_LINKS = [
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 const SERVICE_LINKS = [
@@ -104,6 +105,16 @@ export function MobileNav() {
               {l.label}
             </Link>
           ))}
+
+          {/* Persistent conversion CTA — black, full width, at the foot of the panel. */}
+          <Link
+            href="/quote"
+            role="menuitem"
+            onClick={() => setOpen(false)}
+            className="mt-3 block rounded-md bg-black px-3 py-3 text-center text-lg font-bold text-white transition-colors hover:bg-black/80"
+          >
+            Get a quote
+          </Link>
         </div>
       )}
     </div>

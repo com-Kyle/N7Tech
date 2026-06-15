@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ServicesMenu } from "./services-menu";
+import { MoreMenu } from "./more-menu";
 import { MobileNav } from "./mobile-nav";
 
 const LINKS = [
-  { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -39,21 +39,28 @@ export function SiteNav() {
           </span>
         </Link>
         <nav className="flex items-center gap-7 text-xl font-extrabold text-black">
-          {/* Products */}
-          <Link href="/products" className={`hidden ${linkClass} sm:block`}>
-            Products
-          </Link>
-
           {/* Services — click-toggle dropdown (own client island) */}
           <ServicesMenu />
 
           {/* About + Contact — the admin door is intentionally not in the
               public nav; reach the dashboard directly at /dashboard. */}
-          {LINKS.filter((l) => l.href !== "/products").map((l) => (
+          {LINKS.map((l) => (
             <Link key={l.href} href={l.href} className={`hidden ${linkClass} sm:block`}>
               {l.label}
             </Link>
           ))}
+
+          {/* More — Products + FAQ, click-toggle dropdown (own client island) */}
+          <MoreMenu />
+
+          {/* Get a quote — the persistent conversion CTA. Black on the red bar
+              so it reads as the one focal action (a red button would vanish). */}
+          <Link
+            href="/quote"
+            className="hidden rounded-md bg-black px-4 py-2.5 text-base text-white shadow-sm transition-colors hover:bg-black/80 sm:block"
+          >
+            Get a quote
+          </Link>
 
           {/* Mobile hamburger — only renders below sm (own client island) */}
           <MobileNav />
