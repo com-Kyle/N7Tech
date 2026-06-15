@@ -17,11 +17,11 @@ const QUOTE_SERVICES = new Set([
   "General project consultation",
   "Website Services inquiry",
   "App Services inquiry",
-  "Website Services — Launch ($499)",
+  "Website Services — Minimum Website Package ($499)",
   "Website Services — Growth ($2,400)",
   "Website Services — Pro ($3,500)",
   "Website Services — Custom (let's talk)",
-  "App Services — MVP ($2,500)",
+  "App Services — Minimum App Package ($2,500)",
   "App Services — Product ($9,500)",
   "App Services — Scale ($14,000)",
   "App Services — Custom (let's talk)"
